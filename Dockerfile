@@ -10,6 +10,6 @@ RUN npm install vue-cli -g
 # 프로덕션을 위한 코드를 빌드하는 경우
 # RUN npm ci --only=production
 COPY . /app
-RUN npm run build
 #test local
 EXPOSE 8081
+CMD ["npm", "start"]

@@ -1,8 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import HelloWorld from '@/components/HelloWorld';
-import Home from '@/views/Home';
+import Main from '@/components/Main';
 import Login from '@/views/Login';
+import Intro from '@/components/Intro';
+import NotFound from '@/components/NotFound';
 
 Vue.use(Router);
 
@@ -10,19 +11,25 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      path: '/test',
-      name: 'HelloWorld',
-      component: HelloWorld,
-    },
-    {
       path: '/',
-      name: 'Home',
-      component: Home,
+      name: 'Main',
+      component: Main,
+      children: [
+        {
+          path: '',
+          component: Intro,
+        },
+      ],
     },
     {
       path: '/login',
       name: 'Login',
       component: Login,
+    },
+    {
+      path: '*',
+      name: 'NotFound',
+      component: NotFound,
     },
   ],
 });

@@ -1,11 +1,14 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import Main from '@/components/Main';
-import Login from '@/views/Login';
-import Intro from '@/components/Intro';
-import NotFound from '@/components/NotFound';
-import signup from "../components/signup";
-import enrollNan from "../views/enrollNan";
+import Vue from 'vue'
+import Router from 'vue-router'
+import Main from '@/components/Main'
+import Login from '@/components/Login'
+import Intro from '@/components/Intro'
+import NotFound from '@/components/NotFound'
+import Signup from "@/components/Signup"
+import EnrollNan from "@/views/EnrollNan"
+import ShowVisit from "@/views/ShowVisit"
+import WriteVisit from '@/views/WriteVisit'
+import Statistic from '@/views/Statistic'
 Vue.use(Router);
 
 export default new Router({
@@ -29,13 +32,28 @@ export default new Router({
     },
     {
       path: '/signup',
-      name: 'signup',
-      component: signup,
+      name: 'Signup',
+      component: Signup,
     },
     {
       path: '/enrollNan',
-      name: 'enrollNan',
-      component: enrollNan,
+      name: 'EnrollNan',
+      component: EnrollNan,
+    },
+    {
+      path: '/showVisit',
+      name: 'ShowVisit',
+      component: ShowVisit,
+    },
+    {
+      path: '/writeVisit',
+      name: 'WriteVisit',
+      component: WriteVisit,
+    },
+    {
+      path: '/statistic',
+      name: 'Statistic',
+      component: Statistic,
     },
     {
       path: '*',

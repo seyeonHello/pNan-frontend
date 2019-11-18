@@ -23,7 +23,7 @@
 </template>
 
 <script>
-  import signup from "../components/signup";
+  import signup from "../components/Signup";
     export default{
       name:'Login',
       components:{

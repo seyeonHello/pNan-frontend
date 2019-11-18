@@ -20,22 +20,22 @@
 </template>
 
 <script>
-    export default {
-        name: "enrollNan",
-        data(){
-            return{
-                name:'',
-                birth:'',
-                area:'',
-                status:'',
-            }
-        },
-        methods:{
-            submit(){
-
-            }
-        }
+export default {
+  name: 'enrollNan',
+  data () {
+    return {
+      name: '',
+      birth: '',
+      area: '',
+      status: ''
     }
+  },
+  methods: {
+    submit () {
+
+    }
+  }
+}
 </script>
 
 <style scoped>

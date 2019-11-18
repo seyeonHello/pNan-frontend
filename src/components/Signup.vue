@@ -21,23 +21,23 @@
 </template>
 
 <script>
-    export default {
-        name: "signup",
-        data(){
-            return{
-                name:'',
-                id:'',
-                password:'',
-                birth:''
-            }
-        },
-        methods:{
-            submit(){
-            },
-            exit(){
-            }
-        }
+export default {
+  name: 'signup',
+  data () {
+    return {
+      name: '',
+      id: '',
+      password: '',
+      birth: ''
     }
+  },
+  methods: {
+    submit () {
+    },
+    exit () {
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -54,4 +54,3 @@
     margin-left: 20px;
   }
 </style>
-

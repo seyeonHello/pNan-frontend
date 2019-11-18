@@ -5,12 +5,12 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import App from './App'
 import router from './router'
-import Vuetify from "vuetify"
-import "vuetify/dist/vuetify.min.css"
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css'
 
 Vue.use(Vuetify)
-Vue.config.productionTip = false;
-Vue.use(VueAxios, axios);
+Vue.config.productionTip = false
+Vue.use(VueAxios, axios)
 export default new Vuetify({ })
 /* eslint-disable no-new */
 new Vue({
@@ -20,4 +20,4 @@ new Vue({
   vuetify: new Vuetify(),
   template: '<App/>',
   render: h => h(App)
-}).$mount('#app');
+}).$mount('#app')

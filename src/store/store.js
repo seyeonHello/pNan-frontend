@@ -6,7 +6,7 @@ Vue.use(Vuex)
 
 const resourceHost = 'http://localhost:3000'
 
-export default new Veux.Store({
+export default new Vuex.Store({
   state: {
     accessToken: null
   },
@@ -14,7 +14,7 @@ export default new Veux.Store({
 
   },
   mutations: {
-    LOGIN (state, {accessToken}) {
+    LOGIN (state, { accessToken }) {
       state.accessToken = accessToken
     },
     LOGOUT (state) {
@@ -22,12 +22,12 @@ export default new Veux.Store({
     }
   },
   actions: {
-    LOGIN ({commit}, {email, password}) {
-      return axios.post(`${resourceHost}/login`, {email, password})
-        .then(({data}) => commit('LOGIN', data))
+    LOGIN ({ commit }, { email, password }) {
+      return axios.post(`${resourceHost}/login`, { email, password })
+        .then(({ data }) => commit('LOGIN', data))
     },
-    LOGOUT ({commit}) {
+    LOGOUT ({ commit }) {
       commit('LOGOUT')
-    },
+    }
   }
 })

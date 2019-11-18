@@ -23,24 +23,24 @@
 </template>
 
 <script>
-  import signup from "../components/Signup";
-    export default{
-      name:'Login',
-      components:{
-        signup,
-      },
-      data(){
-          return{
-              id:'',
-              password:'',
-          }
-      },
-      methods:{
-          submit(){
+import signup from '../components/Signup'
+export default{
+  name: 'Login',
+  components: {
+    signup
+  },
+  data () {
+    return {
+      id: '',
+      password: ''
+    }
+  },
+  methods: {
+    submit () {
 
-          }
-      }
+    }
   }
+}
 </script>
 
 <style scoped>

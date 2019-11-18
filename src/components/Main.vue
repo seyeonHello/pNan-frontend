@@ -12,7 +12,7 @@
                                     </router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link :to="{ path: '/VIC'}" class="button">
+                                    <router-link :to="{ path: '/enrollNan'}" class="button">
                                         VIC 작성
                                     </router-link>
                                 </li>

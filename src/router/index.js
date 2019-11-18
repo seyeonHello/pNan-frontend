@@ -4,7 +4,8 @@ import Main from '@/components/Main';
 import Login from '@/views/Login';
 import Intro from '@/components/Intro';
 import NotFound from '@/components/NotFound';
-
+import signup from "../components/signup";
+import enrollNan from "../views/enrollNan";
 Vue.use(Router);
 
 export default new Router({
@@ -25,6 +26,16 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: Login,
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: signup,
+    },
+    {
+      path: '/enrollNan',
+      name: 'enrollNan',
+      component: enrollNan,
     },
     {
       path: '*',

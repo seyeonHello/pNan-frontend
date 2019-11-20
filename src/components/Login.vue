@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import signup from '../components/Signup'
+import signup from '../components/Signup';
 export default{
   name: 'Login',
   components: {
@@ -33,14 +33,14 @@ export default{
     return {
       id: '',
       password: ''
-    }
+    };
   },
   methods: {
     submit () {
 
     }
   }
-}
+};
 </script>
 
 <style scoped>

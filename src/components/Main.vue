@@ -50,11 +50,11 @@
 
 <!--suppress JSUnusedGlobalSymbols -->
 <script>
-import 'bootstrap'
+import 'bootstrap';
 
 export default {
   name: 'Main'
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

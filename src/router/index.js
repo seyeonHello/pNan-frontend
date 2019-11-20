@@ -1,15 +1,15 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Main from '@/components/Main'
-import Login from '@/components/Login'
-import Intro from '@/components/Intro'
-import NotFound from '@/components/NotFound'
-import Signup from '@/components/Signup'
-import EnrollNan from '@/views/EnrollNan'
-import ShowVisit from '@/views/ShowVisit'
-import WriteVisit from '@/views/WriteVisit'
-import Statistic from '@/views/Statistic'
-Vue.use(Router)
+import Vue from 'vue';
+import Router from 'vue-router';
+import Main from '@/components/Main';
+import Login from '@/components/Login';
+import Intro from '@/components/Intro';
+import NotFound from '@/components/NotFound';
+import Signup from '@/components/Signup';
+import EnrollNan from '@/views/EnrollNan';
+import ShowVisit from '@/views/ShowVisit';
+import WriteVisit from '@/views/WriteVisit';
+import Statistic from '@/views/Statistic';
+Vue.use(Router);
 
 export default new Router({
   mode: 'history',
@@ -61,4 +61,4 @@ export default new Router({
       component: NotFound
     }
   ]
-})
+});

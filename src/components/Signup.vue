@@ -29,7 +29,7 @@ export default {
       id: '',
       password: '',
       birth: ''
-    }
+    };
   },
   methods: {
     submit () {
@@ -37,7 +37,7 @@ export default {
     exit () {
     }
   }
-}
+};
 </script>
 
 <style scoped>

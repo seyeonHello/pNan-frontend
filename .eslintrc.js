@@ -14,6 +14,10 @@ module.exports = {
     'vue'
   ],
   rules: {
+    "semi": [
+      "error",
+      "always"
+    ],
     // allow async-await
     'generator-star-spacing': 'off',
     'no-async-promise-executor': 'off',

@@ -28,14 +28,14 @@ export default {
       birth: '',
       area: '',
       status: ''
-    }
+    };
   },
   methods: {
     submit () {
 
     }
   }
-}
+};
 </script>
 
 <style scoped>

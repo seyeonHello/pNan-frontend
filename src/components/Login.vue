@@ -3,7 +3,7 @@
     <div id="login">
       <v-form id="sign">
         <v-container>
-            <h2>login</h2>
+            <h2 id="h22">로그인</h2>
           <v-layout column>
             <v-flex>
               <v-text-field v-model="id" solo label="id"></v-text-field>
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import signup from '../components/Signup'
+import signup from '../components/Signup';
 export default{
   name: 'Login',
   components: {
@@ -33,14 +33,14 @@ export default{
     return {
       id: '',
       password: ''
-    }
+    };
   },
   methods: {
     submit () {
 
     }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -58,5 +58,8 @@ export default{
   }
   #signup{
     margin-left: 20px;
+  }
+  #h22{
+    margin-bottom: 20px;
   }
 </style>

@@ -20,7 +20,7 @@
                     </router-link>
                   </li>
                   <li class="nav-item">
-                    <router-link :to="{ path: '/enrollNan'}" class="button">
+                    <router-link :to="{ path: '/registerRefugee'}" class="button">
                       난민 등록
                     </router-link>
                   </li>

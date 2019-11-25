@@ -4,8 +4,8 @@ import Login from '@/components/Login';
 import Intro from '@/components/Intro';
 import NotFound from '@/components/NotFound';
 import Signup from '@/components/Signup';
-import EnrollNan from '@/views/refugee/EnrollNan';
-import ShowRefugee from '@/views/refugee/ShowRefugee';
+import RefugeeForm from '@/components/RefugeeForm';
+import ShowRefugee from '@/views/ShowRefugee';
 import ShowVisit from '@/views/ShowVisit';
 import WriteVisit from '@/views/WriteVisit';
 import Statistic from '@/views/Statistic';
@@ -31,14 +31,20 @@ export default new Router({
       component: Signup
     },
     {
-      path: '/enrollNan',
-      name: 'EnrollNan',
-      component: EnrollNan
+      path: '/registerRefugee',
+      name: 'RefugeeForm',
+      component: RefugeeForm
     },
     {
       path: '/showRefugee',
       name: 'ShowRefugee',
       component: ShowRefugee
+    },
+    {
+      path: '/updateRefugee',
+      name: 'UpdateRefugee',
+      component: RefugeeForm,
+      props: true
     },
     {
       path: '/showVisit',

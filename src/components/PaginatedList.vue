@@ -12,15 +12,15 @@
                             <div class="header grey--text text--darken-1">국적</div>
                             <div class="mono name">{{refugee.nationality}}</div>
                         </div>
-                        <div class="flex xs3 text-xs-right">
+                        <div class="flex xs4 text-xs-right">
                             <div class="header grey--text text--darken-1">등록일자</div>
                             <div class="mono type">{{refugee.createdAt}}</div>
                         </div>
                         <div class="flex xs2 text-xs-right">
-                            <button  v-on:click="onClickDeleteBtn(refugee.id)">삭제</button>
+                            <v-btn v-on:click="onClickDeleteBtn(refugee.id)">삭제</v-btn>
                         </div>
-                        <div class="flex xs2 text-xs-right">
-                            <button>수정</button>
+                        <div class="flex xs1 text-xs-right">
+                            <v-btn v-on:click="onClickUpdateBtn(refugee)">수정</v-btn>
                         </div>
                     </div>
                 </div>
@@ -71,10 +71,14 @@ export default {
       axios.delete('http://pNan-backend-dev.ap-northeast-2.elasticbeanstalk.com/api/v1/refugee/' + id)
         .then((res) => {
           alert('해당 정보가 삭제되었습니다.');
+          this.$router.push('/showRefugee');
         })
-        .err(err => {
+        .catch(err => {
           console.log(err);
         });
+    },
+    onClickUpdateBtn (refugeeInfo) {
+      this.$router.push({ name: 'UpdateRefugee', params: { refugee: refugeeInfo, type: 'update' } });
     }
   },
   computed: {
@@ -105,5 +109,8 @@ export default {
 }
 .btn-cover .page-count {
   padding: 0 1rem;
+}
+#updateBtn {
+  text-decoration-color: black;
 }
 </style>

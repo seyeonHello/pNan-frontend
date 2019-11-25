@@ -4,7 +4,6 @@
       <div id="enroll">
         <v-form id="enrollNan">
           <v-container>
-            <h2>난민 등록</h2>
             <v-layout column>
               <v-flex>
                 <v-text-field label="이름" v-model="name"></v-text-field>

@@ -2,13 +2,16 @@
   <div id="app">
     <img src="./assets/logo.png">
     <hr>
-    <router-view/>
+    <navigation id="nav-bar"/>
   </div>
 </template>
 
 <script>
+import navigation from './components/Navigation';
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: { navigation }
 };
 </script>
 

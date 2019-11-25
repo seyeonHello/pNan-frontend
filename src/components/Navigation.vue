@@ -6,11 +6,13 @@
                     <nav class="navbar nav-pills" role="navigation">
                         <div class="collapse navbar-collapse navbar-ex1-collapse">
                             <ul class="nav navbar-nav">
+                                <!--
                                 <li class="nav-item mt-2 mb-4">
                                     <router-link :to="{ path: '/'}" class="navbar-brand button">
                                         <img src="../assets/logo.png">
                                     </router-link>
                                 </li>
+                                -->
                                 <li class="nav-item">
                                     <router-link :to="{ path: '/login'}" class="button">
                                         로그인
@@ -19,6 +21,11 @@
                                 <li class="nav-item">
                                     <router-link :to="{ path: '/enrollNan'}" class="button">
                                         난민 등록
+                                    </router-link>
+                                </li>
+                                <li class="nav-item">
+                                    <router-link :to="{ path: '/showRefugee'}" class="button">
+                                        난민 리스트
                                     </router-link>
                                 </li>
                                 <li class="nav-item dropdown">

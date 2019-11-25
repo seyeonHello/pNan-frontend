@@ -5,10 +5,12 @@ import Login from '@/components/Login';
 import Intro from '@/components/Intro';
 import NotFound from '@/components/NotFound';
 import Signup from '@/components/Signup';
-import EnrollNan from '@/views/EnrollNan';
+import EnrollNan from '@/views/refugee/EnrollNan';
+import ShowRefugee from '@/views/refugee/ShowRefugee';
 import ShowVisit from '@/views/ShowVisit';
 import WriteVisit from '@/views/WriteVisit';
 import Statistic from '@/views/Statistic';
+
 Vue.use(Router);
 
 export default new Router({
@@ -39,6 +41,11 @@ export default new Router({
       path: '/enrollNan',
       name: 'EnrollNan',
       component: EnrollNan
+    },
+    {
+      path: '/showRefugee',
+      name: 'ShowRefugee',
+      component: ShowRefugee
     },
     {
       path: '/showVisit',

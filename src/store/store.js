@@ -1,10 +1,10 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import axios from 'axios'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import axios from 'axios';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
-const resourceHost = 'http://localhost:3000'
+const resourceHost = 'http://localhost:3000';
 
 export default new Vuex.Store({
   state: {
@@ -15,19 +15,19 @@ export default new Vuex.Store({
   },
   mutations: {
     LOGIN (state, { accessToken }) {
-      state.accessToken = accessToken
+      state.accessToken = accessToken;
     },
     LOGOUT (state) {
-      state.accessToken = null
+      state.accessToken = null;
     }
   },
   actions: {
     LOGIN ({ commit }, { email, password }) {
       return axios.post(`${resourceHost}/login`, { email, password })
-        .then(({ data }) => commit('LOGIN', data))
+        .then(({ data }) => commit('LOGIN', data));
     },
     LOGOUT ({ commit }) {
-      commit('LOGOUT')
+      commit('LOGOUT');
     }
   }
-})
+});

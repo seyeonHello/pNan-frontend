@@ -1,30 +1,64 @@
 <template>
   <v-app style="background: #FFFF;">
-    <v-row justify="center">
-      <div id="enroll">
-        <v-form id="enrollNan">
-          <v-container>
-            <v-layout column>
-              <v-flex>
+          <v-container fluid>
+            <v-layout>
+            <v-flex xs12 sm3>
+              <div class="another2">
                 <v-text-field label="이름" v-model="name"></v-text-field>
-                <v-text-field label="국적" v-model="nationality"></v-text-field>
-                <v-text-field label="생년월일(yyyy-mm-dd)" v-model="birth"></v-text-field>
+              </div>
+            </v-flex>
+            <v-flex xs12 sm3>
+              <div class="another2">
+              <v-text-field label="국적" v-model="nationality"></v-text-field>
+              </div>
+            </v-flex>
+            <v-flex xs12 sm3>
+                <div class="another2">
+                  <v-menu
+                    :close-on-content-click="false"
+                    ref="menu"
+                    v-model="menu"
+                    :return-value.sync="birth"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="290px"
+                  >
+                    <template v-slot:activator="{ on }">
+                      <v-text-field
+                        v-model="birth"
+                        label="생년월일"
+                        readonly
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker v-model="birth" no-title scrollable>
+                      <v-spacer></v-spacer>
+                      <v-btn text color="indigo" @click="menu = false">취소</v-btn>
+                      <v-btn text color="indigo" @click="$refs.menu.save(birth)">확인</v-btn>
+                    </v-date-picker>
+                  </v-menu>
+                </div>
+            </v-flex>
+            <v-flex xs12 sm3>
+              <div class="another">
                 <v-textarea label="status" v-model="status"></v-textarea>
-                <v-btn dark color="indigo" v-if="type" v-on:click="onClickSubmitBtn()">submit</v-btn>
-                <v-btn dark color="indigo" v-else v-on:click="onClickUpdateBtn()">update</v-btn>
+              </div>
+            </v-flex>
+            </v-layout>
+            <v-layout>
+              <v-flex>
+                <div class="btnclass">
+                  <v-btn dark color="indigo" v-if="type" v-on:click="onClickSubmitBtn()">submit</v-btn>
+                  <v-btn dark color="indigo" v-else v-on:click="onClickUpdateBtn()">update</v-btn>
+                </div>
               </v-flex>
             </v-layout>
           </v-container>
-        </v-form>
-      </div>
-    </v-row>
   </v-app>
 </template>
 
 <script>
-
 import axios from 'axios';
-
 export default {
   name: 'enrollNan',
   data () {
@@ -34,7 +68,8 @@ export default {
       birth: '',
       nationality: '',
       status: '',
-      type: true
+      type: true,
+      menu: ''
     };
   },
   methods: {
@@ -91,7 +126,6 @@ export default {
   *{
     text-align: center;
   }
-
   #enroll{
     position: absolute;
     text-align: center;
@@ -99,5 +133,18 @@ export default {
     horiz-align: center;
     width:500px;
     margin:auto;
+  }
+  .another{
+    margin-right: 10%;
+    margin-left:10%;
+  }
+  .another2{
+    margin-top: 10%;
+     margin-right: 10%;
+     margin-left:10%;
+   }
+  .btnclass{
+    margin-top: 2%;
+    text-align: center;
   }
 </style>

@@ -1,33 +1,29 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import axios from 'axios';
+import getters from './getters';
+import actions from './actions';
+import mutations from './mutations';
+import createPersist from 'vuex-localstorage';
 
 Vue.use(Vuex);
 
-const resourceHost = 'http://localhost:3000';
+const getdefaultState = () => {
+  return {
+    isAuth: false,
+    accessToken: ''
+  };
+};
+
+const state = getdefaultState();
 
 export default new Vuex.Store({
-  state: {
-    accessToken: null
-  },
-  getters: {
-
-  },
-  mutations: {
-    LOGIN (state, { accessToken }) {
-      state.accessToken = accessToken;
-    },
-    LOGOUT (state) {
-      state.accessToken = null;
-    }
-  },
-  actions: {
-    LOGIN ({ commit }, { email, password }) {
-      return axios.post(`${resourceHost}/login`, { email, password })
-        .then(({ data }) => commit('LOGIN', data));
-    },
-    LOGOUT ({ commit }) {
-      commit('LOGOUT');
-    }
-  }
+  state,
+  mutations,
+  getters,
+  actions,
+  plugins: [createPersist({
+    namespace: 'pnan',
+    initialState: {},
+    expires: 30 * 60 * 1000
+  })]
 });

@@ -7,10 +7,16 @@ import App from './App';
 import router from './router';
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
+import store from './store/store';
 
 Vue.use(Vuetify);
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
+
+axios.defaults.headers.common['x-access-token'] = `${store.getters.getAccessToken}`;
+axios.defaults.baseURL = 'http://pNan-backend-dev.ap-northeast-2.elasticbeanstalk.com';
+Vue.prototype.$store = store;
+
 export default new Vuetify({ });
 /* eslint-disable no-new */
 new Vue({

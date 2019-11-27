@@ -1,60 +1,48 @@
 <template>
-  <v-app style="background: #FFFF;">
-    <div class="main">
-      <div class="container-fluid">
-        <div class="row flex-nowrap">
-          <div class="col-2">
-            <nav class="navbar nav-pills" role="navigation">
-              <div class="collapse navbar-collapse navbar-ex1-collapse">
-                <ul class="nav navbar-nav">
-                  <!--
-                  <li class="nav-item mt-2 mb-4">
-                      <router-link :to="{ path: '/'}" class="navbar-brand button">
-                          <img src="../assets/logo.png">
-                      </router-link>
-                  </li>
-                  -->
-                  <li class="nav-item">
-                    <router-link :to="{ path: '/login'}" class="button">
-                      로그인
-                    </router-link>
-                  </li>
-                  <li class="nav-item">
-                    <router-link :to="{ path: '/registerRefugee'}" class="button">
-                      난민 등록
-                    </router-link>
-                  </li>
-                  <li class="nav-item">
-                    <router-link :to="{ path: '/showRefugee'}" class="button">
-                      난민 리스트
-                    </router-link>
-                  </li>
-                  <li class="nav-item dropdown">
-                    <router-link :to="{ path: '/writeVisit'}" class="button">
-                      방문일지 작성
-                    </router-link>
-                    <router-link :to="{ path: '/showVisit'}" class="button">
-                      방문일지 확인
-                    </router-link>
-                  </li>
-                  <li class="nav-item">
-                    <router-link :to="{ path: '/statistic'}" class="button">
-                      통계
-                    </router-link>
-                  </li>
-                </ul>
-              </div>
-            </nav>
-          </div>
-          <div class="col-10">
-            <div class="page-content">
-              <router-view/>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </v-app>
+  <div>
+    <ul class="nav flex-column">
+      <li class="nav-item" v-if="isLogin">
+        <router-link :to="{ path: '/'}" class="button">
+          Home
+        </router-link>
+      </li>
+      <li class="nav-item" v-if="!isLogin">
+        <router-link :to="{ path: '/login'}" class="button">
+          로그인
+        </router-link>
+      </li>
+      <li class="nav-item" v-if="isLogin">
+        <button class="button v-list-item--link" v-on:click="onClickLogout">
+          로그아웃
+        </button>
+      </li>
+      <li class="nav-item" v-if="isLogin">
+        <router-link :to="{ path: '/registerRefugee'}" class="button">
+          난민 등록
+        </router-link>
+      </li>
+      <li class="nav-item" v-if="isLogin">
+        <router-link :to="{ path: '/showRefugee'}" class="button">
+          난민 리스트
+        </router-link>
+      </li>
+      <li class="nav-item dropdown" v-if="isLogin">
+        <router-link :to="{ path: '/writeVisit'}" class="button">
+          방문일지 작성
+        </router-link>
+      </li>
+      <li class="nav-item dropdown" v-if="isLogin">
+        <router-link :to="{ path: '/showVisit'}" class="button">
+          방문일지 확인
+        </router-link>
+      </li>
+      <li class="nav-item" v-if="isLogin">
+        <router-link :to="{ path: '/statistic'}" class="button">
+          통계
+        </router-link>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <!--suppress JSUnusedGlobalSymbols -->
@@ -62,35 +50,58 @@
 import 'bootstrap';
 
 export default {
-  name: 'Main'
+  name: 'Navigation',
+  methods: {
+    onClickLogout () {
+      this.$store.dispatch('logout');
+      if (!this.$store.getters.getIsAuth) {
+        window.alert('로그아웃 되었습니다.');
+        this.$router.push({ name: 'Login' });
+      } else {
+        window.alert('로그아웃에 실패하였습니다.');
+      }
+    }
+  },
+  computed: {
+    isLogin () {
+      return this.$store.getters.getIsAuth;
+    }
+  }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-    h3 {
-        margin: 40px 0 0;
-    }
+  * {
+    margin: 0 auto;
+  }
+  img {
+    width: 100%;
+    height: auto;
+  }
+  h3 {
+    margin: 40px 0 0;
+  }
 
-    ul {
-        list-style-type: none;
-        padding: 0;
-    }
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
 
-    li {
-        display: inline-block;
-        margin: 0 10px;
-    }
+  li {
+    text-align: center;
+    height: 50px;
+    margin: 0 auto;
+    width: 100%;
+  }
 
-    a {
-        color: #42b983;
-    }
+  a {
+    color: deepskyblue;
+  }
 
-    .navbar-brand img {
-        width: 100px;
-    }
-</style>
+  .navbar-brand img {
+    width: 150px;
+    height: auto;
+  }
 
-<style scoped>
-    @import 'bootstrap/dist/css/bootstrap.min.css';
 </style>

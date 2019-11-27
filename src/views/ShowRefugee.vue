@@ -33,9 +33,8 @@ export default {
   },
   methods: {
     getAllRefugee () {
-      axios.get('http://pNan-backend-dev.ap-northeast-2.elasticbeanstalk.com/api/v1/refugee')
+      axios.get('/api/v1/refugee')
         .then((res) => {
-          console.log(res);
           this.refugeeList = res.data;
         })
         .catch(error => {

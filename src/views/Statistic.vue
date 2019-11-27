@@ -210,7 +210,7 @@ export default{
 
     },
     seyeon () {
-      axios.get('http://pNan-backend-dev.ap-northeast-2.elasticbeanstalk.com/api/v1/visitlog')
+      axios.get('/api/v1/visitlog')
         .then(res => {
           console.log(res);
         })

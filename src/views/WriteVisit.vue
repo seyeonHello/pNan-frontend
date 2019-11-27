@@ -56,7 +56,7 @@ export default {
   },
   methods: { // post 시도는 안해봄.
     /* onClickSubmitBtn () {
-      axios.post('http://pNan-backend-dev.ap-northeast-2.elasticbeanstalk.com/api/v1/visitlog',
+      axios.post('/api/v1/visitlog',
         { name: this.name, support: this.support })
         .then((res) => {
           console.log(res);

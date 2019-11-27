@@ -68,7 +68,7 @@ export default {
       this.pageNum -= 1;
     },
     onClickDeleteBtn (id) {
-      axios.delete('http://pNan-backend-dev.ap-northeast-2.elasticbeanstalk.com/api/v1/refugee/' + id)
+      axios.delete('/api/v1/refugee/' + id)
         .then((res) => {
           alert('해당 정보가 삭제되었습니다.');
           this.$router.push('/showRefugee');

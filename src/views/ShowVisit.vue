@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     created () {
-      axios.get('http://pNan-backend-dev.ap-northeast-2.elasticbeanstalk.com/api/v1/visitlog')
+      axios.get('/api/v1/visitlog')
         .then((response) => {
           // console.log(response.data);
           this.nan = response.data;

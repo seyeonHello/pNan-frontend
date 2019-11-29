@@ -1,17 +1,19 @@
 <template>
-  <div id="app">
-    <div>
-      <a href="/">
-        <img src="./assets/logo.png">
-      </a>
-    </div>
-    <div class="container-fluid row flex-nowrap">
-      <navigation id="nav-bar"/>
-      <div class="col-10">
+  <v-app style="background: #FFFF;">
+    <div id="app">
+      <div>
+        <a href="/">
+          <img src="./assets/logo.png">
+        </a>
+      </div>
+      <div class="container-fluid row flex-nowrap">
+        <navigation id="nav-bar"/>
+        <div class="col-10">
           <router-view/>
+        </div>
       </div>
     </div>
-  </div>
+  </v-app>
 </template>
 
 <script>

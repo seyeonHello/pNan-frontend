@@ -1,48 +1,50 @@
 <template>
-  <div>
-    <ul class="nav flex-column">
-      <li class="nav-item" v-if="isLogin">
-        <router-link :to="{ path: '/'}" class="button">
-          Home
-        </router-link>
-      </li>
-      <li class="nav-item" v-if="!isLogin">
-        <router-link :to="{ path: '/login'}" class="button">
-          로그인
-        </router-link>
-      </li>
-      <li class="nav-item" v-if="isLogin">
-        <button class="button v-list-item--link" v-on:click="onClickLogout">
-          로그아웃
-        </button>
-      </li>
-      <li class="nav-item" v-if="isLogin">
-        <router-link :to="{ path: '/registerRefugee'}" class="button">
-          난민 등록
-        </router-link>
-      </li>
-      <li class="nav-item" v-if="isLogin">
-        <router-link :to="{ path: '/showRefugee'}" class="button">
-          난민 리스트
-        </router-link>
-      </li>
-      <li class="nav-item dropdown" v-if="isLogin">
-        <router-link :to="{ path: '/writeVisit'}" class="button">
-          방문일지 작성
-        </router-link>
-      </li>
-      <li class="nav-item dropdown" v-if="isLogin">
-        <router-link :to="{ path: '/showVisit'}" class="button">
-          방문일지 확인
-        </router-link>
-      </li>
-      <li class="nav-item" v-if="isLogin">
-        <router-link :to="{ path: '/statistic'}" class="button">
-          통계
-        </router-link>
-      </li>
-    </ul>
-  </div>
+  <v-app style="background: #FFFF;">
+    <div>
+      <ul class="nav flex-column">
+        <li class="nav-item" v-if="isLogin">
+          <router-link :to="{ path: '/'}" class="button">
+            Home
+          </router-link>
+        </li>
+        <li class="nav-item" v-if="!isLogin">
+          <router-link :to="{ path: '/login'}" class="button">
+            로그인
+          </router-link>
+        </li>
+        <li class="nav-item" v-if="isLogin">
+          <button class="button v-list-item--link" v-on:click="onClickLogout">
+            로그아웃
+          </button>
+        </li>
+        <li class="nav-item" v-if="isLogin">
+          <router-link :to="{ path: '/registerRefugee'}" class="button">
+            난민 등록
+          </router-link>
+        </li>
+        <li class="nav-item" v-if="isLogin">
+          <router-link :to="{ path: '/showRefugee'}" class="button">
+            난민 리스트
+          </router-link>
+        </li>
+        <li class="nav-item dropdown" v-if="isLogin">
+          <router-link :to="{ path: '/writeVisit'}" class="button">
+            방문일지 작성
+          </router-link>
+        </li>
+        <li class="nav-item dropdown" v-if="isLogin">
+          <router-link :to="{ path: '/showVisit'}" class="button">
+            방문일지 확인
+          </router-link>
+        </li>
+        <li class="nav-item" v-if="isLogin">
+          <router-link :to="{ path: '/statistic'}" class="button">
+            통계
+          </router-link>
+        </li>
+      </ul>
+    </div>
+  </v-app>
 </template>
 
 <!--suppress JSUnusedGlobalSymbols -->

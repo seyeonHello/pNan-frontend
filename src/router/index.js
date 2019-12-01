@@ -70,6 +70,12 @@ export default new Router({
       beforeEnter: requireAuth()
     },
     {
+      path: '/updateVisit',
+      name: 'UpdateVisit',
+      component: WriteVisit,
+      props: true
+    },
+    {
       path: '/statistic',
       name: 'Statistic',
       component: Statistic,

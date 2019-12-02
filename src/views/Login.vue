@@ -65,9 +65,7 @@ export default{
       }
       if (this.$store.getters.getIsAuth) {
         window.alert('로그인 되었습니다.');
-        this.$router.push({
-          name: 'Intro'
-        });
+        window.location.href = '/';
       } else {
         window.alert('로그인에 실패하였습니다.');
       }

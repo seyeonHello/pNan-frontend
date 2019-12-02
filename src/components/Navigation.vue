@@ -1,22 +1,15 @@
 <template>
   <v-app>
     <v-card height="100%" width="100%">
-      <v-navigation-drawer class="accent-4" permanent>
-        <v-list>
-          <v-list-item v-for="item in items" :key="item.title" link>
-            <router-link :to="{ path: item.link}" style="text-decoration: none; color: inherit">
-              <v-list-item-content>
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
-              </v-list-item-content>
-            </router-link>
-          </v-list-item>
-        </v-list>
-        <template v-slot:append>
-          <div class="pa-2">
-            <v-btn block>Logout</v-btn>
-          </div>
-        </template>
-      </v-navigation-drawer>
+      <v-list>
+        <v-list-item v-for="item in items" :key="item.title" link>
+          <router-link :to="{ path: item.link}" class="menu-item">
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </router-link>
+        </v-list-item>
+      </v-list>
     </v-card>
   </v-app>
 </template>
@@ -88,6 +81,11 @@ export default {
   .navbar-brand img {
     width: 150px;
     height: auto;
+  }
+
+  .menu-item {
+    text-decoration: none;
+    color: inherit;
   }
 
 </style>

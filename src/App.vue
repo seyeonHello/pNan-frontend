@@ -1,23 +1,17 @@
 <template>
 <v-app id="app">
-  <v-card width="100%">
-    <v-list>
-      <v-list-item>
-          <v-list-item-title>
-            <a href="/">
-              <img src="./assets/logo.png">
-            </a>
-          </v-list-item-title>
-      </v-list-item>
-    </v-list>
+  <v-card class="title">
+      <a href="/">
+        <img src="./assets/logo.png">
+      </a>
   </v-card>
-  <div class="row flex-nowrap">
+  <div class="row">
     <navigation class="col-2" id="nav-bar"/>
     <div class="col-10">
         <router-view/>
     </div>
-    </div>
-  </v-app>
+  </div>
+</v-app>
 </template>
 
 <script>
@@ -49,7 +43,16 @@ export default {
   }
 
   #app {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
+  }
+
+  .title {
+    padding-left: 30px;
+    width: 100%;
+  }
+
+  .row {
+    width: 100%;
   }
 </style>

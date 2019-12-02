@@ -1,41 +1,44 @@
 <template>
-  <v-app style="background: #FFFF;">
-    <v-row justify="center">
-      <div id="show">
-        <v-form id="showRefugee">
-          <v-container fluid :grid-list-md="!$vuetify.breakpoint.xs" :class="$vuetify.breakpoint.xs ? 'pa-0' : ''">
-            <div class="card" style="height:auto;">
-              <div class="card card--flat">
-                <paginated-list :refugee-list="refugeeList"/>
-              </div>
-            </div>
-          </v-container>
-        </v-form>
-      </div>
-    </v-row>
-  </v-app>
+  <data-table
+    :refugeeList="refugeeList"
+    :tableHeaders="tableHeaders"
+    :tableValues="tableValues">
+  </data-table>
 </template>
 
 <script>
 
 import axios from 'axios';
-import PaginatedList from '@/components/PaginatedList';
-
+// import PaginatedList from '@/components/PaginatedList';
+import DataTable from '@/components/DataTable';
 export default {
   name: 'showRefugee',
   components: {
-    PaginatedList
+    'data-table': DataTable
   },
   data () {
     return {
-      refugeeList: []
+      refugeeList: [],
+      tableHeaders: [],
+      tableValues: []
     };
   },
   methods: {
+    getDateFormat (date) {
+      function formating (num) {
+        num = num + '';
+        return num.length < 2 ? '0' + num : num;
+      }
+      return date.getFullYear() + '-' + formating(date.getMonth() + 1) + '-' + formating(date.getDate());
+    },
     getAllRefugee () {
       axios.get('/api/v1/refugee')
         .then((res) => {
           this.refugeeList = res.data;
+          for (let i = 0; i < this.refugeeList.length; i++) {
+            this.refugeeList[i].birth = this.getDateFormat(new Date(this.refugeeList[i].birth));
+            this.refugeeList[i].createdAt = this.getDateFormat(new Date(this.refugeeList[i].createdAt));
+          }
         })
         .catch(error => {
           console.log(error);
@@ -44,6 +47,8 @@ export default {
   },
   mounted () {
     this.getAllRefugee();
+    this.tableHeaders = ['이름', '생년월일', '국적', '등록일자', '상태'];
+    this.tableValues = ['name', 'birth', 'nationality', 'createdAt', 'status'];
   }
 };
 
@@ -52,13 +57,5 @@ export default {
 <style scoped>
   *{
     text-align: center;
-  }
-  #show{
-    position: absolute;
-    text-align: center;
-    vertical-align: center;
-    horiz-align: center;
-    width:1000px;
-    margin:auto;
   }
 </style>

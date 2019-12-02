@@ -29,7 +29,7 @@
         <div class="btn-cover">
             <button :disabled="pageNum === 0" @click="prevPage" class="page-btn">
                 이전
-            </button>
+            </button>f
             <span class="page-count">{{ pageNum + 1 }} / {{ pageCount }} 페이지</span>
             <button :disabled="pageNum >= pageCount - 1" @click="nextPage" class="page-btn">
                 다음
@@ -70,8 +70,8 @@ export default {
     onClickDeleteBtn (id) {
       axios.delete('/api/v1/refugee/' + id)
         .then((res) => {
-          alert('해당 정보가 삭제되었습니다.');
           this.$router.push('/showRefugee');
+          alert('해당 정보가 삭제되었습니다.');
         })
         .catch(err => {
           console.log(err);

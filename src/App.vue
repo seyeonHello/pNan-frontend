@@ -1,4 +1,5 @@
 <template>
+<v-app style="background: #FFFF;">
   <div id="app">
     <v-card width="100%">
       <v-list>
@@ -15,9 +16,10 @@
       <navigation id="nav-bar"/>
       <div class="col-10">
           <router-view/>
+        </div>
       </div>
     </div>
-  </div>
+  </v-app>
 </template>
 
 <script>

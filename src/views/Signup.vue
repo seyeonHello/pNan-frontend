@@ -39,10 +39,10 @@ export default {
     submit () {
       if (this.name && this.birth && this.id && this.password) {
         axios.post('/api/v1/auth/join', { id: this.id, pw: this.pw, name: this.name, birth: this.birth })
-          .then((response) => {
+          .then(() => {
             alert('회원가입이 완료되었습니다.');
           })
-          .catch((error) => {
+          .catch(() => {
             alert('회원가입에 실패하였습니다.');
           });
       } else {

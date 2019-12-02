@@ -1,20 +1,12 @@
 <template>
-  <v-app>
-    <v-container fluid>
-      <v-layout>
-        <v-flex>
-          <div class="inputclass1">
-            <v-autocomplete :items="namesobject" label="이름" v-model="name"></v-autocomplete>
+  <v-card class="mx-auto text-center" max-width="95%" height="100%">
+    <v-form>
+      <v-container>
+        <v-layout column>
+          <v-flex id="enrollNan">
+            <v-autocomplete :items="namesobject" label="이름" v-model="name" class="text"></v-autocomplete>
             {{getID}}
-          </div>
-        </v-flex>
-        <v-flex>
-          <div class="inputclass1">
             <v-autocomplete label="지원종류" v-model="apply" :items="applies"></v-autocomplete>
-          </div>
-        </v-flex>
-        <v-flex>
-          <div class="inputclass1">
             <div v-if="apply === '법률'">
               <v-autocomplete :items="laws" label="법률 종류" v-model="support"></v-autocomplete>
             </div>
@@ -24,19 +16,15 @@
             <div v-else-if="apply === '사회'">
               <v-autocomplete :items="socials" label="사회 종류" v-model="support"></v-autocomplete>
             </div>
-          </div>
-        </v-flex>
-      </v-layout>
-      <v-layout justify-center="">
-        <v-flex>
-          <div class="btnclass">
-            <v-btn dark color="indigo" v-if="type" v-on:click="onClickSubmitBtn()">submit</v-btn>
-            <v-btn dark color="indigo" v-else v-on:click="onClickUpdateBtn()">update</v-btn>
-          </div>
-        </v-flex>
-      </v-layout>
-    </v-container>
-  </v-app>
+            <div class="btnclass">
+              <v-btn dark color="indigo" v-if="type" v-on:click="onClickSubmitBtn()">submit</v-btn>
+              <v-btn dark color="indigo" v-else v-on:click="onClickUpdateBtn()">update</v-btn>
+            </div>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-form>
+  </v-card>
 </template>
 
 <script>
@@ -160,14 +148,14 @@ export default {
 </script>
 
 <style>
-  .inputclass1{
-    margin-left: 10%;
-    margin-right: 5%;
-    width:250px;
+  #enrollNan{
+    margin-top: 5%;
   }
-
   .btnclass{
     text-align: center;
-    margin-top: 5%;
+    margin-top: 7%;
+  }
+  .text{
+    width:350px;
   }
 </style>

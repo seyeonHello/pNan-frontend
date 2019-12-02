@@ -1,19 +1,11 @@
 <template>
-  <v-app>
-    <v-container fluid>
-      <v-layout>
-      <v-flex xs12 sm3>
-        <div class="another2">
-          <v-text-field label="이름" v-model="name"></v-text-field>
-        </div>
-      </v-flex>
-      <v-flex xs12 sm3>
-        <div class="another2">
-        <v-text-field label="국적" v-model="nationality"></v-text-field>
-        </div>
-      </v-flex>
-      <v-flex xs12 sm3>
-          <div class="another2">
+  <v-card class="mx-auto text-center" max-width="95%" height="100%">
+    <v-form>
+      <v-container>
+        <v-layout column>
+          <v-flex id="enrollNan">
+            <v-text-field class="text" label="이름" v-model="name"></v-text-field>
+            <v-text-field label="국적" v-model="nationality"></v-text-field>
             <v-menu
               :close-on-content-click="false"
               ref="menu"
@@ -32,29 +24,20 @@
                 ></v-text-field>
               </template>
               <v-date-picker v-model="birth" no-title scrollable>
-                <v-spacer></v-spacer>
                 <v-btn text color="indigo" @click="menu = false">취소</v-btn>
                 <v-btn text color="indigo" @click="$refs.menu.save(birth)">확인</v-btn>
               </v-date-picker>
             </v-menu>
-          </div>
-      </v-flex>
-      <v-flex xs12 sm3>
-        <div class="another">
-          <v-textarea label="status" v-model="status"></v-textarea>
-        </div>
-      </v-flex>
-      </v-layout>
-      <v-layout>
-        <v-flex>
-          <div class="btnclass">
-            <v-btn dark color="indigo" v-if="type" v-on:click="onClickSubmitBtn()">submit</v-btn>
-            <v-btn dark color="indigo" v-else v-on:click="onClickUpdateBtn()">update</v-btn>
-          </div>
-        </v-flex>
-      </v-layout>
-    </v-container>
-  </v-app>
+            <v-autocomplete :items="statuslist" label="status" v-model="status"></v-autocomplete>
+            <div class="btnclass">
+              <v-btn dark color="indigo" v-if="type" v-on:click="onClickSubmitBtn()">submit</v-btn>
+              <v-btn dark color="indigo" v-else v-on:click="onClickUpdateBtn()">update</v-btn>
+            </div>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-form>
+  </v-card>
 </template>
 
 <script>
@@ -69,7 +52,8 @@ export default {
       nationality: '',
       status: '',
       type: true,
-      menu: ''
+      menu: '',
+      statuslist: ['신청 전', '신청', '이의 신청', '1심', '2심', '3심', '재신청', '기타']
     };
   },
   methods: {
@@ -122,28 +106,13 @@ export default {
 </script>
 
 <style scoped>
-  *{
-    text-align: center;
+  #enrollNan{
+    margin-top: 5%;
   }
-  #enroll{
-    position: absolute;
-    text-align: center;
-    vertical-align: center;
-    horiz-align: center;
-    width:500px;
-    margin:auto;
+  .text{
+    width:350px;
   }
-  .another{
-    margin-right: 10%;
-    margin-left:10%;
-  }
-  .another2{
-    margin-top: 10%;
-     margin-right: 10%;
-     margin-left:10%;
-   }
   .btnclass{
-    margin-top: 2%;
-    text-align: center;
+    margin-top: 7%;
   }
 </style>

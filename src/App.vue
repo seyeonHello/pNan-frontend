@@ -1,5 +1,6 @@
 <template>
 <v-app id="app">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
   <v-card class="title">
       <a href="/">
         <img src="./assets/logo.png">

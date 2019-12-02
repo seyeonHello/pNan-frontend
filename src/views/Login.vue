@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <div id="login">
+      <img src="../assets/logo.png">
       <v-form id="sign">
         <v-container>
           <v-layout column>

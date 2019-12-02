@@ -1,14 +1,9 @@
 <template>
 <v-app id="app">
   <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
-  <v-card class="title">
-      <a href="/">
-        <img src="./assets/logo.png">
-      </a>
-  </v-card>
   <div class="row">
-    <navigation class="col-2" id="nav-bar"/>
-    <div class="col-10">
+    <navigation v-if="isLogin" class="col-2" id="nav-bar"/>
+    <div class="col-10 mt-4">
         <router-view/>
     </div>
   </div>
@@ -17,10 +12,29 @@
 
 <script>
 import navigation from './components/Navigation';
-// import store from './store/store';
+import { mapActions } from 'vuex';
+import store from './store/store';
+
 export default {
   name: 'App',
-  components: { navigation }
+  components: { navigation },
+  methods: {
+    ...mapActions(['logout']),
+    onClickLogout () {
+      this.logout(store);
+      if (!this.$store.getters.getIsAuth) {
+        window.alert('로그아웃 되었습니다.');
+        this.$router.push({ name: 'Login' });
+      } else {
+        window.alert('로그아웃에 실패하였습니다.');
+      }
+    }
+  },
+  computed: {
+    isLogin () {
+      return this.$store.getters.getIsAuth;
+    }
+  }
 };
 
 </script>
@@ -41,6 +55,7 @@ export default {
   #nav-bar{
     width: 100%;
     padding: 0;
+    z-index: 500;
   }
 
   #app {
@@ -51,9 +66,15 @@ export default {
   .title {
     padding-left: 30px;
     width: 100%;
+    z-index: 10;
   }
 
   .row {
     width: 100%;
+  }
+
+  .col-10 {
+    margin : 0 auto;
+    padding: 0;
   }
 </style>

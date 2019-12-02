@@ -1,11 +1,8 @@
 <template>
   <v-card class="mx-auto text-center" max-width="95%" height="85%">
-    <v-form>
-      <v-container>
         <v-layout column>
           <v-flex id="enrollNan">
             <v-autocomplete :items="namesobject" label="이름" v-model="name" class="text"></v-autocomplete>
-            {{getID}}
             <v-autocomplete label="지원종류" v-model="apply" :items="applies"></v-autocomplete>
             <div v-if="apply === '법률'">
               <v-autocomplete :items="laws" label="법률 종류" v-model="support"></v-autocomplete>
@@ -22,8 +19,6 @@
             </div>
           </v-flex>
         </v-layout>
-      </v-container>
-    </v-form>
   </v-card>
 </template>
 
@@ -33,6 +28,7 @@ export default {
   data () {
     return {
       name: '',
+      refugee_id: '',
       support: '',
       applies: ['법률', '의료', '심리', '사회'],
       apply: '',
@@ -51,7 +47,7 @@ export default {
     };
   },
   methods: {
-    created () {
+    initRefugeeData () {
       axios.get('/api/v1/refugee')
         .then((res) => {
           console.log(res.data);
@@ -103,7 +99,7 @@ export default {
     }
   },
   mounted () {
-    this.created();
+    this.initRefugeeData();
     if (this.$route.params.type === 'update') {
       this.type = false;
       this.name = this.$route.params.visit.name;
@@ -130,17 +126,6 @@ export default {
         console.log(this.support);
         this.apply = this.applies[3];
         break;
-      }
-    }
-  },
-  watch: {
-    getID () {
-      if (this.name != null) {
-        axios.get(`/api/v1/refugee?name=${this.name}`)
-          .then((res) => {
-            this.id = res.data[0].id;
-            console.log('id ' + this.id);
-          });
       }
     }
   }

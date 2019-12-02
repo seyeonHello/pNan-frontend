@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto text-center" max-width="95%" height="100%">
+  <v-card class="mx-auto text-center" max-width="95%" height="85%">
     <v-form>
       <v-container>
         <v-layout column>

@@ -1,6 +1,5 @@
 <template>
-  <v-card>
-    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <v-card class="mycard">
     <v-card-title>
       Refugee List
       <v-spacer></v-spacer>
@@ -15,9 +14,9 @@
       :headers="headers"
       :items="refugeeList"
       :search="search"
-      :items-per-page="10"
-      :href="link">a
-    ></v-data-table>
+      :items-per-page="5"
+      :href="link">
+    </v-data-table>
   </v-card>
 </template>
 
@@ -65,3 +64,9 @@ export default {
   }
 };
 </script>
+
+<style>
+  .mycard{
+    max-width:95%;
+  }
+</style>

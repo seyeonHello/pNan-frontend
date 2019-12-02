@@ -1,29 +1,29 @@
 <template>
-  <v-app>
-    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
-    <div id="textbox">
+  <v-card class="mycard">
+    <v-card-title>
+      Visit List
+      <v-spacer></v-spacer>
       <v-text-field
-        label="search"
-        outlined
         v-model="search"
+        label="Search"
+        single-line
+        hide-details
       ></v-text-field>
-    </div>
-    <div>
-      <v-data-table
-        :headers="headers"
-        :items="refugee"
-        :items-per-page="5"
-        v-model="selected"
-        :search="search"
-        class="elevation-1"
-      >
-        <template v-slot:item.action="{ item }">
-          <v-btn small v-on:click="onClickDeleteBtn(item)">삭제</v-btn>
-          <v-btn small v-on:click="onClickUpdateBtn(item)">수정</v-btn>
-        </template>
-      </v-data-table>
-    </div>
-  </v-app>
+    </v-card-title>
+    <v-data-table
+      :headers="headers"
+      :items="refugee"
+      :items-per-page="5"
+      v-model="selected"
+      :search="search"
+      class="elevation-1"
+    >
+      <template v-slot:item.action="{ item }">
+        <v-btn small v-on:click="onClickDeleteBtn(item)" id="btndelete">삭제</v-btn>
+        <v-btn small v-on:click="onClickUpdateBtn(item)">수정</v-btn>
+      </template>
+    </v-data-table>
+  </v-card>
 </template>
 
 <script>
@@ -48,6 +48,13 @@ export default {
     };
   },
   methods: {
+    getDateFormat (date) {
+      function formating (num) {
+        num = num + '';
+        return num.length < 2 ? '0' + num : num;
+      }
+      return date.getFullYear() + '-' + formating(date.getMonth() + 1) + '-' + formating(date.getDate());
+    },
     onClickDeleteBtn (item) {
       console.log(item);
       axios.delete(`/api/v1/visitlog/${item.id}`)
@@ -77,7 +84,7 @@ export default {
               name: this.nan[i].Refugee.name,
               nation: this.nan[i].Refugee.nationality,
               support: this.nan[i].support,
-              st_date: this.nan[i].createdAt
+              st_date: this.getDateFormat(new Date(this.nan[i].createdAt))
             });
           }
         });
@@ -90,8 +97,10 @@ export default {
 </script>
 
 <style>
-  #textbox{
-    margin-bottom: 2%;
-    width:250px;
+  .mycard{
+    max-width:95%;
+  }
+  #btndelete{
+    margin-right: 5%;
   }
 </style>

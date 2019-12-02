@@ -1,5 +1,5 @@
 <template>
-  <v-app style="background: #FFFF;">
+  <v-app>
     <div id="login">
       <v-form id="sign">
         <v-container>

@@ -1,27 +1,23 @@
 <template>
-    <div class="row flex-column">
-        <div class="col-12">
-            <v-card class="mx-auto text-center" max-width="100%" height="100%">
-                <v-card-text>
-                    <div class="display-5 font-weight-thin">Todays</div>
-                </v-card-text>
-                <v-card-text>
-                    <chart-line type=line height=350
-                        :weekendDate="weekendDate"
-                        :weekendRegistration="weekendRegistration"
-                        :weekendVisitation="weekendVisitation"/>
-                    <v-divider class="my-2"></v-divider>
-                    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
-                    <v-data-table
-                        :headers="headers"
-                        :items="todayRegisteredRefugeeList"
-                        :items-per-page="5"
-                        class="elevation-1"
-                    ></v-data-table>
-                </v-card-text>
-            </v-card>
-        </div>
-    </div>
+    <v-card class="mx-auto text-center" max-width="95%" height="100%">
+        <v-card-text>
+            <div class="display-5 font-weight-thin">Todays</div>
+        </v-card-text>
+        <v-card-text>
+            <chart-line type=line height=350
+                :weekendDate="weekendDate"
+                :weekendRegistration="weekendRegistration"
+                :weekendVisitation="weekendVisitation"/>
+            <v-divider class="my-2"></v-divider>
+            <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+            <v-data-table
+                :headers="headers"
+                :items="todayRegisteredRefugeeList"
+                :items-per-page="5"
+                class="elevation-1"
+            ></v-data-table>
+        </v-card-text>
+    </v-card>
 </template>
 
 <script>

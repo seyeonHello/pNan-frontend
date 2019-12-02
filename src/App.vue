@@ -1,23 +1,21 @@
 <template>
-<v-app style="background: #FFFF;">
-  <div id="app">
-    <v-card width="100%">
-      <v-list>
-        <v-list-item>
-            <v-list-item-title>
-              <a href="/">
-                <img style="padding-left:30px" src="./assets/logo.png">
-              </a>
-            </v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-card>
-    <div class="container-fluid row flex-nowrap">
-      <navigation id="nav-bar"/>
-      <div class="col-10">
-          <router-view/>
-        </div>
-      </div>
+<v-app id="app">
+  <v-card width="100%">
+    <v-list>
+      <v-list-item>
+          <v-list-item-title>
+            <a href="/">
+              <img src="./assets/logo.png">
+            </a>
+          </v-list-item-title>
+      </v-list-item>
+    </v-list>
+  </v-card>
+  <div class="row flex-nowrap">
+    <navigation class="col-2" id="nav-bar"/>
+    <div class="col-10">
+        <router-view/>
+    </div>
     </div>
   </v-app>
 </template>
@@ -47,6 +45,7 @@ export default {
 
   #nav-bar{
     width: 100%;
+    padding: 0;
   }
 
   #app {

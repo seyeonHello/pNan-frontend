@@ -1,5 +1,5 @@
 <template>
-  <v-app style="background: #FFFF;">
+  <v-app>
     <v-container fluid>
       <v-layout>
         <v-flex xs12 sm2>

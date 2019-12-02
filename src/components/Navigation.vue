@@ -1,5 +1,5 @@
 <template>
-  <v-app style="background: #FFFF;">
+  <v-app>
     <v-card height="100%" width="100%">
       <v-navigation-drawer class="accent-4" permanent>
         <v-list>

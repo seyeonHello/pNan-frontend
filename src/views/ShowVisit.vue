@@ -1,5 +1,5 @@
 <template>
-  <v-app style="background: #FFFF;">
+  <v-app>
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
     <div id="textbox">
       <v-text-field

@@ -1,5 +1,5 @@
 <template>
-  <v-app style="background: #FFFF;">
+  <v-app>
     <v-row justify="center">
       <div id="signup">
         <v-form id="signup2">

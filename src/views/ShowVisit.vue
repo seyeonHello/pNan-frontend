@@ -77,6 +77,7 @@ export default {
     },
     getAllVisitLog () {
       const ctx = this;
+      ctx.tableData = [];
       axios.get('/api/v1/visitlog')
         .then((res) => {
           res.data.forEach(function (rr, idx) {

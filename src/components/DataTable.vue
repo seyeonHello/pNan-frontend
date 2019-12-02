@@ -13,6 +13,7 @@
       ></v-text-field>
     </v-card-title>
     <v-data-table
+      :height="'100%'"
       :headers="tableHeaders"
       :items="tableData"
       :search="search"

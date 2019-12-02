@@ -1,5 +1,5 @@
 <template>
-    <v-card class="mx-auto text-center" max-width="95%" height="100%">
+  <v-card raised class="mx-auto text-center" width="95%" height="95%">
         <v-card-text>
             <div class="display-5 font-weight-thin">Todays</div>
         </v-card-text>
@@ -8,7 +8,6 @@
               <apexchart ref="chart" type=line height=350 :options="chartOptions" :series="series" />
             </div>
             <v-divider class="my-2"></v-divider>
-            <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
             <v-data-table
                 :headers="headers"
                 :items="todayRegisteredRefugeeList"
@@ -137,8 +136,8 @@ export default {
       return date.getFullYear() + '-' + formating(date.getMonth() + 1) + '-' + formating(date.getDate());
     },
     async getTodayRefugees (weekendDate) {
-      let res = await axios.get('api/v1/refugee?st_date=' + weekendDate[0] + '&ed_date=' + weekendDate[6])
-        
+      const res = await axios.get('api/v1/refugee?st_date=' + weekendDate[0] + '&ed_date=' + weekendDate[6]);
+
       const list = res.data;
       const countMap = { one: 0, two: 0, three: 0, four: 0, five: 0, six: 0, seven: 0 };
       for (let i = 0; i < list.length; i++) {
@@ -163,10 +162,9 @@ export default {
       }
       this.weekendRegistration.push(countMap.one, countMap.two, countMap.three, countMap.four, countMap.five, countMap.six, countMap.seven);
       this.series[0].data = this.weekendRegistration;
-    
     },
     async getTodayVisitor (weekendDate) {
-      let res = await axios.get('api/v1/visitlog?st_date=' + weekendDate[0] + '&ed_date=' + weekendDate[6])
+      const res = await axios.get('api/v1/visitlog?st_date=' + weekendDate[0] + '&ed_date=' + weekendDate[6]);
       const list = res.data;
       console.log(list);
       const countMap = { one: 0, two: 0, three: 0, four: 0, five: 0, six: 0, seven: 0 };

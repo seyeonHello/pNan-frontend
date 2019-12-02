@@ -1,5 +1,7 @@
 <template>
   <v-card class="mx-auto text-center" max-width="95%" height="85%">
+    <v-form>
+      <v-container>
         <v-layout column>
           <v-flex id="enrollNan">
             <v-autocomplete :items="namesobject" label="이름" v-model="name" class="text"></v-autocomplete>
@@ -19,6 +21,8 @@
             </div>
           </v-flex>
         </v-layout>
+      </v-container>
+    </v-form>
   </v-card>
 </template>
 

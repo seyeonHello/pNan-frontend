@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-card height="100%" width="100%">
+    <v-card outlined height="100%" width="100%">
       <v-list>
         <a href="/">
           <img class="logo-img" src="../assets/logo.png">
@@ -19,17 +19,14 @@
   </v-app>
 </template>
 
-<!--suppress JSUnusedGlobalSymbols -->
 <script>
-
 export default {
   name: 'Navigation',
   data () {
     return {
       items: [
-        { title: '난민등록', link: '/registerRefugee' },
+        { title: 'Home', link: '/' },
         { title: '난민리스트', link: '/showRefugee' },
-        { title: '방문일지 작성', link: '/writeVisit' },
         { title: '방문일지 확인', link: '/showVisit' },
         { title: '통계', link: '/statistic' }
       ]

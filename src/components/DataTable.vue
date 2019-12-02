@@ -1,38 +1,45 @@
 <template>
-  <v-card class="mycard">
-    <v-card-title>
-      Refugee List
+  <v-card class="data-table mx-auto text-center" max-width="100%" height="100%">
+    <v-card-title class="data-table-title">
+      {{title}}
       <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <v-btn color="primary" class="btn-new" v-on:click="onClickNewButton">New</v-btn>
       <v-text-field
         v-model="search"
         label="Search"
-        single-line
+        outlined=""
         hide-details
       ></v-text-field>
     </v-card-title>
     <v-data-table
-      :headers="headers"
-      :items="refugeeList"
+      :headers="tableHeaders"
+      :items="tableData"
       :search="search"
-      :items-per-page="5"
+      :items-per-page="10"
       :href="link">
     </v-data-table>
+    <v-overlay
+      :absolute="absolute"
+      :value="overlay"
+    >
+      <Overlay v-on:close="onClickNewButton"
+      >
+        <slot></slot>
+      </Overlay>
+    </v-overlay>
   </v-card>
 </template>
 
 <script>
+import Overlay from './Overlay';
 export default {
   name: 'data-table',
+  components: { Overlay },
   props: {
-    refugeeList: {
-      type: Array
-    },
-    tableHeaders: {
-      type: Array
-    },
-    tableValues: {
-      type: Array
-    }
+    title: String,
+    tableData: Array,
+    tableHeaders: Array
   },
   data () {
     return {
@@ -45,16 +52,8 @@ export default {
     };
   },
   methods: {
-    print () {
-      console.log('jhi');
-    },
-    setTable (header, value) {
-      const table = [];
-      for (let i = 0; i < header.length; i++) {
-        const row = { text: header[i], align: 'left', value: value[i] };
-        table.push(row);
-      }
-      return table;
+    onClickNewButton () {
+      this.overlay = !this.overlay;
     }
   },
   mounted () {
@@ -71,8 +70,15 @@ export default {
 };
 </script>
 
-<style>
-  .mycard{
-    max-width:95%;
+<style scoped>
+  .btn-new {
+    margin-right: 50px;
+  }
+  .data-table {
+    padding: 20px;
+  }
+  .data-table-title {
+    font-size: 2rem;
+    font-weight: bold;
   }
 </style>

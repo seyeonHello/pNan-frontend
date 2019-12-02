@@ -43,7 +43,6 @@ export default {
 </script>
 
 <style scoped>
-  @import 'bootstrap/dist/css/bootstrap.min.css';
   * {
     margin: 0 auto;
     padding: 0;

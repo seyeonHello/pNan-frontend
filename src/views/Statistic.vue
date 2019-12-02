@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto text-center" max-width="95%" height="100%">
+  <v-card raised class="mx-auto text-center" width="95%" height="95%">
     <div id="chart">
       <apexchart type=bar height=350 :options="chartOptions" :series="series" />
     </div>

@@ -1,50 +1,70 @@
 <template>
-  <v-card class="mycard">
-    <v-card-title>
-      Visit List
-      <v-spacer></v-spacer>
-      <v-text-field
-        v-model="search"
-        label="Search"
-        single-line
-        hide-details
-      ></v-text-field>
-    </v-card-title>
-    <v-data-table
-      :headers="headers"
-      :items="refugee"
-      :items-per-page="5"
-      v-model="selected"
-      :search="search"
-      class="elevation-1"
+  <v-card raised class="mx-auto text-center" width="95%" height="95%">
+    <data-table
+      class="refugee-table"
+      ref="dataTable"
+      :title="'방문 일지'"
+      :tableData="tableData"
+      :tableHeaders="tableHeaders"
     >
-      <template v-slot:item.action="{ item }">
-        <v-btn small v-on:click="onClickDeleteBtn(item)" id="btndelete">삭제</v-btn>
-        <v-btn small v-on:click="onClickUpdateBtn(item)">수정</v-btn>
-      </template>
-    </v-data-table>
+      <!-- DataTable Overlay Slot --->
+      <v-autocomplete :items="refugeeList" label="이름" v-model="input.name" class="text"></v-autocomplete>
+      <v-autocomplete :items="supportOptions" label="지원 종류" v-model="input.support" class="text"></v-autocomplete>
+      <div v-if="input.support === '법률'">
+        <v-autocomplete :items="supports.laws" label="법률 종류" v-model="input.supportDetail"></v-autocomplete>
+      </div>
+      <div v-else-if="input.support === '심리'">
+        <v-autocomplete :items="supports.Psychology" label="심리 종류" v-model="input.supportDetail"></v-autocomplete>
+      </div>
+      <div v-else-if="input.support === '사회'">
+        <v-autocomplete :items="supports.socials" label="사회 종류" v-model="input.supportDetail"></v-autocomplete>
+      </div>
+      <div class="btnclass">
+        <v-btn dark color="primary" v-on:click="onClickSubmitBtn()">Create new Visit Log</v-btn>
+      </div>      <!-- DataTable Overlay Slot Ends --->
+
+    </data-table>
   </v-card>
 </template>
 
 <script>
+
 import axios from 'axios';
+import DataTable from '@/components/DataTable';
+
 export default {
+  name: 'showRefugee',
+  components: {
+    'data-table': DataTable
+  },
   data () {
     return {
-      nan: [],
-      headers: [
-        {
-          text: '이름',
-          value: 'name'
-        },
-        { text: '국적', value: 'nation' },
-        { text: '지원', value: 'support' },
-        { text: '방문 날짜', value: 'st_date' },
-        { text: 'Actions', value: 'action', sortable: false }
+      tableData: [],
+      tableHeaders: [
+        { text: '이름', align: 'left', value: 'name' },
+        { text: '생년월일', align: 'left', value: 'birth' },
+        { text: '국적', align: 'left', value: 'nationality' },
+        { text: '지원 종류', align: 'left', value: 'support' },
+        { text: '방문일', align: 'left', value: 'createdAt' },
+        { text: 'Actions', align: 'left', value: 'action', sortable: false }
       ],
-      refugee: [],
-      selected: [],
-      search: ''
+      supportOptions: ['의료', '법률', '심리', '사회'],
+      supports: {
+        medical: [],
+        laws: ['인정 처우', '신청', '소송', '기타 법률'],
+        Psychology: ['인테이크', '심리', '헤블데'],
+        socials: ['한국어 수업', '직업 연계', '액티비티', '기초', '숙소']
+      },
+      newVisitLog: {
+        refugee_id: null,
+        support: null
+      },
+      input: {
+        name: null,
+        support: null,
+        supportDetail: null
+      },
+      refugeeList: []
     };
   },
   methods: {
@@ -55,52 +75,94 @@ export default {
       }
       return date.getFullYear() + '-' + formating(date.getMonth() + 1) + '-' + formating(date.getDate());
     },
-    onClickDeleteBtn (item) {
-      console.log(item);
-      axios.delete(`/api/v1/visitlog/${item.id}`)
-        .then((res) => {
-          console.log(item.id);
-          alert('해당 정보가 삭제되었습니다.');
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      // console.log('delte');
-    },
-    onClickUpdateBtn (item) {
-      this.$router.push({ name: 'UpdateVisit', params: { visit: item, type: 'update' } });
-    },
-    created () {
+    getAllVisitLog () {
+      const ctx = this;
       axios.get('/api/v1/visitlog')
-        .then((response) => {
-          // console.log(response.data);
-          this.nan = response.data;
-          console.log(this.nan);
-          var i = 0;
-          for (i; i < this.nan.length; i++) {
-            this.refugee.push({
-              refugee_id: this.nan[i].Refugee.id,
-              id: this.nan[i].id,
-              name: this.nan[i].Refugee.name,
-              nation: this.nan[i].Refugee.nationality,
-              support: this.nan[i].support,
-              st_date: this.getDateFormat(new Date(this.nan[i].createdAt))
-            });
-          }
+        .then((res) => {
+          console.log(res.data);
+          res.data.forEach(function (rr, idx) {
+            const data = {};
+            data.name = rr.Refugee.name;
+            data.birth = ctx.getDateFormat(new Date(rr.Refugee.birth));
+            data.nationality = rr.Refugee.nationality;
+            data.support = rr.support;
+            data.createdAt = ctx.getDateFormat(new Date(rr.createdAt));
+            console.log(data);
+            ctx.tableData.push(data);
+          });
+        }).catch(() => {
+          alert('데이터를 불러오지 못했습니다!');
+        });
+    },
+    async getRefugeeInfo (name) {
+      const res = await axios.get('/api/v1/refugee?name=' + name);
+      console.log(res);
+      this.newVisitLog.refugee_id = res.data[0].id;
+    },
+    getRefugeeNameList () {
+      const ctx = this;
+      axios.get('/api/v1/refugee')
+        .then((res) => {
+          res.data.forEach(function (rr, idx) {
+            ctx.refugeeList.push(rr.name);
+          });
+        }).catch(() => {
+          alert('데이터를 불러오지 못했습니다!');
+        });
+    },
+    onClickSubmitBtn () {
+      axios.post('/api/v1/visitlog',
+        { refugee_id: this.newVisitLog.refugee_id, support: this.newVisitLog.support })
+        .then((res) => {
+          console.log(res);
+          alert('등록이 완료되었습니다.');
+        })
+        .catch(error => {
+          console.log(error);
+        })
+        .finally(() => {
+          this.$refs.dataTable.overlay = false;
+          this.newVisitLog = {
+            refugee_id: null,
+            support: null
+          };
+          this.input = {
+            name: null,
+            support: null,
+            supportDetail: null
+          };
+          this.getAllVisitLog();
         });
     }
   },
+  watch: {
+    'input.name' (newVal) {
+      this.getRefugeeInfo(newVal);
+    },
+    'input.support' (newVal) {
+      if (newVal === '의료') {
+        this.newVisitLog.support = newVal;
+      } else {
+        this.newVisitLog.support = null;
+      }
+    },
+    'input.supportDetail' (newVal) {
+      this.newVisitLog.support = this.input.support + ' ' + newVal;
+    }
+  },
   mounted () {
-    this.created();
+    this.getAllVisitLog();
+    this.getRefugeeNameList();
   }
 };
 </script>
 
-<style>
-  .mycard{
-    max-width:95%;
+<style scoped>
+  *{
+    text-align: center;
   }
-  #btndelete{
-    margin-right: 5%;
+  .refugee-table {
+    width: 100%;
+    height: 100%;
   }
 </style>

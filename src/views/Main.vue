@@ -4,10 +4,9 @@
             <div class="display-5 font-weight-thin">Todays</div>
         </v-card-text>
         <v-card-text>
-            <chart-line type=line height=350
-                :weekendDate="weekendDate"
-                :weekendRegistration="weekendRegistration"
-                :weekendVisitation="weekendVisitation"/>
+            <div id="chart">
+              <apexchart ref="chart" type=line height=350 :options="chartOptions" :series="series" />
+            </div>
             <v-divider class="my-2"></v-divider>
             <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
             <v-data-table
@@ -22,12 +21,12 @@
 
 <script>
 import axios from 'axios';
-import ChartLine from '@/components/Chart';
+import VueApexCharts from 'vue-apexcharts';
 
 export default {
   name: 'Main',
   components: {
-    'chart-line': ChartLine
+    apexchart: VueApexCharts
   },
   data () {
     return {
@@ -42,7 +41,73 @@ export default {
       todayVisitedRefugeelist: [], // Today's visited refugee list
       weekendDate: [], // Date list from 6 day's ago to Today
       weekendRegistration: [], // count of weekend registrated refugee
-      weekendVisitation: [] // count of weekend visited refugee
+      weekendVisitation: [], // count of weekend visited refugee
+      series: [
+        {
+          name: 'Registration',
+          data: []
+        },
+        {
+          name: 'Visitation',
+          data: []
+        }
+      ],
+      chartOptions: {
+        chart: {
+          shadow: {
+            enabled: true,
+            color: '#000',
+            top: 18,
+            left: 7,
+            blur: 10,
+            opacity: 1
+          },
+          toolbar: {
+            show: false
+          }
+        },
+        colors: ['#77B6EA', '#545454'],
+        dataLabels: {
+          enabled: true
+        },
+        stroke: {
+          curve: 'smooth'
+        },
+        title: {
+          text: 'WEEKEND',
+          align: 'left'
+        },
+        grid: {
+          borderColor: '#e7e7e7',
+          row: {
+            colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+            opacity: 0.5
+          }
+        },
+        markers: {
+          size: 0
+        },
+        xaxis: {
+          categories: [],
+          title: {
+            text: 'Date'
+          }
+        },
+        yaxis: {
+          title: {
+            text: 'Count'
+          },
+          min: 0,
+          max: 40
+        },
+        legend: {
+          position: 'top',
+          horizontalAlign: 'right',
+          floating: true,
+          offsetY: -25,
+          offsetX: -5
+        }
+      }
     };
   },
   methods: {
@@ -71,67 +136,69 @@ export default {
       }
       return date.getFullYear() + '-' + formating(date.getMonth() + 1) + '-' + formating(date.getDate());
     },
-    getTodayRefugees (weekendDate) {
-      axios.get('api/v1/refugee?st_date=' + weekendDate[0] + '&ed_date=' + weekendDate[6])
-        .then((res) => {
-          const list = res.data;
-          const countMap = { one: 0, two: 0, three: 0, four: 0, five: 0, six: 0, seven: 0 };
-          for (let i = 0; i < list.length; i++) {
-            if (this.getDateFormat(new Date(list[i].createdAt)) === weekendDate[0]) {
-              countMap.one += 1;
-            } else if (this.getDateFormat(new Date(list[i].createdAt)) === weekendDate[1]) {
-              countMap.two += 1;
-            } else if (this.getDateFormat(new Date(list[i].createdAt)) === weekendDate[2]) {
-              countMap.three += 1;
-            } else if (this.getDateFormat(new Date(list[i].createdAt)) === weekendDate[3]) {
-              countMap.four += 1;
-            } else if (this.getDateFormat(new Date(list[i].createdAt)) === weekendDate[4]) {
-              countMap.five += 1;
-            } else if (this.getDateFormat(new Date(list[i].createdAt)) === weekendDate[5]) {
-              countMap.six += 1;
-            } else {
-              countMap.seven += 1;
-              list[i].birth = this.getDateFormat(new Date(list[i].birth));
-              list[i].createdAt = this.getDateFormat(new Date(list[i].createdAt));
-              this.todayRegisteredRefugeeList.push(list[i]);
-            }
-          }
-          this.weekendRegistration.push(countMap.one, countMap.two, countMap.three, countMap.four, countMap.five, countMap.six, countMap.seven);
-        });
+    async getTodayRefugees (weekendDate) {
+      let res = await axios.get('api/v1/refugee?st_date=' + weekendDate[0] + '&ed_date=' + weekendDate[6])
+        
+      const list = res.data;
+      const countMap = { one: 0, two: 0, three: 0, four: 0, five: 0, six: 0, seven: 0 };
+      for (let i = 0; i < list.length; i++) {
+        if (this.getDateFormat(new Date(list[i].createdAt)) === weekendDate[0]) {
+          countMap.one += 1;
+        } else if (this.getDateFormat(new Date(list[i].createdAt)) === weekendDate[1]) {
+          countMap.two += 1;
+        } else if (this.getDateFormat(new Date(list[i].createdAt)) === weekendDate[2]) {
+          countMap.three += 1;
+        } else if (this.getDateFormat(new Date(list[i].createdAt)) === weekendDate[3]) {
+          countMap.four += 1;
+        } else if (this.getDateFormat(new Date(list[i].createdAt)) === weekendDate[4]) {
+          countMap.five += 1;
+        } else if (this.getDateFormat(new Date(list[i].createdAt)) === weekendDate[5]) {
+          countMap.six += 1;
+        } else {
+          countMap.seven += 1;
+          list[i].birth = this.getDateFormat(new Date(list[i].birth));
+          list[i].createdAt = this.getDateFormat(new Date(list[i].createdAt));
+          this.todayRegisteredRefugeeList.push(list[i]);
+        }
+      }
+      this.weekendRegistration.push(countMap.one, countMap.two, countMap.three, countMap.four, countMap.five, countMap.six, countMap.seven);
+      this.series[0].data = this.weekendRegistration;
+    
     },
-    getTodayVisitor (weekendDate) {
-      axios.get('api/v1/visitlog?st_date=' + weekendDate[0] + '&ed_date=' + weekendDate[6])
-        .then((res) => {
-          const list = res.data;
-          console.log(list);
-          const countMap = { one: 0, two: 0, three: 0, four: 0, five: 0, six: 0, seven: 0 };
-          for (let i = 0; i < list.length; i++) {
-            if (this.getDateFormat(new Date(list[i].createdAt)) === weekendDate[0]) {
-              countMap.one += 1;
-            } else if (this.getDateFormat(new Date(list[i].createdAt)) === weekendDate[1]) {
-              countMap.two += 1;
-            } else if (this.getDateFormat(new Date(list[i].createdAt)) === weekendDate[2]) {
-              countMap.three += 1;
-            } else if (this.getDateFormat(new Date(list[i].createdAt)) === weekendDate[3]) {
-              countMap.four += 1;
-            } else if (this.getDateFormat(new Date(list[i].createdAt)) === weekendDate[4]) {
-              countMap.five += 1;
-            } else if (this.getDateFormat(new Date(list[i].createdAt)) === weekendDate[5]) {
-              countMap.six += 1;
-            } else {
-              countMap.seven += 1;
-              list[i].createdAt = this.getDateFormat(new Date(list[i].createdAt));
-              this.todayVisitedRefugeelist.push(list[i]);
-            }
-          }
-          this.weekendVisitation.push(countMap.one, countMap.two, countMap.three, countMap.four, countMap.five, countMap.six, countMap.seven);
-        });
+    async getTodayVisitor (weekendDate) {
+      let res = await axios.get('api/v1/visitlog?st_date=' + weekendDate[0] + '&ed_date=' + weekendDate[6])
+      const list = res.data;
+      console.log(list);
+      const countMap = { one: 0, two: 0, three: 0, four: 0, five: 0, six: 0, seven: 0 };
+      for (let i = 0; i < list.length; i++) {
+        if (this.getDateFormat(new Date(list[i].createdAt)) === weekendDate[0]) {
+          countMap.one += 1;
+        } else if (this.getDateFormat(new Date(list[i].createdAt)) === weekendDate[1]) {
+          countMap.two += 1;
+        } else if (this.getDateFormat(new Date(list[i].createdAt)) === weekendDate[2]) {
+          countMap.three += 1;
+        } else if (this.getDateFormat(new Date(list[i].createdAt)) === weekendDate[3]) {
+          countMap.four += 1;
+        } else if (this.getDateFormat(new Date(list[i].createdAt)) === weekendDate[4]) {
+          countMap.five += 1;
+        } else if (this.getDateFormat(new Date(list[i].createdAt)) === weekendDate[5]) {
+          countMap.six += 1;
+        } else {
+          countMap.seven += 1;
+          list[i].createdAt = this.getDateFormat(new Date(list[i].createdAt));
+          this.todayVisitedRefugeelist.push(list[i]);
+        }
+      }
+      this.weekendVisitation.push(countMap.one, countMap.two, countMap.three, countMap.four, countMap.five, countMap.six, countMap.seven);
+      this.series[1].data = this.weekendVisitation;
     }
   },
-  mounted () {
+  async mounted () {
     this.weekendDate = this.getWeekendDate();
-    this.getTodayRefugees(this.weekendDate);
-    this.getTodayVisitor(this.weekendDate);
+    // this.chartOptions.xaxis.categories = this.weekendDate;
+    await this.getTodayRefugees(this.weekendDate);
+    await this.getTodayVisitor(this.weekendDate);
+    this.$refs.chart.refresh();
   }
 };
 </script>

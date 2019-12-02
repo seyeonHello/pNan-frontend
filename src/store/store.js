@@ -24,6 +24,6 @@ export default new Vuex.Store({
   plugins: [createPersist({
     namespace: 'pnan',
     initialState: {},
-    expires: 30 * 60 * 1000
+    expires: 150 * 60 * 1000
   })]
 });

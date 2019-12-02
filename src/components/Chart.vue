@@ -7,7 +7,7 @@
 <script>
 import VueApexCharts from 'vue-apexcharts';
 /* eslint-disable */
-export default({
+export default {
   name: 'chart-line',
   components: {
     apexchart: VueApexCharts
@@ -113,5 +113,5 @@ export default({
     this.renderRegistration();
     this.renderVisitation();
   }
-});
+}
 </script>

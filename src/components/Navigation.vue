@@ -1,58 +1,42 @@
 <template>
   <v-app style="background: #FFFF;">
-    <div>
-      <ul class="nav flex-column">
-        <li class="nav-item" v-if="isLogin">
-          <router-link :to="{ path: '/'}" class="button">
-            Home
-          </router-link>
-        </li>
-        <li class="nav-item" v-if="!isLogin">
-          <router-link :to="{ path: '/login'}" class="button">
-            로그인
-          </router-link>
-        </li>
-        <li class="nav-item" v-if="isLogin">
-          <button class="button v-list-item--link" v-on:click="onClickLogout">
-            로그아웃
-          </button>
-        </li>
-        <li class="nav-item" v-if="isLogin">
-          <router-link :to="{ path: '/registerRefugee'}" class="button">
-            난민 등록
-          </router-link>
-        </li>
-        <li class="nav-item" v-if="isLogin">
-          <router-link :to="{ path: '/showRefugee'}" class="button">
-            난민 리스트
-          </router-link>
-        </li>
-        <li class="nav-item dropdown" v-if="isLogin">
-          <router-link :to="{ path: '/writeVisit'}" class="button">
-            방문일지 작성
-          </router-link>
-        </li>
-        <li class="nav-item dropdown" v-if="isLogin">
-          <router-link :to="{ path: '/showVisit'}" class="button">
-            방문일지 확인
-          </router-link>
-        </li>
-        <li class="nav-item" v-if="isLogin">
-          <router-link :to="{ path: '/statistic'}" class="button">
-            통계
-          </router-link>
-        </li>
-      </ul>
-    </div>
+    <v-card height="100%" width="100%">
+      <v-navigation-drawer class="accent-4" permanent>
+        <v-list>
+          <v-list-item v-for="item in items" :key="item.title" link>
+            <router-link :to="{ path: item.link}" style="text-decoration: none; color: inherit">
+              <v-list-item-content>
+                <v-list-item-title>{{ item.title }}</v-list-item-title>
+              </v-list-item-content>
+            </router-link>
+          </v-list-item>
+        </v-list>
+        <template v-slot:append>
+          <div class="pa-2">
+            <v-btn block>Logout</v-btn>
+          </div>
+        </template>
+      </v-navigation-drawer>
+    </v-card>
   </v-app>
 </template>
 
 <!--suppress JSUnusedGlobalSymbols -->
 <script>
-import 'bootstrap';
 
 export default {
   name: 'Navigation',
+  data () {
+    return {
+      items: [
+        { title: '난민등록', link: '/registerRefugee' },
+        { title: '난민리스트', link: '/showRefugee' },
+        { title: '방문일지 작성', link: '/writeVisit' },
+        { title: '방문일지 확인', link: '/showVisit' },
+        { title: '통계', link: '/statistic' }
+      ]
+    };
+  },
   methods: {
     onClickLogout () {
       this.$store.dispatch('logout');

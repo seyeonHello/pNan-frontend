@@ -1,14 +1,20 @@
 <template>
-  <v-app style="background: #FFFF;">
-    <div id="app">
-      <div>
-        <a href="/">
-          <img src="./assets/logo.png">
-        </a>
-      </div>
-      <div class="container-fluid row flex-nowrap">
-        <navigation id="nav-bar"/>
-        <div class="col-10">
+<v-app style="background: #FFFF;">
+  <div id="app">
+    <v-card width="100%">
+      <v-list>
+        <v-list-item>
+            <v-list-item-title>
+              <a href="/">
+                <img style="padding-left:30px" src="./assets/logo.png">
+              </a>
+            </v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-card>
+    <div class="container-fluid row flex-nowrap">
+      <navigation id="nav-bar"/>
+      <div class="col-10">
           <router-view/>
         </div>
       </div>
@@ -18,12 +24,12 @@
 
 <script>
 import navigation from './components/Navigation';
-import store from './store/store';
-
+// import store from './store/store';
 export default {
   name: 'App',
   components: { navigation }
 };
+
 </script>
 
 <style>

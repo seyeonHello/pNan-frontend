@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'signup',
   data () {
@@ -35,6 +37,18 @@ export default {
   },
   methods: {
     submit () {
+      if (this.name && this.birth && this.id && this.password) {
+        axios.post('/api/v1/auth/join', { id: this.id, pw: this.pw, name: this.name, birth: this.birth })
+          .then((response) => {
+            alert('회원가입이 완료되었습니다.');
+          })
+          .catch((error) => {
+            alert('회원가입에 실패하였습니다.');
+            console.log(error);
+          });
+      } else {
+        alert('모든 항목을 작성하여 주세요.');
+      };
     },
     exit () {
     }

@@ -1,7 +1,7 @@
 <template>
     <div class="row flex-column">
         <div class="col-12">
-            <v-card class="mx-auto text-center" color="blue" max-width="100%" height="100%">
+            <v-card class="mx-auto text-center" max-width="100%" height="100%">
                 <v-card-text>
                     <div class="display-5 font-weight-thin">Todays</div>
                 </v-card-text>

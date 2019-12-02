@@ -44,7 +44,6 @@ export default {
           })
           .catch((error) => {
             alert('회원가입에 실패하였습니다.');
-            console.log(error);
           });
       } else {
         alert('모든 항목을 작성하여 주세요.');

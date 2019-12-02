@@ -92,8 +92,8 @@ export default {
             this.refugeeList[i].createdAt = this.getDateFormat(new Date(this.refugeeList[i].createdAt));
           }
         })
-        .catch(error => {
-          console.log(error);
+        .catch(() => {
+          alert('난민 정보를 불러오는 데에 실패했습니다.');
         });
     },
     onClickSubmitBtn () {
@@ -116,8 +116,8 @@ export default {
             this.getAllRefugee();
             this.clearForm();
           })
-          .catch(error => {
-            console.log(error);
+          .catch(() => {
+            alert('업로드에 실패했습니다.');
           });
       }
     },

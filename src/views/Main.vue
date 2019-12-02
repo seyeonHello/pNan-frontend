@@ -166,7 +166,6 @@ export default {
     async getTodayVisitor (weekendDate) {
       const res = await axios.get('api/v1/visitlog?st_date=' + weekendDate[0] + '&ed_date=' + weekendDate[6]);
       const list = res.data;
-      console.log(list);
       const countMap = { one: 0, two: 0, three: 0, four: 0, five: 0, six: 0, seven: 0 };
       for (let i = 0; i < list.length; i++) {
         if (this.getDateFormat(new Date(list[i].createdAt)) === weekendDate[0]) {

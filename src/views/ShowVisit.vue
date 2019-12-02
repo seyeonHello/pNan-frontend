@@ -79,7 +79,6 @@ export default {
       const ctx = this;
       axios.get('/api/v1/visitlog')
         .then((res) => {
-          console.log(res.data);
           res.data.forEach(function (rr, idx) {
             const data = {};
             data.name = rr.Refugee.name;
@@ -87,7 +86,6 @@ export default {
             data.nationality = rr.Refugee.nationality;
             data.support = rr.support;
             data.createdAt = ctx.getDateFormat(new Date(rr.createdAt));
-            console.log(data);
             ctx.tableData.push(data);
           });
         }).catch(() => {
@@ -96,7 +94,6 @@ export default {
     },
     async getRefugeeInfo (name) {
       const res = await axios.get('/api/v1/refugee?name=' + name);
-      console.log(res);
       this.newVisitLog.refugee_id = res.data[0].id;
     },
     getRefugeeNameList () {
@@ -114,11 +111,10 @@ export default {
       axios.post('/api/v1/visitlog',
         { refugee_id: this.newVisitLog.refugee_id, support: this.newVisitLog.support })
         .then((res) => {
-          console.log(res);
           alert('등록이 완료되었습니다.');
         })
-        .catch(error => {
-          console.log(error);
+        .catch(() => {
+          alert('등록에 실패했습니다.');
         })
         .finally(() => {
           this.$refs.dataTable.overlay = false;

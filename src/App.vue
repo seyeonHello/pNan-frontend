@@ -1,9 +1,5 @@
 <template>
 <v-app id="app">
-  <div id="chart">
-      <apexchart type=bar height=350 :options="chartOptions" :series="series" />
-  </div>
-  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
   <div class="row">
     <navigation v-if="isLogin" class="col-2" id="nav-bar"/>
     <div class="col-10 mt-4">

@@ -133,7 +133,7 @@ export default {
       }
     }
   },
-  computed: {
+  watch: {
     getID () {
       if (this.name != null) {
         axios.get(`/api/v1/refugee?name=${this.name}`)

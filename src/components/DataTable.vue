@@ -36,6 +36,8 @@ export default {
   },
   data () {
     return {
+      absolute: false,
+      overlay: false,
       link: '<button>링크</button>',
       search: '',
       headers: [
@@ -43,6 +45,9 @@ export default {
     };
   },
   methods: {
+    print () {
+      console.log('jhi');
+    },
     setTable (header, value) {
       const table = [];
       for (let i = 0; i < header.length; i++) {
@@ -58,7 +63,8 @@ export default {
       { text: '생년월일', align: 'left', value: 'birth' },
       { text: '국적', align: 'left', value: 'nationality' },
       { text: '등록일자', align: 'left', value: 'createdAt' },
-      { text: '상태', align: 'left', value: 'status' }
+      { text: '상태', align: 'left', value: 'status' },
+      { text: 'Actions', align: 'left', value: 'action', sortable: false }
     ];
     this.headers = table;
   }

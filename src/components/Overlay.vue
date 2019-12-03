@@ -28,6 +28,7 @@ export default {
 
 <style scoped>
   .overlay-box {
-    padding: 60px;
+    padding: 20px;
+    width: 800px;
   }
 </style>

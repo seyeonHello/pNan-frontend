@@ -12,6 +12,7 @@
         hide-details
       ></v-text-field>
     </v-card-title>
+    <v-divider></v-divider>
     <v-data-table
       :height="'100%'"
       :headers="tableHeaders"

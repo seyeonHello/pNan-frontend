@@ -9,15 +9,15 @@
     >
       <!-- DataTable Overlay Slot --->
       <v-autocomplete :items="refugeeList" label="이름" v-model="input.name" class="text"></v-autocomplete>
-      <v-autocomplete :items="supportOptions" label="지원 종류" v-model="input.support" class="text"></v-autocomplete>
-      <div v-if="input.support === '법률'">
-        <v-autocomplete :items="supports.laws" label="법률 종류" v-model="input.supportDetail"></v-autocomplete>
+      <v-autocomplete :items="supportOptions" label="지원 종류" v-model="newVisitLog.support" class="text"></v-autocomplete>
+      <div v-if="newVisitLog.support === '법률'">
+        <v-autocomplete :items="supports.laws" label="법률 종류" v-model="newVisitLog.supportDetail"></v-autocomplete>
       </div>
-      <div v-else-if="input.support === '심리'">
-        <v-autocomplete :items="supports.Psychology" label="심리 종류" v-model="input.supportDetail"></v-autocomplete>
+      <div v-else-if="newVisitLog.support === '심리'">
+        <v-autocomplete :items="supports.Psychology" label="심리 종류" v-model="newVisitLog.supportDetail"></v-autocomplete>
       </div>
-      <div v-else-if="input.support === '사회'">
-        <v-autocomplete :items="supports.socials" label="사회 종류" v-model="input.supportDetail"></v-autocomplete>
+      <div v-else-if="newVisitLog.support === '사회'">
+        <v-autocomplete :items="supports.socials" label="사회 종류" v-model="newVisitLog.supportDetail"></v-autocomplete>
       </div>
       <div class="btnclass">
         <v-btn dark color="primary" v-on:click="onClickSubmitBtn()">Create new Visit Log</v-btn>
@@ -57,12 +57,11 @@ export default {
       },
       newVisitLog: {
         refugee_id: null,
-        support: null
-      },
-      input: {
-        name: null,
         support: null,
         supportDetail: null
+      },
+      input: {
+        name: null
       },
       refugeeList: []
     };
@@ -110,7 +109,11 @@ export default {
     },
     onClickSubmitBtn () {
       axios.post('/api/v1/visitlog',
-        { refugee_id: this.newVisitLog.refugee_id, support: this.newVisitLog.support })
+        {
+          refugee_id: this.newVisitLog.refugee_id,
+          support: this.newVisitLog.support,
+          support_detail: this.newVisitLog.supportDetail
+        })
         .then((res) => {
           alert('등록이 완료되었습니다.');
         })
@@ -124,9 +127,7 @@ export default {
             support: null
           };
           this.input = {
-            name: null,
-            support: null,
-            supportDetail: null
+            name: null
           };
           this.getAllVisitLog();
         });
@@ -135,16 +136,6 @@ export default {
   watch: {
     'input.name' (newVal) {
       this.getRefugeeInfo(newVal);
-    },
-    'input.support' (newVal) {
-      if (newVal === '의료') {
-        this.newVisitLog.support = newVal;
-      } else {
-        this.newVisitLog.support = null;
-      }
-    },
-    'input.supportDetail' (newVal) {
-      this.newVisitLog.support = this.input.support + ' ' + newVal;
     }
   },
   mounted () {

@@ -5,7 +5,7 @@
         </v-card-text>
         <v-card-text>
             <div id="chart">
-              <apexchart ref="chart" type=line height=350 :options="chartOptions" :series="series" />
+              <apexchart ref="chart" type=area height=350 :options="chartOptions" :series="series" />
             </div>
             <v-divider class="my-2"></v-divider>
             <v-data-table
@@ -73,7 +73,7 @@ export default {
           curve: 'smooth'
         },
         title: {
-          text: 'WEEKEND',
+          text: 'Statistic (1week)',
           align: 'left'
         },
         grid: {
@@ -92,9 +92,11 @@ export default {
             show: true
           },
           categories: [],
+          /*
           title: {
             text: 'Date'
           }
+          */
         },
         yaxis: {
           title: {

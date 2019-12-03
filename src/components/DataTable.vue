@@ -20,6 +20,27 @@
       :search="search"
       :items-per-page="10"
       :href="link">
+      <template v-slot:top>
+        <v-dialog v-model="dialog" max-width="500px">
+          <v-card>
+            <v-card-title>
+              {{myname}}의 정보입니다.
+            </v-card-title>
+            <v-card-text>
+
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </template>
+      <template v-slot:item.action="{ item }">
+        <v-btn text icon color="gray" @click="moreItem(item)">
+          <v-icon>mdi-account-circle</v-icon>
+        </v-btn>
+      </template>
     </v-data-table>
     <v-overlay
       :absolute="absolute"
@@ -45,6 +66,7 @@ export default {
   },
   data () {
     return {
+      dialog: false,
       absolute: false,
       overlay: false,
       link: '<button>링크</button>',
@@ -54,6 +76,13 @@ export default {
     };
   },
   methods: {
+    close () {
+      this.dialog = false;
+    },
+    moreItem (item) {
+      this.dialog = true;
+      this.myname = item.name;
+    },
     onClickNewButton () {
       this.overlay = !this.overlay;
     }

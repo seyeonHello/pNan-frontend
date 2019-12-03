@@ -45,6 +45,7 @@ export default {
         { text: '생년월일', align: 'left', value: 'birth' },
         { text: '국적', align: 'left', value: 'nationality' },
         { text: '지원 종류', align: 'left', value: 'support' },
+        { text: '상세 지원 종류', align: 'left', value: 'support_detail' },
         { text: '방문일', align: 'left', value: 'createdAt' },
         { text: 'Actions', align: 'left', value: 'action', sortable: false }
       ],
@@ -86,6 +87,7 @@ export default {
             data.nationality = rr.Refugee.nationality;
             data.support = rr.support;
             data.createdAt = ctx.getDateFormat(new Date(rr.createdAt));
+            data.support_detail = rr.support_detail;
             ctx.tableData.push(data);
           });
         }).catch(() => {

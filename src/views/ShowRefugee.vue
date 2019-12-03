@@ -16,8 +16,8 @@
         <v-radio label="여자" value="F"></v-radio>
       </v-radio-group>
       <v-radio-group label="고문 피해 여부" v-model="newRefugee.torture">
-        <v-radio label="Yes" value="true"></v-radio>
-        <v-radio label="No" value="false"></v-radio>
+        <v-radio label="Yes" :value="1"></v-radio>
+        <v-radio label="No" :value="0"></v-radio>
       </v-radio-group>
 
       <v-menu
@@ -75,9 +75,12 @@ export default {
       sexList: ['남자', '여자'],
       tableHeaders: [
         { text: '이름', align: 'left', value: 'name' },
+        { text: '성별', align: 'left', value: 'sex' },
         { text: '생년월일', align: 'left', value: 'birth' },
         { text: '국적', align: 'left', value: 'nationality' },
-        { text: '등록일자', align: 'left', value: 'createdAt' },
+        { text: '등록 일자', align: 'left', value: 'createdAt' },
+        { text: '난민 사유', align: 'left', value: 'reason' },
+        { text: '고문 피해 여부', align: 'left', value: 'torture' },
         { text: '상태', align: 'left', value: 'status' },
         { text: 'Actions', align: 'left', value: 'action', sortable: false }
       ],
@@ -111,6 +114,11 @@ export default {
           for (let i = 0; i < this.refugeeList.length; i++) {
             this.refugeeList[i].birth = this.getDateFormat(new Date(this.refugeeList[i].birth));
             this.refugeeList[i].createdAt = this.getDateFormat(new Date(this.refugeeList[i].createdAt));
+            if (this.refugeeList[i].torture) {
+              this.refugeeList[i].torture = 'YES';
+            } else {
+              this.refugeeList[i].torture = 'NO';
+            }
           }
         })
         .catch(() => {

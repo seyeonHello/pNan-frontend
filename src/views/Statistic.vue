@@ -190,7 +190,7 @@ export default{
     }
   },
   mounted () {
-    getVisitLog();
+    this.getVisitLog();
   }
 };
 </script>

@@ -87,6 +87,10 @@ export default {
           size: 0
         },
         xaxis: {
+          type: 'datetime',
+          labels: {
+            show: true
+          },
           categories: [],
           title: {
             text: 'Date'
@@ -111,20 +115,18 @@ export default {
   },
   methods: {
     getWeekendDate () {
-      var today = new Date();
-      var theYear = today.getFullYear();
-      var theMonth = today.getMonth();
-      var theDate = today.getDate();
-      var theDayOfWeek = today.getDay();
       var thisWeek = [];
-      for (var i = 0; i < 7; i++) {
-        var resultDay = new Date(theYear, theMonth, theDate + (theDayOfWeek - (7 - i)));
-        var yyyy = resultDay.getFullYear();
-        var mm = Number(resultDay.getMonth()) + 1;
-        var dd = resultDay.getDate();
-        mm = String(mm).length === 1 ? '0' + mm : mm;
-        dd = String(dd).length === 1 ? '0' + dd : dd;
-        thisWeek[i] = yyyy + '-' + mm + '-' + dd;
+      for (var i = 6; i >= 0; i--) {
+        // var resultDay = new Date(theYear, theMonth, theDate + (theDayOfWeek - i));
+        var today = new Date();
+        var resultDay = today.getTime() - (i * 24 * 60 * 60 * 1000);
+        today.setTime(resultDay);
+        var yyyy = today.getFullYear();
+        var mm = Number(today.getMonth()) + 1;
+        var dd = today.getDate();
+        if (mm < 10) { mm = '0' + mm; };
+        if (dd < 10) { dd = '0' + dd; };
+        thisWeek[6 - i] = yyyy + '-' + mm + '-' + dd;
       }
       return thisWeek;
     },
@@ -192,7 +194,7 @@ export default {
   },
   async mounted () {
     this.weekendDate = this.getWeekendDate();
-    // this.chartOptions.xaxis.categories = this.weekendDate;
+    this.chartOptions.xaxis.categories = this.weekendDate;
     await this.getTodayRefugees(this.weekendDate);
     await this.getTodayVisitor(this.weekendDate);
     this.$refs.chart.refresh();

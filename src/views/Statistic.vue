@@ -1,160 +1,30 @@
 <template>
   <v-card raised class="mx-auto text-center" width="95%" height="95%">
-    <div id="chart">
-      <apexchart type=bar height=350 :options="chartOptions" :series="series" />
-    </div>
-    <v-container fluid>
-      <v-layout>
-        <v-flex xs12 sm2>
-          <div class="firstelement">
-            <v-autocomplete :items="sexs" label="성별" v-model="sex"></v-autocomplete>
-          </div>
-        </v-flex>
-        <v-flex xs12 sm2>
-          <div class="another">
-            <v-autocomplete :items="countries" label="국적" v-model="country"></v-autocomplete>
-          </div>
-        </v-flex>
-        <v-flex xs12 sm2>
-          <div class="another">
-            <v-autocomplete :items="statuses" label="상태" v-model="status"></v-autocomplete>
-          </div>
-        </v-flex>
-
-        <v-flex xs12 sm2>
-          <div class="another">
-            <v-menu
-              :close-on-content-click="false"
-              ref="menu"
-              v-model="menu"
-              :return-value.sync="date"
-              transition="scale-transition"
-              offset-y
-              min-width="290px"
-            >
-              <template v-slot:activator="{ on }">
-                <v-text-field
-                  v-model="date"
-                  label="생년월일"
-                  readonly
-                  v-on="on"
-                ></v-text-field>
-              </template>
-              <v-date-picker v-model="date" no-title scrollable>
-                <v-spacer></v-spacer>
-                <v-btn text color="indigo" @click="menu = false">취소</v-btn>
-                <v-btn text color="indigo" @click="$refs.menu.save(date)">확인</v-btn>
-              </v-date-picker>
-            </v-menu>
-          </div>
-        </v-flex>
-
-        <v-flex xs12 sm2>
-          <div class="another">
-            <v-autocomplete :items="applies" label="지원종류" v-model="apply"></v-autocomplete>
-          </div>
-        </v-flex>
-        <v-flex xs12 sm2>
-          <div class="another">
-            <div v-if="apply === '법률'">
-              <v-autocomplete :items="laws" label="법률 종류" v-model="support"></v-autocomplete>
-            </div>
-            <div v-else-if="apply === '심리'">
-              <v-autocomplete :items="Psychology" label="심리 종류" v-model="support"></v-autocomplete>
-            </div>
-            <div v-else-if="apply === '사회'">
-              <v-autocomplete :items="socials" label="사회 종류" v-model="support"></v-autocomplete>
-            </div>
-          </div>
-        </v-flex>
-      </v-layout>
-
-      <div class="test">
-      <v-layout justify-center="">
-        <v-flex xs12 sm2>
-            <v-menu
-              :close-on-content-click="false"
-              ref="menu2"
-              v-model="menu2"
-              :return-value.sync="filterdate"
-              transition="scale-transition"
-              offset-y
-              min-width="290px"
-            >
-              <template v-slot:activator="{ on }">
-                <v-text-field
-                  v-model="filterdate"
-                  label="검색 날짜"
-                  readonly
-                  v-on="on"
-                ></v-text-field>
-              </template>
-              <v-date-picker v-model="filterdate" no-title scrollable>
-                <v-spacer></v-spacer>
-                <v-btn text color="indigo" @click="menu2 = false">취소</v-btn>
-                <v-btn text color="indigo" @click="$refs.menu2.save(filterdate)">확인</v-btn>
-              </v-date-picker>
-            </v-menu>
-        </v-flex>
-      </v-layout>
-      </div>
-
-      <v-layout justify-center="">
-        <div class="buttonclass">
-          <v-btn dark small color="indigo darken-2" id="month">월별 검색</v-btn>
-          <v-btn dark small color="indigo darken-2">일별 검색</v-btn>
-        </div>
-      </v-layout>
-      <v-layout>
-        <v-card class="mx-auto" width="1400" height="200" outlined >
-          <v-card-text>
-            statistic result
-          </v-card-text>
-          <v-layout row>
-            <v-flex>
-              <v-card class="mx-auto cardsize" outlined>
-                <v-card-text>
-                  성별
-                </v-card-text>
-                10
-              </v-card>
-            </v-flex>
-            <v-flex>
-              <v-card class="mx-auto cardsize" outlined>
-                <v-card-text>
-                  국적
-                </v-card-text>
-                10
-              </v-card>
-            </v-flex>
-            <v-flex>
-              <v-card class="mx-auto cardsize" outlined>
-                <v-card-text>
-                  날짜
-                </v-card-text>
-                10
-              </v-card>
-            </v-flex>
-            <v-flex>
-              <v-card class="mx-auto cardsize" outlined>
-                <v-card-text>
-                  상태
-                </v-card-text>
-                10
-              </v-card>
-            </v-flex>
-            <v-flex>
-              <v-card class="mx-auto cardsize" outlined>
-                <v-card-text>
-                  지원종류
-                </v-card-text>
-                10
-              </v-card>
-            </v-flex>
-          </v-layout>
-        </v-card>
-      </v-layout>
-    </v-container>
+    <v-card-text>
+      <v-container fluid>
+        <v-layout>
+          <!-- search column -->
+        </v-layout>
+      </v-container>
+      <div class="display-5 font-weight-thin">Todays</div>
+    </v-card-text>
+    <v-card-text>
+      <v-container fluid>
+        <lawchart type=radialBar height=350 :options="lawOptions" :series="lawSeries" class="donut-chart"/>
+        <medicalchart type=radialBar height=350 :options="medicalOptions" :series="medicalSeries" class="donut-chart"/>
+        <mentalchart type=radialBar height=350 :options="mentalOptions" :series="mentalSeries" class="donut-chart"/>
+        <socialchart type=radialBar height=350 :options="socialOptions" :series="socialSeries" class="donut-chart"/>
+      </v-container>
+    </v-card-text>
+    <v-card-text>
+      <v-divider class="my-2"></v-divider>
+      <v-data-table
+          :headers="headers"
+          :items="todayRegisteredRefugeeList"
+          :items-per-page="5"
+          class="elevation-1"
+      ></v-data-table>
+    </v-card-text>
   </v-card>
 </template>
 
@@ -165,10 +35,110 @@ import VueApexCharts from 'vue-apexcharts';
 export default{
   name: 'Statistic',
   components: {
-    apexchart: VueApexCharts
+    lawchart: VueApexCharts,
+    medicalchart: VueApexCharts,
+    mentalchart: VueApexCharts,
+    socialchart: VueApexCharts
   },
   data () {
     return {
+      lawSeries: [76, 67, 61, 90],
+      lawOptions: {
+        plotOptions: {
+          radialBar: {
+            dataLabels: {
+              name: {
+                fontSize: '22px'
+              },
+              value: {
+                fontSize: '16px'
+              },
+              total: {
+                show: true,
+                label: '법률',
+                formatter: function (w) {
+                  // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
+                  return 249;
+                }
+              }
+            }
+          }
+        },
+        labels: ['인정 처우', '신청', '소송', '기타 법률']
+      },
+      medicalSeries: [25],
+      medicalOptions: {
+        plotOptions: {
+          radialBar: {
+            dataLabels: {
+              name: {
+                fontSize: '22px'
+              },
+              value: {
+                fontSize: '16px'
+              },
+              total: {
+                show: true,
+                label: '의료',
+                formatter: function (w) {
+                  // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
+                  return 249;
+                }
+              }
+            }
+          }
+        },
+        labels: ['의료']
+      },
+      mentalSeries: [76, 67, 61],
+      mentalOptions: {
+        plotOptions: {
+          radialBar: {
+            dataLabels: {
+              name: {
+                fontSize: '22px'
+              },
+              value: {
+                fontSize: '16px'
+              },
+              total: {
+                show: true,
+                label: '정신',
+                formatter: function (w) {
+                  // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
+                  return 249;
+                }
+              }
+            }
+          }
+        },
+        labels: ['인테이크', '심리', '헤블데']
+      },
+      socialSeries: [76, 67, 61, 90, 89],
+      socialOptions: {
+        plotOptions: {
+          radialBar: {
+            dataLabels: {
+              name: {
+                fontSize: '22px'
+              },
+              value: {
+                fontSize: '16px'
+              },
+              total: {
+                show: true,
+                label: '사회',
+                formatter: function (w) {
+                  // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
+                  return 249;
+                }
+              }
+            }
+          }
+        },
+        labels: ['한국어 수업', '직업 연계', '액티비티', '기초', '숙소']
+      },
+      // search Column
       sexs: ['남', '여'],
       countries: [
         '기니',
@@ -210,120 +180,17 @@ export default{
       date: '', // 생년월일
       menu: '',
       menu2: '',
-      filterdate: '', // 검색 날짜
-      series: [{
-        name: 'Inflation',
-        data: [2.3, 3.1, 4.0, 10.1, 4.0, 3.6, 3.2, 2.3, 1.4, 0.8, 0.5, 0.2]
-      }],
-      chartOptions: {
-        chart: {
-          height: 350,
-          type: 'bar'
-        },
-        plotOptions: {
-          bar: {
-            dataLabels: {
-              position: 'top' // top, center, bottom
-            }
-          }
-        },
-        dataLabels: {
-          enabled: true,
-          formatter: function (val) {
-            return val + '%';
-          },
-          offsetY: -20,
-          style: {
-            fontSize: '12px',
-            colors: ['#304758']
-          }
-        },
-        xaxis: {
-          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-          position: 'top',
-          labels: {
-            offsetY: -18
-          },
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false
-          },
-          crosshairs: {
-            fill: {
-              type: 'gradient',
-              gradient: {
-                colorFrom: '#D8E3F0',
-                colorTo: '#BED1E6',
-                stops: [0, 100],
-                opacityFrom: 0.4,
-                opacityTo: 0.5
-              }
-            }
-          },
-          tooltip: {
-            enabled: true,
-            offsetY: -35
-          }
-        },
-        fill: {
-          gradient: {
-            shade: 'light',
-            type: 'horizontal',
-            shadeIntensity: 0.25,
-            gradientToColors: undefined,
-            inverseColors: true,
-            opacityFrom: 1,
-            opacityTo: 1,
-            stops: [50, 0, 100, 100]
-          }
-        },
-        yaxis: {
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false
-          },
-          labels: {
-            show: false,
-            formatter: function (val) {
-              return val + '%';
-            }
-          }
-        },
-        title: {
-          text: 'Monthly Inflation in Argentina, 2002',
-          floating: true,
-          offsetY: 320,
-          align: 'center',
-          style: {
-            color: '#444'
-          }
-        }
-      }
+      filterdate: '' // 검색 날짜
     };
   },
   methods: {
-    on () {
-
-    },
-    seyeon () {
-      axios.get('/api/v1/visitlog')
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        })
-        .then(() => {
-          console.log('text');
-        });
-    }, // axios test 삭제해도 됨.
-    submit () {
-
+    async getVisitLog () {
+      const res = await axios.get('api/v1/visitlog?st_date=' + new Date('2019-01-01') + '&ed_date=' + new Date('2019-12-31'));
+      console.log(res);
     }
+  },
+  mounted () {
+    getVisitLog();
   }
 };
 </script>
@@ -357,5 +224,14 @@ export default{
   .cardsize{
     width:170px;
     height:100px;
+  }
+  .label{
+    text-align: center;
+    width: 20%;
+    padding-left: 30%;
+  }
+  .donut-chart{
+    float: left;
+    width: 24%;
   }
 </style>

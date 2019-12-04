@@ -42,19 +42,21 @@
         <slot/>
       </Overlay>
     </v-overlay>
+
     <v-overlay
       :absolute="absolute"
       :value="overlayTest"
     >
-      <Overlay v-on:close="detailRefugee"
+      <Overlay v-on:close="close"
       >
-        <h4>"{{refugeeName}}"님의 기록사항 입니다.</h4>
+        <v-icon>mdi-account</v-icon>
+        <h4>"{{refugeeName}}"님의 정보</h4>
         <v-textarea
-          background-color="grey lighten-2"
+          background-color="grey lighten-3"
           color="black"
           v-model="refugeeDetail"
         ></v-textarea>
-        <v-btn color="blue darken-1" dark @click="save">save</v-btn>
+        <v-btn color="blue darken-3" text @click="close">close</v-btn>
       </Overlay>
     </v-overlay>
   </div>
@@ -85,7 +87,7 @@ export default {
     };
   },
   methods: {
-    save () {
+    close () {
       this.overlayTest = false;
     },
     detailRefugee (item) {

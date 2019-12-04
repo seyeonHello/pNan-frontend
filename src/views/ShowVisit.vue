@@ -93,6 +93,7 @@ export default {
             data.support = rr.support;
             data.createdAt = ctx.getDateFormat(new Date(rr.createdAt));
             data.support_detail = rr.support_detail;
+            data.memo = rr.Refugee.memo;
             ctx.tableData.push(data);
           });
         }).catch(() => {

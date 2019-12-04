@@ -54,7 +54,7 @@ export default {
         { text: '방문일', align: 'left', value: 'createdAt' },
         { text: 'Actions', align: 'left', value: 'action', sortable: false }
       ],
-      supportOptions: ['의료', '법률', '정신', '사회'],
+      supportOptions: ['의료', '법률', '심리', '사회'],
       supports: {
         medical: [],
         laws: ['인정 처우', '신청', '소송', '기타 법률'],

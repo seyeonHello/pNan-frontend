@@ -1,10 +1,10 @@
 <template>
-  <v-card class="data-table mx-auto text-center" max-width="100%" height="100%">
-    <v-card-title class="data-table-title">
+  <v-card class="mx-auto text-center" max-width="100%" height="100%" id="data-table">
+    <v-card-title id="data-table-title">
       {{title}}
       <v-spacer></v-spacer>
       <v-spacer></v-spacer>
-      <v-btn color="primary" class="btn-new" v-on:click="onClickNewButton">New</v-btn>
+      <v-btn color="primary" id="btn-new" v-on:click="onClickNewButton">New</v-btn>
       <v-text-field
         v-model="search"
         label="Search"
@@ -14,7 +14,8 @@
     </v-card-title>
     <v-divider></v-divider>
     <v-data-table
-      :height="'100%'"
+      class="data-table"
+      height="'100%'"
       :headers="tableHeaders"
       :items="tableData"
       :search="search"
@@ -37,7 +38,7 @@
         </v-dialog>
       </template>
       <template v-slot:item.action="{ item }">
-        <v-btn text icon color="gray" @click="moreItem(item)">
+        <v-btn text icon color="gray" v-on:click="moreItem(item)">
           <v-icon>mdi-account-circle</v-icon>
         </v-btn>
       </template>
@@ -102,14 +103,17 @@ export default {
 </script>
 
 <style scoped>
-  .btn-new {
-    margin-right: 50px;
+  #data-table {
+    padding: 30px;
+    overflow: scroll;
+    box-sizing: border-box;
   }
-  .data-table {
-    padding: 20px;
-  }
-  .data-table-title {
+  #data-table-title {
     font-size: 2rem;
     font-weight: bold;
+    color: #333333;
+  }
+  #btn-new {
+    margin-right: 1%;
   }
 </style>

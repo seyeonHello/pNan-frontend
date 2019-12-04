@@ -3,15 +3,16 @@
     <v-card outlined height="100%" width="100%">
       <v-list>
         <a href="/">
-          <img class="logo-img" src="../assets/logo.png">
+          <img id="nav-logo" src="../assets/logo.png">
         </a>
+        <v-divider class="nav-div"></v-divider>
         <v-list-item v-for="item in items" :key="item.title" link>
           <v-list-item-content class="menu-item" v-on:click="onClickLink(item.link)">
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-
-        <v-btn class="logout-btn" v-if="isLogin" outlined color="red" v-on:click="onClickLogout">
+        <v-divider class="nav-div"></v-divider>
+        <v-btn v-if="isLogin" outlined color="red" v-on:click="onClickLogout">
           Logout
         </v-btn>
       </v-list>
@@ -57,55 +58,19 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   * {
-    margin: 0 auto;
-  }
-  img {
-    width: 100%;
-    height: auto;
-  }
-  h3 {
-    margin: 40px 0 0;
-  }
-
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-
-  li {
     text-align: center;
-    height: 50px;
     margin: 0 auto;
-    width: 100%;
+    padding: 0 auto;
   }
 
-  a {
-    color: deepskyblue;
-  }
-
-  .navbar-brand img {
-    width: 150px;
+  #nav-logo {
+    width: 80%;
     height: auto;
-    display: inline-block;
   }
-
-  .logo-img {
-    height: auto;
-    width: 45%;
-    display: block;
+  .nav-div {
+    margin-left: 10px;
+    margin-right: 10px;
     margin-bottom: 20px;
-    margin-top: 30px;
+    margin-top: 10px;
   }
-
-  .menu-item {
-    text-decoration: none;
-    color: inherit;
-    text-align: center;
-  }
-
-  .logout-btn {
-    display: block;
-    margin-top: 30px;
-  }
-
 </style>

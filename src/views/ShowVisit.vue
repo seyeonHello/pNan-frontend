@@ -1,30 +1,33 @@
 <template>
-  <v-card raised class="mx-auto text-center" width="95%" height="95%">
-    <data-table
-      class="refugee-table"
-      ref="dataTable"
-      :title="'방문 일지'"
-      :tableData="tableData"
-      :tableHeaders="tableHeaders"
-    >
-      <!-- DataTable Overlay Slot --->
-      <v-autocomplete :items="refugeeList" label="이름" v-model="input.name" class="text"></v-autocomplete>
-      <v-autocomplete :items="supportOptions" label="지원 종류" v-model="newVisitLog.support" class="text"></v-autocomplete>
-      <div v-if="newVisitLog.support === '법률'">
-        <v-autocomplete :items="supports.laws" label="법률 종류" v-model="newVisitLog.supportDetail"></v-autocomplete>
-      </div>
-      <div v-else-if="newVisitLog.support === '심리'">
-        <v-autocomplete :items="supports.Psychology" label="심리 종류" v-model="newVisitLog.supportDetail"></v-autocomplete>
-      </div>
-      <div v-else-if="newVisitLog.support === '사회'">
-        <v-autocomplete :items="supports.socials" label="사회 종류" v-model="newVisitLog.supportDetail"></v-autocomplete>
-      </div>
-      <div class="btnclass">
-        <v-btn dark color="primary" v-on:click="onClickSubmitBtn()">Create new Visit Log</v-btn>
-      </div>      <!-- DataTable Overlay Slot Ends --->
+  <v-app id="main">
+    <div class="top-padding"></div>
+    <v-card raised class="mx-auto text-center" id="card">
+      <data-table
+        class="refugee-table"
+        ref="dataTable"
+        :title="'방문 일지'"
+        :tableData="tableData"
+        :tableHeaders="tableHeaders"
+      >
+        <!-- DataTable Overlay Slot --->
+        <v-autocomplete :items="refugeeList" label="이름" v-model="input.name" class="text"></v-autocomplete>
+        <v-autocomplete :items="supportOptions" label="지원 종류" v-model="newVisitLog.support" class="text"></v-autocomplete>
+        <div v-if="newVisitLog.support === '법률'">
+          <v-autocomplete :items="supports.laws" label="법률 종류" v-model="newVisitLog.supportDetail"></v-autocomplete>
+        </div>
+        <div v-else-if="newVisitLog.support === '심리'">
+          <v-autocomplete :items="supports.Psychology" label="심리 종류" v-model="newVisitLog.supportDetail"></v-autocomplete>
+        </div>
+        <div v-else-if="newVisitLog.support === '사회'">
+          <v-autocomplete :items="supports.socials" label="사회 종류" v-model="newVisitLog.supportDetail"></v-autocomplete>
+        </div>
+        <div class="btnclass">
+          <v-btn dark color="primary" v-on:click="onClickSubmitBtn()">Create new Visit Log</v-btn>
+        </div>      <!-- DataTable Overlay Slot Ends --->
 
-    </data-table>
-  </v-card>
+      </data-table>
+    </v-card>
+  </v-app>
 </template>
 
 <script>
@@ -148,11 +151,16 @@ export default {
 </script>
 
 <style scoped>
-  *{
-    text-align: center;
-  }
-  .refugee-table {
+  #main {
     width: 100%;
-    height: 100%;
+  }
+
+  #card {
+    width: 90%;
+    height: 90%;
+  }
+
+  .top-padding {
+    height: 3%;
   }
 </style>

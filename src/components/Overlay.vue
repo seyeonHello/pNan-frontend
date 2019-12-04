@@ -1,6 +1,6 @@
 <template>
-  <v-card light class="overlay-box mx-auto text-center">
-    <v-card-title>
+  <v-card light absolute class="overlay-box mx-auto text-center">
+    <v-card-title fixed>
       <v-icon v-on:click="close" class="close-btn">mdi-close</v-icon>
     </v-card-title>
     <v-form>
@@ -27,8 +27,4 @@ export default {
 </script>
 
 <style scoped>
-  .overlay-box {
-    padding: 20px;
-    width: 800px;
-  }
 </style>

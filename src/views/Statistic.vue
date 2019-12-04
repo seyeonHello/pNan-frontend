@@ -1,31 +1,34 @@
 <template>
-  <v-card raised class="mx-auto text-center" width="95%" height="95%">
-    <v-card-text>
-      <v-container fluid>
-        <v-layout>
-          <!-- search column -->
-        </v-layout>
-      </v-container>
-      <div class="display-5 font-weight-thin">Todays</div>
-    </v-card-text>
-    <v-card-text>
-      <v-container fluid>
-        <lawchart type=radialBar height=350 :options="lawOptions" :series="lawSeries" class="donut-chart"/>
-        <medicalchart type=radialBar height=350 :options="medicalOptions" :series="medicalSeries" class="donut-chart"/>
-        <mentalchart type=radialBar height=350 :options="mentalOptions" :series="mentalSeries" class="donut-chart"/>
-        <socialchart type=radialBar height=350 :options="socialOptions" :series="socialSeries" class="donut-chart"/>
-      </v-container>
-    </v-card-text>
-    <v-card-text>
-      <v-divider class="my-2"></v-divider>
-      <v-data-table
+  <v-app id="main">
+    <div class="top-padding"></div>
+    <v-card raised class="mx-auto text-center" id="card">
+      <v-card-text>
+        <v-container fluid>
+          <v-layout>
+            <!-- search column -->
+          </v-layout>
+        </v-container>
+        <div class="display-5 font-weight-thin">Todays</div>
+      </v-card-text>
+      <v-card-text>
+        <v-container fluid>
+          <lawchart type=radialBar height=350 :options="lawOptions" :series="lawSeries" class="donut-chart"/>
+          <medicalchart type=radialBar height=350 :options="medicalOptions" :series="medicalSeries" class="donut-chart"/>
+          <mentalchart type=radialBar height=350 :options="mentalOptions" :series="mentalSeries" class="donut-chart"/>
+          <socialchart type=radialBar height=350 :options="socialOptions" :series="socialSeries" class="donut-chart"/>
+        </v-container>
+      </v-card-text>
+      <v-card-text>
+        <v-divider class="my-2"></v-divider>
+        <v-data-table
           :headers="headers"
           :items="todayRegisteredRefugeeList"
           :items-per-page="5"
           class="elevation-1"
-      ></v-data-table>
-    </v-card-text>
-  </v-card>
+        ></v-data-table>
+      </v-card-text>
+    </v-card>
+  </v-app>
 </template>
 
 <script>
@@ -233,5 +236,17 @@ export default{
   .donut-chart{
     float: left;
     width: 24%;
+  }
+   #main {
+     width: 100%;
+   }
+
+  #card {
+    width: 90%;
+    height: 90%;
+  }
+
+  .top-padding {
+    height: 3%;
   }
 </style>

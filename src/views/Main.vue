@@ -1,21 +1,24 @@
 <template>
-  <v-card raised class="mx-auto text-center" width="95%" height="95%">
-        <v-card-text>
-            <div class="display-5 font-weight-thin">Todays</div>
-        </v-card-text>
-        <v-card-text>
-            <div id="chart">
-              <apexchart ref="chart" type=area height=350 :options="chartOptions" :series="series" />
-            </div>
-            <v-divider class="my-2"></v-divider>
-            <v-data-table
-                :headers="headers"
-                :items="todayRegisteredRefugeeList"
-                :items-per-page="5"
-                class="elevation-1"
-            ></v-data-table>
-        </v-card-text>
+  <v-app id="main">
+    <div class="top-padding"></div>
+    <v-card raised class="mx-auto text-center" id="card">
+      <v-card-text>
+        <div class="display-5 font-weight-thin">Todays</div>
+      </v-card-text>
+      <v-card-text>
+        <div id="chart">
+          <apexchart ref="chart" type=area height=350 :options="chartOptions" :series="series" />
+        </div>
+        <v-divider class="my-2"></v-divider>
+        <v-data-table
+          :headers="headers"
+          :items="todayRegisteredRefugeeList"
+          :items-per-page="5"
+          class="elevation-1"
+        ></v-data-table>
+      </v-card-text>
     </v-card>
+  </v-app>
 </template>
 
 <script>
@@ -205,4 +208,16 @@ export default {
 </script>
 
 <style scoped>
+  #main {
+    width: 100%;
+  }
+
+  #card {
+    width: 90%;
+    height: 90%;
+  }
+
+  .top-padding {
+    height: 3%;
+  }
 </style>

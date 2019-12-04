@@ -56,18 +56,16 @@ export default {
 </script>
 
 <style scoped>
-  *{
-    text-align: center;
+  #main {
+    width: 100%;
   }
-  #signup{
-    position: absolute;
-    text-align: center;
-    vertical-align: center;
-    horiz-align: center;
-    width:500px;
-    margin:auto;
+
+  #card {
+    width: 90%;
+    height: 90%;
   }
-  #exitbtn{
-    margin-left: 20px;
+
+  .top-padding {
+    height: 3%;
   }
 </style>

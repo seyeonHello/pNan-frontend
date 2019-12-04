@@ -2,7 +2,7 @@
 <v-app id="app">
   <div class="row">
     <navigation v-if="isLogin" class="col-2" id="nav-bar"/>
-    <div class="col-10 mt-4">
+    <div class="col-10" id="content">
         <router-view/>
     </div>
   </div>
@@ -39,40 +39,20 @@ export default {
 </script>
 
 <style scoped>
-  * {
+  html {
+    overflow: hidden;
+  }
+  body {
+    padding: 0;
     margin: 0 auto;
+  }
+
+  .row, .col-2, .col-10 {
     padding: 0;
   }
 
-  img {
-    width: 150px;
-    height: auto;
-    margin: 10px;
-  }
-
-  #nav-bar{
-    width: 100%;
-    padding: 0;
-    z-index: 500;
-  }
-
-  #app {
-    width: 100%;
-    height: 100%;
-  }
-
-  .title {
-    padding-left: 30px;
-    width: 100%;
-    z-index: 10;
-  }
-
-  .row {
-    width: 100%;
-  }
-
-  .col-10 {
-    margin : 0 auto;
-    padding: 0;
+  #content {
+    box-sizing: border-box;
+    max-height: 90%;
   }
 </style>

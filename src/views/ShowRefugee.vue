@@ -1,60 +1,62 @@
 <template>
-  <v-card raised class="mx-auto text-center" width="95%" height="95%">
-    <data-table
-      class="refugee-table"
-      :title="'난민 리스트'"
-      :tableData="refugeeList"
-      :tableHeaders="tableHeaders"
-      ref="dataTable"
-    >
-      <!-- DataTable Overlay Slot --->
-      <v-text-field class="text" label="이름" v-model="newRefugee.name"></v-text-field>
-      <v-text-field label="국적" v-model="newRefugee.nationality"></v-text-field>
-      <v-autocomplete :items="reasonList" label="난민 사유" v-model="newRefugee.reason"></v-autocomplete>
-      <v-radio-group label="성별" v-model="newRefugee.sex">
-        <v-radio label="남자" value="M"></v-radio>
-        <v-radio label="여자" value="F"></v-radio>
-      </v-radio-group>
-      <v-radio-group label="고문 피해 여부" v-model="newRefugee.torture">
-        <v-radio label="Yes" :value="1"></v-radio>
-        <v-radio label="No" :value="0"></v-radio>
-      </v-radio-group>
-
-      <v-menu
-        :close-on-content-click="false"
-        ref="menu"
-        v-model="newRefugee.menu"
-        :return-value.sync="newRefugee.birth"
-        transition="scale-transition"
-        offset-y
-        min-width="290px"
+  <v-app id="main">
+    <div class="top-padding"></div>
+    <v-card raised class="mx-auto text-center" id="card">
+      <data-table
+        :title="'난민 리스트'"
+        :tableData="refugeeList"
+        :tableHeaders="tableHeaders"
+        ref="dataTable"
       >
-        <template v-slot:activator="{ on }">
-          <v-text-field
-            v-model="newRefugee.birth"
-            label="생년월일"
-            readonly
-            v-on="on"
-          ></v-text-field>
-        </template>
-        <v-date-picker v-model="newRefugee.birth" no-title scrollable>
-          <v-btn text color="indigo" @click="newRefugee.menu = false">취소</v-btn>
-          <v-btn text color="indigo" @click="$refs.menu.save(newRefugee.birth)">확인</v-btn>
-        </v-date-picker>
-      </v-menu>
-      <v-autocomplete :items="statuslist" label="status" v-model="newRefugee.status"></v-autocomplete>
-      <v-textarea
-        outlined
-        label="난민 메모"
-        v-model="newRefugee.memo"
-      ></v-textarea>
-      <div class="btnclass">
-        <v-btn dark color="primary" v-on:click="onClickSubmitBtn()">Create new Refugee</v-btn>
-      </div>
-      <!-- DataTable Overlay Slot Ends --->
+        <!-- DataTable Overlay Slot --->
+        <v-text-field label="이름" v-model="newRefugee.name"></v-text-field>
+        <v-text-field label="국적" v-model="newRefugee.nationality"></v-text-field>
+        <v-autocomplete :items="reasonList" label="난민 사유" v-model="newRefugee.reason"></v-autocomplete>
+        <v-radio-group label="성별" v-model="newRefugee.sex">
+          <v-radio label="남자" value="M"></v-radio>
+          <v-radio label="여자" value="F"></v-radio>
+        </v-radio-group>
+        <v-radio-group label="고문 피해 여부" v-model="newRefugee.torture">
+          <v-radio label="Yes" :value="1"></v-radio>
+          <v-radio label="No" :value="0"></v-radio>
+        </v-radio-group>
 
-    </data-table>
-  </v-card>
+        <v-menu
+          :close-on-content-click="false"
+          ref="menu"
+          v-model="newRefugee.menu"
+          :return-value.sync="newRefugee.birth"
+          transition="scale-transition"
+          offset-y
+          min-width="290px"
+        >
+          <template v-slot:activator="{ on }">
+            <v-text-field
+              v-model="newRefugee.birth"
+              label="생년월일"
+              readonly
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker v-model="newRefugee.birth" no-title scrollable>
+            <v-btn text color="indigo" @click="newRefugee.menu = false">취소</v-btn>
+            <v-btn text color="indigo" @click="$refs.menu.save(newRefugee.birth)">확인</v-btn>
+          </v-date-picker>
+        </v-menu>
+        <v-autocomplete :items="statuslist" label="status" v-model="newRefugee.status"></v-autocomplete>
+        <v-textarea
+          outlined
+          label="난민 메모"
+          v-model="newRefugee.memo"
+        ></v-textarea>
+        <div class="btnclass">
+          <v-btn dark color="primary" v-on:click="onClickSubmitBtn()">Create new Refugee</v-btn>
+        </div>
+        <!-- DataTable Overlay Slot Ends --->
+
+      </data-table>
+    </v-card>
+  </v-app>
 </template>
 
 <script>
@@ -183,11 +185,17 @@ export default {
 </script>
 
 <style scoped>
-  *{
-    text-align: center;
-  }
-  .refugee-table {
+  #main {
     width: 100%;
-    height: 100%;
+    box-sizing: border-box;
+  }
+
+  #card {
+    width: 90%;
+    height: 90%;
+  }
+
+  .top-padding {
+    height: 3%;
   }
 </style>

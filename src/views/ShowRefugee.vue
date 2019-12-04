@@ -10,7 +10,7 @@
       >
         <!-- DataTable Overlay Slot --->
         <v-text-field label="이름" v-model="newRefugee.name"></v-text-field>
-        <v-text-field label="국적" v-model="newRefugee.nationality"></v-text-field>
+        <v-autocomplete :items="nationality" label="국적" v-model="newRefugee.nationality"></v-autocomplete>
         <v-autocomplete :items="reasonList" label="난민 사유" v-model="newRefugee.reason"></v-autocomplete>
         <v-radio-group label="성별" v-model="newRefugee.sex">
           <v-radio label="남자" value="M"></v-radio>
@@ -75,6 +75,7 @@ export default {
       refugeeList: [],
       statuslist: ['신청 전', '신청', '이의 신청', '1심', '2심', '3심', '재신청', '기타'],
       reasonList: ['인종', '종교', '국적', '특정 사회 집단 구성원', '정치적 의견', '기타'],
+      nationality: [],
       sexList: ['남자', '여자'],
       tableHeaders: [
         { text: '이름', align: 'left', value: 'name' },
@@ -109,6 +110,18 @@ export default {
         return num.length < 2 ? '0' + num : num;
       }
       return date.getFullYear() + '-' + formating(date.getMonth() + 1) + '-' + formating(date.getDate());
+    },
+    getCountryName () {
+      const ctx = this;
+      axios.get('/api/v1/stat/country')
+        .then((res) => {
+          res.data.forEach(function (rr, idx) {
+            ctx.nationality.push(rr.name_kor);
+          });
+        })
+        .catch(() => {
+          alert('국가 정보를 불러오는 대에 실패했습니다');
+        });
     },
     getAllRefugee () {
       axios.get('/api/v1/refugee')
@@ -181,6 +194,7 @@ export default {
   },
   mounted () {
     this.getAllRefugee();
+    this.getCountryName();
   }
 };
 </script>

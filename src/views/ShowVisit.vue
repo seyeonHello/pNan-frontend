@@ -10,16 +10,16 @@
         :tableHeaders="tableHeaders"
       >
         <!-- DataTable Overlay Slot --->
-        <v-autocomplete :items="refugeeList" label="이름" v-model="input.name" class="text"></v-autocomplete>
-        <v-autocomplete :items="supportOptions" label="지원 종류" v-model="newVisitLog.support" class="text"></v-autocomplete>
+        <v-autocomplete :items="refugeeList" outlined label="이름" v-model="input.name" class="text"></v-autocomplete>
+        <v-autocomplete :items="supportOptions" outlined label="지원 종류" v-model="newVisitLog.support" class="text"></v-autocomplete>
         <div v-if="newVisitLog.support === '법률'">
-          <v-autocomplete :items="supports.laws" label="법률 종류" v-model="newVisitLog.supportDetail"></v-autocomplete>
+          <v-autocomplete :items="supports.laws" outlined label="법률 종류" v-model="newVisitLog.supportDetail"></v-autocomplete>
         </div>
         <div v-else-if="newVisitLog.support === '심리'">
-          <v-autocomplete :items="supports.Psychology" label="심리 종류" v-model="newVisitLog.supportDetail"></v-autocomplete>
+          <v-autocomplete :items="supports.Psychology" outlined label="심리 종류" v-model="newVisitLog.supportDetail"></v-autocomplete>
         </div>
         <div v-else-if="newVisitLog.support === '사회'">
-          <v-autocomplete :items="supports.socials" label="사회 종류" v-model="newVisitLog.supportDetail"></v-autocomplete>
+          <v-autocomplete :items="supports.socials" outlined label="사회 종류" v-model="newVisitLog.supportDetail"></v-autocomplete>
         </div>
         <div class="btnclass">
           <v-btn dark color="primary" v-on:click="onClickSubmitBtn()">Create new Visit Log</v-btn>

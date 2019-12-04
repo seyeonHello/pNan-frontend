@@ -125,4 +125,8 @@ export default {
     overflow: scroll;
     max-height: 347px;
   }
+
+  ::-webkit-scrollbar {
+    display:none;
+  }
 </style>

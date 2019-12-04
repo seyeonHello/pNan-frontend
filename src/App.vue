@@ -37,4 +37,8 @@ export default {
     max-height: 90%;
   }
 
+  ::-webkit-scrollbar {
+    display:none;
+  }
+
 </style>

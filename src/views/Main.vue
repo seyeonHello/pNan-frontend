@@ -94,7 +94,7 @@ export default {
           labels: {
             show: true
           },
-          categories: [],
+          categories: []
           /*
           title: {
             text: 'Date'
@@ -195,7 +195,7 @@ export default {
       }
       this.weekendVisitation.push(countMap.one, countMap.two, countMap.three, countMap.four, countMap.five, countMap.six, countMap.seven);
       this.series[1].data = this.weekendVisitation;
-    }
+    },
   },
   async mounted () {
     this.weekendDate = this.getWeekendDate();

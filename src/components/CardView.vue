@@ -18,4 +18,8 @@ export default {
     height: 90%;
     overflow: scroll;
   }
+
+  ::-webkit-scrollbar {
+    display:none;
+  }
 </style>

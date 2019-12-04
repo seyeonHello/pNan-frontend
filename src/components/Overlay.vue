@@ -1,9 +1,9 @@
 <template>
-  <v-card light absolute class="overlay-box mx-auto text-center">
+  <v-card width="'60%'" light class="overlay-box mx-auto text-center">
     <v-card-title fixed>
       <v-icon v-on:click="close" class="close-btn">mdi-close</v-icon>
     </v-card-title>
-    <v-form>
+    <v-form class="overlay-form">
       <v-container>
         <v-layout column>
           <v-flex id="enrollNan">
@@ -26,5 +26,18 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
+  .overlay-box {
+    height: 100%;
+    overflow: scroll;
+  }
+
+  .v-overlay__content {
+    width: 60%;
+    height: 60%;
+  }
+
+  .overlay-form {
+    padding: 30px;
+  }
 </style>

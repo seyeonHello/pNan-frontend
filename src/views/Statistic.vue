@@ -1,7 +1,7 @@
 <template>
   <v-app id="main">
     <div class="top-padding"></div>
-    <v-card raised class="mx-auto text-center" id="card">
+    <CardView>
       <v-card-text>
         <v-container fluid>
           <v-layout>
@@ -27,17 +27,19 @@
           class="elevation-1"
         ></v-data-table>
       </v-card-text>
-    </v-card>
+    </CardView>
   </v-app>
 </template>
 
 <script>
 import axios from 'axios';
 import VueApexCharts from 'vue-apexcharts';
+import CardView from '../components/CardView';
 
 export default{
   name: 'Statistic',
   components: {
+    CardView,
     lawchart: VueApexCharts,
     medicalchart: VueApexCharts,
     mentalchart: VueApexCharts,

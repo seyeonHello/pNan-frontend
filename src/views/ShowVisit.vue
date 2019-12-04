@@ -1,7 +1,7 @@
 <template>
   <v-app id="main">
     <div class="top-padding"></div>
-    <v-card raised class="mx-auto text-center" id="card">
+    <CardView>
       <data-table
         class="refugee-table"
         ref="dataTable"
@@ -26,7 +26,7 @@
         </div>      <!-- DataTable Overlay Slot Ends --->
 
       </data-table>
-    </v-card>
+    </CardView>
   </v-app>
 </template>
 
@@ -34,10 +34,12 @@
 
 import axios from 'axios';
 import DataTable from '@/components/DataTable';
+import CardView from '../components/CardView';
 
 export default {
   name: 'showRefugee',
   components: {
+    CardView,
     'data-table': DataTable
   },
   data () {

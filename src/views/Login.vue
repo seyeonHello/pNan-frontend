@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-card class="mx-auto text-center login-box">
+    <CardView>
       <img src="../assets/logo.png">
       <v-form id="sign">
         <v-container>
@@ -17,16 +17,18 @@
           </v-layout>
         </v-container>
       </v-form>
-    </v-card>
+    </CardView>
   </v-app>
 </template>
 
 <script>
 import signup from './Signup';
 import { mapActions } from 'vuex';
+import CardView from '../components/CardView';
 export default{
   name: 'Login',
   components: {
+    CardView,
     signup
   },
   data () {

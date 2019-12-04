@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto text-center" max-width="100%" height="100%" id="data-table">
+  <div id="data-table-card">
     <v-card-title id="data-table-title">
       {{title}}
       <v-spacer></v-spacer>
@@ -14,7 +14,7 @@
     </v-card-title>
     <v-divider></v-divider>
     <v-data-table
-      class="data-table"
+      id="data-table"
       height="'100%'"
       :headers="tableHeaders"
       :items="tableData"
@@ -52,7 +52,7 @@
         <slot></slot>
       </Overlay>
     </v-overlay>
-  </v-card>
+  </div>
 </template>
 
 <script>
@@ -102,10 +102,10 @@ export default {
 };
 </script>
 
-<style scoped>
-  #data-table {
+<style>
+  #data-table-card {
     padding: 30px;
-    overflow: scroll;
+    max-height: 900px;
     box-sizing: border-box;
   }
   #data-table-title {
@@ -113,7 +113,16 @@ export default {
     font-weight: bold;
     color: #333333;
   }
+  #data-table {
+    overflow: scroll;
+    max-height: 600px;
+  }
   #btn-new {
     margin-right: 1%;
+  }
+
+  #main-data-table {
+    overflow: scroll;
+    max-height: 347px;
   }
 </style>

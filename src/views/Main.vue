@@ -1,7 +1,7 @@
 <template>
   <v-app id="main">
     <div class="top-padding"></div>
-    <v-card raised class="mx-auto text-center" id="card">
+    <CardView>
       <v-card-text>
         <div class="display-5 font-weight-thin">Todays</div>
       </v-card-text>
@@ -11,23 +11,27 @@
         </div>
         <v-divider class="my-2"></v-divider>
         <v-data-table
+          id="main-data-table"
+          height="'347px'"
           :headers="headers"
           :items="todayRegisteredRefugeeList"
           :items-per-page="5"
           class="elevation-1"
         ></v-data-table>
       </v-card-text>
-    </v-card>
+    </CardView>
   </v-app>
 </template>
 
 <script>
 import axios from 'axios';
 import VueApexCharts from 'vue-apexcharts';
+import CardView from '../components/CardView';
 
 export default {
   name: 'Main',
   components: {
+    CardView,
     apexchart: VueApexCharts
   },
   data () {
@@ -94,7 +98,7 @@ export default {
           labels: {
             show: true
           },
-          categories: [],
+          categories: []
           /*
           title: {
             text: 'Date'
@@ -210,11 +214,6 @@ export default {
 <style scoped>
   #main {
     width: 100%;
-  }
-
-  #card {
-    width: 90%;
-    height: 90%;
   }
 
   .top-padding {

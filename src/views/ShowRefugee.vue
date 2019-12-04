@@ -9,9 +9,9 @@
         ref="dataTable"
       >
         <!-- DataTable Overlay Slot --->
-        <v-text-field label="이름" v-model="newRefugee.name"></v-text-field>
-        <v-autocomplete :items="nationality" label="국적" v-model="newRefugee.nationality"></v-autocomplete>
-        <v-autocomplete :items="reasonList" label="난민 사유" v-model="newRefugee.reason"></v-autocomplete>
+        <v-text-field label="이름" outlined v-model="newRefugee.name"></v-text-field>
+        <v-autocomplete :items="nationality" outlined label="국적" v-model="newRefugee.nationality"></v-autocomplete>
+        <v-autocomplete :items="reasonList" outlined label="난민 사유" v-model="newRefugee.reason"></v-autocomplete>
         <v-radio-group label="성별" v-model="newRefugee.sex">
           <v-radio label="남자" value="M"></v-radio>
           <v-radio label="여자" value="F"></v-radio>
@@ -34,6 +34,7 @@
             <v-text-field
               v-model="newRefugee.birth"
               label="생년월일"
+              outlined
               readonly
               v-on="on"
             ></v-text-field>

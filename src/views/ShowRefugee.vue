@@ -85,7 +85,7 @@ export default {
         { text: '국적', align: 'left', value: 'nationality' },
         { text: '등록 일자', align: 'left', value: 'createdAt' },
         { text: '난민 사유', align: 'left', value: 'reason' },
-        { text: '고문 피해 여부', align: 'left', value: 'torture' },
+        { text: '고문 여부', align: 'left', value: 'torture' },
         { text: '상태', align: 'left', value: 'status' },
         { text: 'Actions', align: 'left', value: 'action', sortable: false }
       ],

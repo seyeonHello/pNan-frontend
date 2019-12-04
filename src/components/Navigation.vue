@@ -5,13 +5,13 @@
         <a href="/">
           <img id="nav-logo" src="../assets/logo.png">
         </a>
-        <v-divider class="nav-div"></v-divider>
-        <v-list-item v-for="item in items" :key="item.title" link>
+        <v-divider  v-if="isLogin" class="nav-div"></v-divider>
+        <v-list-item v-if="isLogin" v-for="item in items" :key="item.title" link>
           <v-list-item-content class="menu-item" v-on:click="onClickLink(item.link)">
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-divider class="nav-div"></v-divider>
+        <v-divider  v-if="isLogin" class="nav-div"></v-divider>
         <v-btn v-if="isLogin" outlined color="red" v-on:click="onClickLogout">
           Logout
         </v-btn>

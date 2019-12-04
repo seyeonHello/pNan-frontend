@@ -1,7 +1,7 @@
 <template>
   <v-app id="main">
     <div class="top-padding"></div>
-    <v-card raised class="mx-auto text-center" id="card">
+    <CardView>
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-md-12 text-center">
@@ -10,14 +10,16 @@
           </div>
         </div>
       </div>
-    </v-card>
+    </CardView>
   </v-app>
 </template>
 
 <!--suppress JSUnusedGlobalSymbols -->
 <script>
+import CardView from '../components/CardView';
 export default {
-  name: 'NotFound'
+  name: 'NotFound',
+  components: { CardView }
 };
 </script>
 
@@ -25,12 +27,6 @@ export default {
   #main {
     width: 100%;
   }
-
-  #card {
-    width: 90%;
-    height: 90%;
-  }
-
   .top-padding {
     height: 3%;
   }

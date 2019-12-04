@@ -1,36 +1,66 @@
 <template>
-  <v-card raised class="mx-auto text-center" width="95%" height="95%">
-    <v-card-text>
-    </v-card-text>
-    <!-- chart -->
-    <v-card-text>
-      <v-container fluid>
-        <lawchart ref="chart" type=radialBar height=350 :options="lawOptions" :series="lawSeries" class="donut-chart" />
-        <medicalchart ref="chart" type=radialBar height=350 :options="medicalOptions" :series="medicalSeries" class="donut-chart"/>
-        <mentalchart ref="chart" type=radialBar height=350 :options="mentalOptions" :series="mentalSeries" class="donut-chart"/>
-        <socialchart ref="chart" type=radialBar height=350 :options="socialOptions" :series="socialSeries" class="donut-chart"/>
-      </v-container>
-    </v-card-text>
-    <v-card-text>
-      <v-divider class="my-2"></v-divider>
-      <!-- table -->
-      <v-data-table
-        :headers="tableHeaders"
-        :items="tableData"
-        :items-per-page="5"
-        class="elevation-1"
-      ></v-data-table>
-    </v-card-text>
-  </v-card>
+  <v-app id="main">
+    <div class="top-padding"></div>
+      <CardView>
+        <v-card-title id="page-title">
+            <v-spacer></v-spacer>
+            <v-col cols="12" sm="6" md="2">
+              <v-dialog ref="startdialog" v-model="startmodal" :return-value.sync="startDate" persistent width="290px">
+                <template v-slot:activator="{ on }">
+                  <v-text-field v-model="startDate" label="Start Date" readonly v-on="on"></v-text-field>
+                </template>
+                <v-date-picker v-model="startDate" scrollable>
+                  <v-spacer></v-spacer>
+                  <v-btn text color="primary" v-on:click="startmodal = false">Cancel</v-btn>
+                  <v-btn text color="primary" v-on:click="$refs.startdialog.save(startDate)">OK</v-btn>
+                </v-date-picker>
+              </v-dialog>
+            </v-col>
+            <v-col cols="12" sm="6" md="2">
+              <v-dialog ref="enddialog" v-model="endmodal" :return-value.sync="endDate" persistent width="290px">
+                <template v-slot:activator="{ on }">
+                  <v-text-field v-model="endDate" label="End Date" readonly v-on="on"></v-text-field>
+                </template>
+                <v-date-picker v-model="endDate" scrollable>
+                  <v-spacer></v-spacer>
+                  <v-btn text color="primary" v-on:click="endmodal = false">Cancel</v-btn>
+                  <v-btn text color="primary" v-on:click="$refs.enddialog.save(endDate)">OK</v-btn>
+                </v-date-picker>
+              </v-dialog>
+            </v-col>
+            <v-btn small v-on:click="onClickSearchButton">search</v-btn>
+        </v-card-title>
+        <v-card-text>
+          <v-container fluid>
+            <lawchart ref="chart" type=radialBar height=350 :options="lawOptions" :series="lawSeries" class="donut-chart" />
+            <medicalchart ref="chart" type=radialBar height=350 :options="medicalOptions" :series="medicalSeries" class="donut-chart"/>
+            <mentalchart ref="chart" type=radialBar height=350 :options="mentalOptions" :series="mentalSeries" class="donut-chart"/>
+            <socialchart ref="chart" type=radialBar height=350 :options="socialOptions" :series="socialSeries" class="donut-chart"/>
+          </v-container>
+        </v-card-text>
+        <v-card-text>
+          <v-divider class="my-2"></v-divider>
+          <!-- table -->
+          <v-data-table
+            :headers="tableHeaders"
+            :items="tableData"
+            :items-per-page="5"
+            class="elevation-1"
+          ></v-data-table>
+        </v-card-text>
+      </CardView>
+  </v-app>
 </template>
 
 <script>
 import axios from 'axios';
 import VueApexCharts from 'vue-apexcharts';
+import CardView from '../components/CardView';
 
 export default{
   name: 'Statistic',
   components: {
+    CardView,
     lawchart: VueApexCharts,
     medicalchart: VueApexCharts,
     mentalchart: VueApexCharts,
@@ -38,6 +68,10 @@ export default{
   },
   data () {
     return {
+      startDate: new Date().toISOString().substr(0, 10),
+      endDate: new Date().toISOString().substr(0, 10),
+      startmodal: false,
+      endmodal: false,
       tableData: [],
       tableHeaders: [
         { text: '이름', align: 'left', value: 'name' },
@@ -228,6 +262,24 @@ export default{
       }
       return date.getFullYear() + '-' + formating(date.getMonth() + 1) + '-' + formating(date.getDate());
     },
+    onClickSearchButton (){
+      if (new Date(this.startDate) > new Date(this.endDate)) {
+        alert('정확한 날짜를 입력하여 주세요');
+      } else {
+        const params = {startDate: this.startDate, endDate: this.endDate};
+        const url = this.makeUrl('api/v1/visitlog', params);
+        console.log(url);
+      }
+    },
+    makeUrl (url, params) {
+      Object.keys(params).forEach(function(key, index) {
+        url = url + (index === 0 ? '?' : '&') + key + '=' + params[key];
+      })
+      return url;
+    },
+    async getSupportDataCount (url) {
+      const support_detail = ['인정 처우', '신청', '소송', '기타 법률', '의료', ]
+    },
     supportClassification (visitlog) {
       if (visitlog.support === '법률 인정 처우') this.law.recognition += 1;
       else if (visitlog.support === '법률 신청') this.law.apply += 1;
@@ -244,7 +296,7 @@ export default{
       else this.social.lodging += 1;
     },
     async getLawCount () {
-      const res = await axios.get('api/v1/visitlog?support="법률"&support_detail="기타 법률"&st_date=2019-01-01&ed_date=2019-12-31');
+      const res = await axios.get('api/v1/visitlog?support=법률&support_detail=인정 처우');
       console.log(res);
     },
     async getVisitLog () {
@@ -317,15 +369,18 @@ export default{
     float: left;
     width: 24%;
   }
-   #main {
-     width: 100%;
-   }
-
+  #main {
+    width: 100%;
+  }
+  #page-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333333;
+  }
   #card {
     width: 90%;
     height: 90%;
   }
-
   .top-padding {
     height: 3%;
   }

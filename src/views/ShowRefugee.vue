@@ -7,52 +7,71 @@
         :tableData="refugeeList"
         :tableHeaders="tableHeaders"
         ref="dataTable"
+        @detailRefugee="detailRefugee"
+        @deleteItem="deleteItem"
+        @updateItem="updateItem"
+        @close="close"
       >
         <!-- DataTable Overlay Slot --->
-        <v-text-field label="이름" outlined v-model="newRefugee.name"></v-text-field>
-        <v-autocomplete :items="nationality" outlined label="국적" v-model="newRefugee.nationality"></v-autocomplete>
-        <v-autocomplete :items="reasonList" outlined label="난민 사유" v-model="newRefugee.reason"></v-autocomplete>
-        <v-radio-group label="성별" v-model="newRefugee.sex">
-          <v-radio label="남자" value="M"></v-radio>
-          <v-radio label="여자" value="F"></v-radio>
-        </v-radio-group>
-        <v-radio-group label="고문 피해 여부" v-model="newRefugee.torture">
-          <v-radio label="Yes" :value="1"></v-radio>
-          <v-radio label="No" :value="0"></v-radio>
-        </v-radio-group>
+        <template v-slot:show>
+          <v-text-field label="이름" outlined v-model="newRefugee.name"></v-text-field>
+          <v-autocomplete :items="nationality" outlined label="국적" v-model="newRefugee.nationality"></v-autocomplete>
+          <v-autocomplete :items="reasonList" outlined label="난민 사유" v-model="newRefugee.reason"></v-autocomplete>
+          <v-radio-group label="성별" v-model="newRefugee.sex">
+            <v-radio label="남자" value="M"></v-radio>
+            <v-radio label="여자" value="F"></v-radio>
+          </v-radio-group>
+          <v-radio-group label="고문 피해 여부" v-model="newRefugee.torture">
+            <v-radio label="Yes" :value="1"></v-radio>
+            <v-radio label="No" :value="0"></v-radio>
+          </v-radio-group>
 
-        <v-menu
-          :close-on-content-click="false"
-          ref="menu"
-          v-model="newRefugee.menu"
-          :return-value.sync="newRefugee.birth"
-          transition="scale-transition"
-          offset-y
-          min-width="290px"
-        >
-          <template v-slot:activator="{ on }">
-            <v-text-field
-              v-model="newRefugee.birth"
-              label="생년월일"
-              outlined
-              readonly
-              v-on="on"
-            ></v-text-field>
-          </template>
-          <v-date-picker v-model="newRefugee.birth" no-title scrollable>
-            <v-btn text color="indigo" @click="newRefugee.menu = false">취소</v-btn>
-            <v-btn text color="indigo" @click="$refs.menu.save(newRefugee.birth)">확인</v-btn>
-          </v-date-picker>
-        </v-menu>
-        <v-autocomplete :items="statuslist" label="status" v-model="newRefugee.status"></v-autocomplete>
-        <v-textarea
-          outlined
-          label="난민 메모"
-          v-model="newRefugee.memo"
-        ></v-textarea>
-        <div class="btnclass">
-          <v-btn dark color="primary" v-on:click="onClickSubmitBtn()">Create new Refugee</v-btn>
-        </div>
+          <v-menu
+            :close-on-content-click="false"
+            ref="menu"
+            v-model="newRefugee.menu"
+            :return-value.sync="newRefugee.birth"
+            transition="scale-transition"
+            offset-y
+            min-width="290px"
+          >
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                v-model="newRefugee.birth"
+                label="생년월일"
+                outlined
+                readonly
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker v-model="newRefugee.birth" no-title scrollable>
+              <v-btn text color="indigo" @click="newRefugee.menu = false">취소</v-btn>
+              <v-btn text color="indigo" @click="$refs.menu.save(newRefugee.birth)">확인</v-btn>
+            </v-date-picker>
+          </v-menu>
+          <v-autocomplete :items="statuslist" label="status" v-model="newRefugee.status"></v-autocomplete>
+          <v-textarea
+            outlined
+            label="난민 메모"
+            v-model="newRefugee.memo"
+          ></v-textarea>
+          <div class="btnclass">
+            <v-btn dark color="primary" v-if="type" v-on:click="onClickSubmitBtn()">Create new Refugee</v-btn>
+            <v-btn dark color="indigo" v-else v-on:click="onClickUpdateBtn()">Update Refugee</v-btn>
+          </div>
+        </template>
+        <!-- DataTable Overlay Slot Ends --->
+        <!-- DataTable Overlay Slot --->
+        <template v-slot:refugeeMemo>
+          <v-icon>mdi-account</v-icon>
+          <h4>"{{refugeeName}}"님의 정보</h4>
+          <v-textarea
+            background-color="grey lighten-3"
+            color="black"
+            v-model="refugeeDetail"
+          ></v-textarea>
+          <v-btn color="blue darken-1" text v-on:click="save(refugeeDetail)">save</v-btn>
+        </template>
         <!-- DataTable Overlay Slot Ends --->
       </data-table>
     </CardView>
@@ -101,10 +120,71 @@ export default {
         reason: '',
         memo: '',
         menu: ''
-      }
+      },
+      refugeeName: '',
+      refugeeDetail: '',
+      refugeeID: '',
+      type: true,
+      buffer: {}
     };
   },
   methods: {
+    close () {
+      this.clearForm();
+    },
+    save () {
+      axios.put(`/api/v1/refugee/${this.refugeeID}`,
+        { memo: this.refugeeDetail })
+        .then(() => {
+          alert('수정이 완료 되었습니다.');
+        })
+        .catch(() => {
+          alert('수정이 실패 되었습니다.');
+        })
+        .finally(() => {
+          this.$refs.dataTable.overlayMemo = false;
+          this.getAllRefugee();
+        });
+    },
+    detailRefugee (item) {
+      this.refugeeID = item.id;
+      axios.get(`/api/v1/refugee/${item.id}`)
+        .then((res) => {
+          this.refugeeDetail = res.data.memo;
+          this.refugeeName = res.data.name;
+        })
+        .catch(() => {
+          alert('데이터 불러오기 실패');
+        });
+    },
+    deleteItem (item) {
+      this.refugeeID = item.id;
+      axios.delete(`/api/v1/refugee/${this.refugeeID}`)
+        .then(() => {
+          alert('삭제가 완료 되었습니다.');
+        })
+        .catch(() => {
+          alert('삭제가 실패 되었습니다.');
+        })
+        .finally(() => {
+          this.getAllRefugee();
+        });
+    },
+    updateItem (item) {
+      this.type = false;
+      this.refugeeID = item.id;
+      this.newRefugee.name = item.name;
+      this.newRefugee.nationality = item.nationality;
+      this.newRefugee.reason = item.reason;
+      this.newRefugee.sex = item.sex;
+      if (item.torture) {
+        this.newRefugee.torture = 1;
+      } else {
+        this.newRefugee.torture = 0;
+      }
+      this.newRefugee.birth = item.birth;
+      this.newRefugee.status = item.status;
+    },
     getDateFormat (date) {
       function formating (num) {
         num = num + '';
@@ -181,6 +261,31 @@ export default {
             alert('업로드에 실패했습니다.');
           });
       }
+    },
+    onClickUpdateBtn () {
+      const data = this.newRefugee;
+      axios.put(`/api/v1/refugee/${this.refugeeID}`,
+        {
+          name: data.name,
+          nationality: data.nationality,
+          birth: new Date(data.birth),
+          status: data.status,
+          sex: data.sex,
+          torture: data.torture,
+          reason: data.reason,
+          memo: data.memo
+        })
+        .then(() => {
+          alert('수정이 완료되었습니다.');
+        })
+        .catch(() => {
+          alert('수정이 실패되었습니다.');
+        })
+        .finally(() => {
+          this.$refs.dataTable.overlay = false;
+          this.getAllRefugee();
+          this.clearForm();
+        });
     },
     clearForm () {
       this.newRefugee = {

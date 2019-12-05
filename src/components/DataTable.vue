@@ -35,28 +35,17 @@
     </v-data-table>
     <v-overlay
       :absolute="absolute"
-      :value="overlay"
-    >
-      <Overlay v-on:close="onClickNewButton"
-      >
-        <slot/>
+      :value="overlay">
+      <Overlay v-on:close="onClickNewButton">
+        <slot name="show"></slot>
       </Overlay>
     </v-overlay>
 
     <v-overlay
       :absolute="absolute"
-      :value="overlayTest"
-    >
-      <Overlay v-on:close="close"
-      >
-        <v-icon>mdi-account</v-icon>
-        <h4>"{{refugeeName}}"님의 정보</h4>
-        <v-textarea
-          background-color="grey lighten-3"
-          color="black"
-          v-model="refugeeDetail"
-        ></v-textarea>
-        <v-btn color="blue darken-3" text @click="close">close</v-btn>
+      :value="overlayTest">
+      <Overlay v-on:close="close">
+        <slot name="refugeeMemo"></slot>
       </Overlay>
     </v-overlay>
   </div>
@@ -64,7 +53,6 @@
 
 <script>
 import Overlay from './Overlay';
-import axios from 'axios';
 export default {
   name: 'data-table',
   components: { Overlay },
@@ -92,28 +80,8 @@ export default {
     },
     detailRefugee (item) {
       this.overlayTest = !this.overlayTest;
-      this.refugeeName = item.name;
-      this.refugeeDetail = item.memo;
     },
     deleteItem (item) {
-      if (this.title === '방문 일지') {
-        axios.delete(`/api/v1/visitlog/${item.id}`)
-          .then((res) => {
-            alert('해당 정보가 삭제 되었습니다.');
-          })
-          .catch(() => {
-            alert('삭제가 실패 되었습니다.');
-          });
-      }
-      if (this.title === '난민 리스트') {
-        axios.delete(`/api/v1/refugee/${item.id}`)
-          .then((res) => {
-            alert('해당 정보가 삭제 되었습니다.');
-          })
-          .catch(() => {
-            alert('삭제가 실패 되었습니다.');
-          });
-      }
     },
     editItem (item) {
       this.overlay = !this.overlay;

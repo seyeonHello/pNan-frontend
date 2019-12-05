@@ -10,20 +10,31 @@
         :tableHeaders="tableHeaders"
       >
         <!-- DataTable Overlay Slot --->
-        <v-autocomplete :items="refugeeList" outlined label="이름" v-model="input.name" class="text"></v-autocomplete>
-        <v-autocomplete :items="supportOptions" outlined label="지원 종류" v-model="newVisitLog.support" class="text"></v-autocomplete>
-        <div v-if="newVisitLog.support === '법률'">
-          <v-autocomplete :items="supports.laws" outlined label="법률 종류" v-model="newVisitLog.supportDetail"></v-autocomplete>
-        </div>
-        <div v-else-if="newVisitLog.support === '심리'">
-          <v-autocomplete :items="supports.Psychology" outlined label="심리 종류" v-model="newVisitLog.supportDetail"></v-autocomplete>
-        </div>
-        <div v-else-if="newVisitLog.support === '사회'">
-          <v-autocomplete :items="supports.socials" outlined label="사회 종류" v-model="newVisitLog.supportDetail"></v-autocomplete>
-        </div>
-        <div class="btnclass">
-          <v-btn dark color="primary" v-on:click="onClickSubmitBtn()">Create new Visit Log</v-btn>
-        </div>      <!-- DataTable Overlay Slot Ends --->
+        <template v-slot:show>
+          <v-autocomplete :items="refugeeList" outlined label="이름" v-model="input.name" class="text"></v-autocomplete>
+          <v-autocomplete :items="supportOptions" outlined label="지원 종류" v-model="newVisitLog.support" class="text"></v-autocomplete>
+          <div v-if="newVisitLog.support === '법률'">
+            <v-autocomplete :items="supports.laws" outlined label="법률 종류" v-model="newVisitLog.supportDetail"></v-autocomplete>
+          </div>
+          <div v-else-if="newVisitLog.support === '심리'">
+            <v-autocomplete :items="supports.Psychology" outlined label="심리 종류" v-model="newVisitLog.supportDetail"></v-autocomplete>
+          </div>
+          <div v-else-if="newVisitLog.support === '사회'">
+            <v-autocomplete :items="supports.socials" outlined label="사회 종류" v-model="newVisitLog.supportDetail"></v-autocomplete>
+          </div>
+          <div class="btnclass">
+            <v-btn dark color="primary" v-on:click="onClickSubmitBtn()">Create new Visit Log</v-btn>
+          </div>
+        </template>
+        <template v-slot:refugeeMemo>
+          <v-icon>mdi-account</v-icon>
+          <h4>님의 정보</h4>
+          <v-textarea
+            background-color="grey lighten-3"
+            color="black"
+          ></v-textarea>
+        </template>
+             <!-- DataTable Overlay Slot Ends --->
 
       </data-table>
     </CardView>
@@ -69,7 +80,7 @@ export default {
       input: {
         name: null
       },
-      refugeeList: []
+      refugeeList: [],
     };
   },
   methods: {

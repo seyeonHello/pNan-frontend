@@ -28,14 +28,14 @@
                 </v-date-picker>
               </v-dialog>
             </v-col>
-            <v-btn small v-on:click="onClickSearchButton">search</v-btn>
+            <v-btn small v-on:click="getStatisticData">search</v-btn>
         </v-card-title>
         <v-card-text>
-          <v-container fluid>
-            <lawchart ref="chart" type=radialBar height=350 :options="lawOptions" :series="lawSeries" class="donut-chart" />
-            <medicalchart ref="chart" type=radialBar height=350 :options="medicalOptions" :series="medicalSeries" class="donut-chart"/>
-            <mentalchart ref="chart" type=radialBar height=350 :options="mentalOptions" :series="mentalSeries" class="donut-chart"/>
-            <socialchart ref="chart" type=radialBar height=350 :options="socialOptions" :series="socialSeries" class="donut-chart"/>
+          <v-container>
+            <lawchart type=donut class="donut-chart" :options="lawOptions" :series="lawSeries" />
+            <medicalchart type=donut class="donut-chart" :options="medicalOptions" :series="medicalSeries" />
+            <mentalchart type=donut class="donut-chart" :options="mentalOptions" :series="mentalSeries" />
+            <socialchart type=donut class="donut-chart" :options="socialOptions" :series="socialSeries" />
           </v-container>
         </v-card-text>
         <v-card-text>
@@ -85,14 +85,12 @@ export default{
         apply: 0,
         lawsuit: 0,
         otherLaw: 0,
-        totalCount: 10
       },
       medical: 0,
       mental: {
         intake: 0,
         psychology: 0,
         hebblede: 0,
-        totalCount: 0
       },
       social: {
         koreanClass: 0,
@@ -100,155 +98,119 @@ export default{
         activities: 0,
         basic: 0,
         lodging: 0,
-        totalCount: 0
       },
       lawSeries: [],
       lawOptions: {
+        labels: ['인정 처우', '신청', '소송', '기타 법률'],
         plotOptions: {
-          radialBar: {
-            offsetX: 0,
-            offsetY: 0,
-            dataLabels: {
-              name: {
-                fontSize: '22px'
-              },
-              value: {
-                fontSize: '16px',
-                formatter: function (val) {
-                  return val + '건';
-                }
-              },
-              total: {
+          pie: {
+            donut: {
+              labels: {
                 show: true,
-                label: '법률',
-                formatter: function (w) {
-                  // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
-                  return w.globals.seriesTotals.reduce((a, b) => {
-                    return a + b;
-                  }, 0);
+                total: {
+                  show: true,
+                  label: '법률'
                 }
               }
             }
           }
         },
-        labels: ['인정 처우', '신청', '소송', '기타 법률']
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: 'bottom'
+            },
+          }
+        }]
       },
       medicalSeries: [],
       medicalOptions: {
-        plotOptions: {
-          radialBar: {
-            dataLabels: {
-              name: {
-                fontSize: '22px'
-              },
-              value: {
-                fontSize: '16px',
-                formatter: function (val) {
-                  return val + '건';
-                }
-              },
-              total: {
+       labels: ['의료'],
+       plotOptions: {
+          pie: {
+            donut: {
+              labels: {
                 show: true,
-                label: '의료',
-                formatter: function (w) {
-                  // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
-                  return w.globals.seriesTotals.reduce((a, b) => {
-                    return a + b;
-                  }, 0);
+                total: {
+                  show: true,
+                  label: '의료'
                 }
               }
             }
           }
         },
-        labels: ['의료']
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }]
       },
       mentalSeries: [],
       mentalOptions: {
+        labels: ['인테이크', '심리', '헤블데'],
         plotOptions: {
-          radialBar: {
-            dataLabels: {
-              name: {
-                fontSize: '22px'
-              },
-              value: {
-                fontSize: '16px',
-                formatter: function (val) {
-                  return val + '건';
-                }
-              },
-              total: {
+          pie: {
+            donut: {
+              labels: {
                 show: true,
-                label: '정신',
-                formatter: function (w) {
-                  // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
-                  return w.globals.seriesTotals.reduce((a, b) => {
-                    return a + b;
-                  }, 0);
+                total: {
+                  show: true,
+                  label: '정신'
                 }
               }
             }
           }
         },
-        labels: ['인테이크', '심리', '헤블데']
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }]
       },
       socialSeries: [],
       socialOptions: {
+        labels: ['한국어 수업', '직업 연계', '액티비티', '기초', '숙소'],
         plotOptions: {
-          radialBar: {
-            dataLabels: {
-              name: {
-                fontSize: '22px'
-              },
-              value: {
-                fontSize: '16px',
-                formatter: function (val) {
-                  return val + '건';
-                }
-              },
-              total: {
+          pie: {
+            donut: {
+              labels: {
                 show: true,
-                label: '사회',
-                formatter: function (w) {
-                  // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
-                  return w.globals.seriesTotals.reduce((a, b) => {
-                    return a + b;
-                  }, 0);
+                total: {
+                  show: true,
+                  label: '사회'
                 }
               }
             }
           }
         },
-        labels: ['한국어 수업', '직업 연계', '액티비티', '기초', '숙소']
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }]
       },
-      // search Column
-      sexs: ['남', '여'],
-      countries: [
-        '기니',
-        '남아공',
-        '라이베리아',
-        '러시아',
-        '르완다',
-        '모로코',
-        '방글라데시',
-        '부룬디',
-        '사우디아라비아',
-        '세네갈',
-        '소말리아',
-        '수단',
-        '아이티',
-        '알제리',
-        '앙골라',
-        '에티오피아',
-        '예멘',
-        '이라크',
-        '이란',
-        '이집트',
-        '인도',
-        '케냐',
-        '코트디부아르',
-        '파키스탄',
-        'DRC'
-      ],
       startDate: '',
       endDate: '',
       filterdate: '' // 검색 날짜
@@ -262,55 +224,31 @@ export default{
       }
       return date.getFullYear() + '-' + formating(date.getMonth() + 1) + '-' + formating(date.getDate());
     },
-    onClickSearchButton (){
-      if (new Date(this.startDate) > new Date(this.endDate)) {
-        alert('정확한 날짜를 입력하여 주세요');
-      } else {
-        const params = {startDate: this.startDate, endDate: this.endDate};
-        const url = this.makeUrl('api/v1/visitlog', params);
-        console.log(url);
-      }
-    },
     makeUrl (url, params) {
-      Object.keys(params).forEach(function(key, index) {
+      Object.keys(params).forEach(function (key, index) {
         url = url + (index === 0 ? '?' : '&') + key + '=' + params[key];
-      })
+      });
       return url;
     },
-    async getSupportDataCount (url) {
-      const support_detail = ['인정 처우', '신청', '소송', '기타 법률', '의료', ]
+    clearObjectData (object) {
+      for (let n in object) {
+        object[n] = 0;
+      }
     },
-    supportClassification (visitlog) {
-      if (visitlog.support === '법률 인정 처우') this.law.recognition += 1;
-      else if (visitlog.support === '법률 신청') this.law.apply += 1;
-      else if (visitlog.support === '법률 소송') this.law.lawsuit += 1;
-      else if (visitlog.support === '법률 기타 법률') this.law.otherLaw += 1;
-      else if (visitlog.support === '의료') this.medical += 1;
-      else if (visitlog.support === '정신 인테이크') this.mental.intake += 1;
-      else if (visitlog.support === '정신 심리') this.mental.psychology += 1;
-      else if (visitlog.support === '정신 헤블데') this.mental.hebblede += 1;
-      else if (visitlog.support === '사회 한국어 수업') this.social.koreanClass += 1;
-      else if (visitlog.support === '사회 직업 연계') this.social.jobLinkage += 1;
-      else if (visitlog.support === '사회 액티비티') this.social.activities += 1;
-      else if (visitlog.support === '사회 기초') this.social.basic += 1;
-      else this.social.lodging += 1;
-    },
-    async getLawCount () {
-      const res = await axios.get('api/v1/visitlog?support=법률&support_detail=인정 처우');
-      console.log(res);
-    },
-    async getVisitLog () {
-      this.tableData = [];
-      const res = await axios.get('api/v1/visitlog?st_date=' + new Date('2019-01-01') + '&ed_date=' + new Date('2019-12-31'));
-      for (let i = 0; i < res.data.length; i++) {
-        this.supportClassification(res.data[i]);
+    insertTableData (inputData) {
+      for (let i = 0; i < inputData.length; i++) {
         const data = {};
-        data.name = res.data[i].Refugee.name;
-        data.birth = this.getDateFormat(new Date(res.data[i].Refugee.birth));
-        data.nationality = res.data[i].Refugee.nationality;
-        data.support = res.data[i].support;
-        data.createdAt = this.getDateFormat(new Date(res.data[i].createdAt));
+        data.name = inputData[i].Refugee.name;
+        data.birth = this.getDateFormat(new Date(inputData[i].Refugee.birth));
+        data.nationality = inputData[i].Refugee.nationality;
+        data.support = inputData[i].support;
+        data.createdAt = this.getDateFormat(new Date(inputData[i].createdAt));
         this.tableData.push(data);
+      }
+    },
+    insertChartData (inputData) {
+      for (let i = 0; i < inputData.length; i++) {
+        this.supportClassification(inputData[i])
       }
       const lawList = [this.law.recognition, this.law.apply, this.law.lawsuit, this.law.otherLaw];
       const medicalList = [this.medical];
@@ -320,12 +258,50 @@ export default{
       this.medicalSeries = medicalList;
       this.mentalSeries = mentalList;
       this.socialSeries = socialList;
+    },
+    supportClassification (visitlog) {
+      if (visitlog.support_detail === '인정 처우') this.law.recognition += 1;
+      else if (visitlog.support_detail === '신청') this.law.apply += 1;
+      else if (visitlog.support_detail === '소송') this.law.lawsuit += 1;
+      else if (visitlog.support_detail === '기타 법률') this.law.otherLaw += 1;
+      else if (visitlog.support === '의료') this.medical += 1;
+      else if (visitlog.support_detail === '인테이크') this.mental.intake += 1;
+      else if (visitlog.support_detail === '심리') this.mental.psychology += 1;
+      else if (visitlog.support_detail === '헤블데') this.mental.hebblede += 1;
+      else if (visitlog.support_detail === '한국어 수업') this.social.koreanClass += 1;
+      else if (visitlog.support_detail === '직업 연계') this.social.jobLinkage += 1;
+      else if (visitlog.support_detail === '액티비티') this.social.activities += 1;
+      else if (visitlog.support_detail === '기초') this.social.basic += 1;
+      else this.social.lodging += 1;
+    },
+    async getStatisticData (){
+      this.clearObjectData(this.law);
+      this.clearObjectData(this.mental);
+      this.clearObjectData(this.social);
+      this.medical = 0;
+      this.tableData = [];
+      if (new Date(this.startDate) > new Date(this.endDate)) {
+        alert('정확한 날짜를 입력하여 주세요');
+      } else {
+        let params = ''
+        let countList = {};
+        if(this.startDate == '' && this.endDate == '') { params = {}; }
+        else if(this.startDate != '' && this.endDate === '') {params = { st_date: this.startDate }}
+        else { params = { st_date: this.startDate, ed_date: this.endDate }; }
+        const url = this.makeUrl('api/v1/visitlog', params);
+        let data = await this.getSelectedVisitlogData(url);
+        console.log(data);
+        this.insertTableData(data);
+        this.insertChartData(data);
+      }
+    },
+    async getSelectedVisitlogData (url) {
+      const res = await axios.get(url);
+      return res.data;
     }
   },
   async mounted () {
-    this.getLawCount();
-    await this.getVisitLog();
-    this.$refs.chart.refresh();
+    await this.getStatisticData();
   }
 };
 </script>
@@ -367,7 +343,7 @@ export default{
   }
   .donut-chart{
     float: left;
-    width: 24%;
+    width: 25%;
   }
   #main {
     width: 100%;

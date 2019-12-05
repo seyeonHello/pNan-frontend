@@ -23,8 +23,8 @@
         </div>
         <div class="btnclass">
           <v-btn dark color="primary" v-on:click="onClickSubmitBtn()">Create new Visit Log</v-btn>
-        </div>      <!-- DataTable Overlay Slot Ends --->
-
+        </div>
+        <!-- DataTable Overlay Slot Ends --->
       </data-table>
     </CardView>
   </v-app>

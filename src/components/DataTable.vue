@@ -33,15 +33,6 @@
         </v-btn>
       </template>
     </v-data-table>
-    <v-overlay
-      :absolute="absolute"
-      :value="overlay"
-    >
-      <Overlay v-on:close="onClickNewButton"
-      >
-        <slot/>
-      </Overlay>
-    </v-overlay>
 
     <v-overlay
       :absolute="absolute"
@@ -57,6 +48,16 @@
           v-model="refugeeDetail"
         ></v-textarea>
         <v-btn color="blue darken-3" text @click="close">close</v-btn>
+      </Overlay>
+    </v-overlay>
+
+    <v-overlay
+      :absolute="absolute"
+      :value="overlay"
+    >
+      <Overlay v-on:close="onClickNewButton"
+      >
+        <slot/>
       </Overlay>
     </v-overlay>
   </div>

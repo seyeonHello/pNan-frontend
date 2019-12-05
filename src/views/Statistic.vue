@@ -84,20 +84,20 @@ export default{
         recognition: 0,
         apply: 0,
         lawsuit: 0,
-        otherLaw: 0,
+        otherLaw: 0
       },
       medical: 0,
       mental: {
         intake: 0,
         psychology: 0,
-        hebblede: 0,
+        hebblede: 0
       },
       social: {
         koreanClass: 0,
         jobLinkage: 0,
         activities: 0,
         basic: 0,
-        lodging: 0,
+        lodging: 0
       },
       lawSeries: [],
       lawOptions: {
@@ -123,14 +123,14 @@ export default{
             },
             legend: {
               position: 'bottom'
-            },
+            }
           }
         }]
       },
       medicalSeries: [],
       medicalOptions: {
-       labels: ['의료'],
-       plotOptions: {
+        labels: ['의료'],
+        plotOptions: {
           pie: {
             donut: {
               labels: {
@@ -211,8 +211,6 @@ export default{
           }
         }]
       },
-      startDate: '',
-      endDate: '',
       filterdate: '' // 검색 날짜
     };
   },
@@ -231,7 +229,7 @@ export default{
       return url;
     },
     clearObjectData (object) {
-      for (let n in object) {
+      for (const n in object) {
         object[n] = 0;
       }
     },
@@ -248,7 +246,7 @@ export default{
     },
     insertChartData (inputData) {
       for (let i = 0; i < inputData.length; i++) {
-        this.supportClassification(inputData[i])
+        this.supportClassification(inputData[i]);
       }
       const lawList = [this.law.recognition, this.law.apply, this.law.lawsuit, this.law.otherLaw];
       const medicalList = [this.medical];
@@ -274,7 +272,7 @@ export default{
       else if (visitlog.support_detail === '기초') this.social.basic += 1;
       else this.social.lodging += 1;
     },
-    async getStatisticData (){
+    async getStatisticData () {
       this.clearObjectData(this.law);
       this.clearObjectData(this.mental);
       this.clearObjectData(this.social);
@@ -283,13 +281,16 @@ export default{
       if (new Date(this.startDate) > new Date(this.endDate)) {
         alert('정확한 날짜를 입력하여 주세요');
       } else {
-        let params = ''
-        let countList = {};
-        if(this.startDate == '' && this.endDate == '') { params = {}; }
-        else if(this.startDate != '' && this.endDate === '') {params = { st_date: this.startDate }}
-        else { params = { st_date: this.startDate, ed_date: this.endDate }; }
+        let params = '';
+        if (this.startDate === '' && this.endDate === '') {
+          params = {};
+        } else if (this.startDate !== '' && this.endDate === '') {
+          params = { st_date: this.startDate };
+        } else {
+          params = { st_date: this.startDate, ed_date: this.endDate };
+        }
         const url = this.makeUrl('api/v1/visitlog', params);
-        let data = await this.getSelectedVisitlogData(url);
+        const data = await this.getSelectedVisitlogData(url);
         console.log(data);
         this.insertTableData(data);
         this.insertChartData(data);

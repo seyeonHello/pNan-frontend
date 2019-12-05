@@ -80,8 +80,8 @@ export default {
       this.overlayMemo = false;
     },
     detailRefugee (item) {
-      this.overlayMemo = !this.overlayMemo;
       this.$emit('detailRefugee', item);
+      this.overlayMemo = !this.overlayMemo;
     },
     deleteItem (item) {
       this.$emit('deleteItem', item);

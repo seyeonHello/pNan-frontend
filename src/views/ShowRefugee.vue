@@ -70,7 +70,7 @@
             color="black"
             v-model="refugeeDetail"
           ></v-textarea>
-          <v-btn color="blue darken-1" text v-on:click="save(refugeeDetail)">save</v-btn>
+          <v-btn color="blue darken-1" text v-on:click="memoSave(refugeeDetail)">save</v-btn>
         </template>
         <!-- DataTable Overlay Slot Ends --->
       </data-table>
@@ -131,8 +131,9 @@ export default {
   methods: {
     close () {
       this.clearForm();
+      this.type = true;
     },
-    save () {
+    memoSave () {
       axios.put(`/api/v1/refugee/${this.refugeeID}`,
         { memo: this.refugeeDetail })
         .then(() => {
@@ -184,6 +185,7 @@ export default {
       }
       this.newRefugee.birth = item.birth;
       this.newRefugee.status = item.status;
+      this.newRefugee.memo = item.memo;
     },
     getDateFormat (date) {
       function formating (num) {
@@ -264,28 +266,45 @@ export default {
     },
     onClickUpdateBtn () {
       const data = this.newRefugee;
-      axios.put(`/api/v1/refugee/${this.refugeeID}`,
-        {
-          name: data.name,
-          nationality: data.nationality,
-          birth: new Date(data.birth),
-          status: data.status,
-          sex: data.sex,
-          torture: data.torture,
-          reason: data.reason,
-          memo: data.memo
-        })
-        .then(() => {
-          alert('수정이 완료되었습니다.');
-        })
-        .catch(() => {
-          alert('수정이 실패되었습니다.');
-        })
-        .finally(() => {
-          this.$refs.dataTable.overlay = false;
-          this.getAllRefugee();
-          this.clearForm();
-        });
+      if (data.name === '') {
+        alert('이름을 입력하세요');
+      } else if (data.nationality === '') {
+        alert('국적을 입력하세요');
+      } else if (data.birth === '') {
+        alert('생년월일을 입력하세요');
+      } else if (data.status === '') {
+        alert('상태를 입력하세요');
+      } else if (data.sex === '') {
+        alert('성별을 입력하세요');
+      } else if (data.reason === '') {
+        alert('난민 사유를 입력하세요');
+      } else if (data.torture === '') {
+        alert('고문 피해 여부를 입력하세요');
+      } else {
+        axios.put(`/api/v1/refugee/${this.refugeeID}`,
+          {
+            name: data.name,
+            nationality: data.nationality,
+            birth: new Date(data.birth),
+            status: data.status,
+            sex: data.sex,
+            torture: data.torture,
+            reason: data.reason,
+            memo: data.memo
+          })
+          .then(() => {
+            alert('수정이 완료되었습니다.');
+          })
+          .catch(() => {
+            alert('수정이 실패되었습니다.');
+          })
+          .finally(() => {
+            this.$refs.dataTable.overlay = false;
+            this.getAllRefugee();
+            this.clearForm();
+            this.type = true;
+          });
+      }
     },
     clearForm () {
       this.newRefugee = {

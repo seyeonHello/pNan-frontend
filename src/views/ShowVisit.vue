@@ -41,7 +41,7 @@
             color="black"
             v-model="refugeeDetail"
           ></v-textarea>
-          <v-btn color="blue darken-1" text v-on:click="save(refugeeDetail)">save</v-btn>
+          <v-btn color="blue darken-1" text v-on:click="memoSave(refugeeDetail)">save</v-btn>
         </template>
         <!-- DataTable Overlay Slot Ends --->
 
@@ -106,8 +106,9 @@ export default {
       this.input = {
         name: null
       };
+      this.type = true;
     },
-    save () {
+    memoSave () {
       axios.put(`/api/v1/refugee/${this.refugeeID}`,
         { memo: this.refugeeDetail })
         .then(() => {
@@ -194,57 +195,74 @@ export default {
         });
     },
     onClickSubmitBtn () {
-      axios.post('/api/v1/visitlog',
-        {
-          refugee_id: this.newVisitLog.refugee_id,
-          support: this.newVisitLog.support,
-          support_detail: this.newVisitLog.supportDetail
-        })
-        .then((res) => {
-          alert('등록이 완료되었습니다.');
-        })
-        .catch(() => {
-          alert('등록에 실패했습니다.');
-        })
-        .finally(() => {
-          this.$refs.dataTable.overlay = false;
-          this.newVisitLog = {
-            refugee_id: null,
-            support: null
-          };
-          this.input = {
-            name: null
-          };
-          this.getAllVisitLog();
-        });
+      if (this.newVisitLog.refugee_id === null) {
+        alert('이름을 입력하세요');
+      } else if (this.newVisitLog.support === null) {
+        alert('지원 종류를 입력하세요');
+      } else if (!this.newVisitLog.supportDetail && this.newVisitLog.support !== '의료') {
+        alert(`${this.newVisitLog.support} 종류를 입력하세요`);
+      } else {
+        axios.post('/api/v1/visitlog',
+          {
+            refugee_id: this.newVisitLog.refugee_id,
+            support: this.newVisitLog.support,
+            support_detail: this.newVisitLog.supportDetail
+          })
+          .then((res) => {
+            alert('등록이 완료되었습니다.');
+          })
+          .catch(() => {
+            alert('등록에 실패했습니다.');
+          })
+          .finally(() => {
+            this.$refs.dataTable.overlay = false;
+            this.newVisitLog = {
+              refugee_id: null,
+              support: null
+            };
+            this.input = {
+              name: null
+            };
+            this.getAllVisitLog();
+          });
+      }
     },
     onClickUpdateBtn () {
-      if (this.newVisitLog.support === '의료') {
-        this.newVisitLog.supportDetail = null;
+      if (this.newVisitLog.refugee_id === null) {
+        alert('이름을 입력하세요');
+      } else if (this.newVisitLog.support === null) {
+        alert('지원 종류를 입력하세요');
+      } else if (!this.newVisitLog.supportDetail && this.newVisitLog.support !== '의료') {
+        alert(`${this.newVisitLog.support} 종류를 입력하세요`);
+      } else {
+        if (this.newVisitLog.support === '의료') {
+          this.newVisitLog.supportDetail = null;
+        }
+        axios.put(`/api/v1/visitlog/${this.visitLogID}`,
+          {
+            refugee_id: this.newVisitLog.refugee_id,
+            support: this.newVisitLog.support,
+            support_detail: this.newVisitLog.supportDetail
+          })
+          .then(() => {
+            alert('수정이 완료되었습니다.');
+          })
+          .catch(() => {
+            alert('수정이 실패되었습니다.');
+          })
+          .finally(() => {
+            this.$refs.dataTable.overlay = false;
+            this.newVisitLog = {
+              refugee_id: null,
+              support: null
+            };
+            this.input = {
+              name: null
+            };
+            this.getAllVisitLog();
+            this.type = true;
+          });
       }
-      axios.put(`/api/v1/visitlog/${this.visitLogID}`,
-        {
-          refugee_id: this.newVisitLog.refugee_id,
-          support: this.newVisitLog.support,
-          support_detail: this.newVisitLog.supportDetail
-        })
-        .then(() => {
-          alert('수정이 완료되었습니다.');
-        })
-        .catch(() => {
-          alert('수정이 실패되었습니다.');
-        })
-        .finally(() => {
-          this.$refs.dataTable.overlay = false;
-          this.newVisitLog = {
-            refugee_id: null,
-            support: null
-          };
-          this.input = {
-            name: null
-          };
-          this.getAllVisitLog();
-        });
     }
   },
   watch: {

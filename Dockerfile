@@ -1,15 +1,16 @@
-#install node
-FROM node:12.13.0 as build-stage
+FROM node:12.2.0-alpine as build
 
 EXPOSE 80
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
-COPY package*.json ./
-RUN npm install
+COPY package.json /app/package.json
+RUN npm install --silent
 RUN npm install vue-cli -g
-# 프로덕션을 위한 코드를 빌드하는 경우
-# RUN npm ci --only=production
 COPY . /app
-#test local
-EXPOSE 8081
-CMD ["npm", "start"]
+RUN npm run build
+
+FROM nginx:1.16.0-alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+RUN rm /etc/nginx/conf.d/default.conf
+COPY nginx/nginx.conf /etc/nginx/conf.d
+CMD ["nginx", "-g", "daemon off;"]

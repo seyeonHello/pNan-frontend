@@ -14,7 +14,7 @@ Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
 
 axios.defaults.headers.common['x-access-token'] = `${store.getters.getAccessToken}`;
-axios.defaults.baseURL = 'http://localhost:3000';
+axios.defaults.baseURL = 'http://http://pnan-backend-dev.ap-northeast-2.elasticbeanstalk.com';
 Vue.prototype.$store = store;
 
 export default new Vuetify({ });

@@ -291,11 +291,6 @@ export default {
     width: 100%;
   }
 
-  #card {
-    width: 90%;
-    height: 90%;
-  }
-
   .top-padding {
     height: 3%;
   }

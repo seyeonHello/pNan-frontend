@@ -310,37 +310,6 @@ export default{
   *{
     text-align: center;
   }
-  .firstelement{
-    margin-right: 10%;
-    margin-left:10%;
-    margin-bottom: 5%;
-  }
-  .another{
-    margin-right: 10%;
-    margin-left:10%;
-    margin-bottom: 5%;
-  }
-  .buttonclass{
-    margin-bottom: 5%;
-    margin-top:1%
-  }
-  #filter{
-    margin-top:1%;
-    margin-bottom: 1%;
-  }
-  .test{
-    margin-top: 1%;
-
-  }
-  .cardsize{
-    width:170px;
-    height:100px;
-  }
-  .label{
-    text-align: center;
-    width: 20%;
-    padding-left: 30%;
-  }
   .donut-chart{
     float: left;
     width: 25%;
@@ -352,10 +321,6 @@ export default{
     font-size: 2rem;
     font-weight: bold;
     color: #333333;
-  }
-  #card {
-    width: 90%;
-    height: 90%;
   }
   .top-padding {
     height: 3%;

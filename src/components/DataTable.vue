@@ -128,17 +128,6 @@ export default {
       if (this.count == null) { return 0; }
       return Math.ceil(this.count / 10);
     }
-  },
-  mounted () {
-    const table = [
-      { text: '이름', align: 'left', value: 'name' },
-      { text: '생년월일', align: 'left', value: 'birth' },
-      { text: '국적', align: 'left', value: 'nationality' },
-      { text: '등록일자', align: 'left', value: 'createdAt' },
-      { text: '상태', align: 'left', value: 'status' },
-      { text: 'Actions', align: 'left', value: 'action', sortable: false }
-    ];
-    this.headers = table;
   }
 };
 </script>

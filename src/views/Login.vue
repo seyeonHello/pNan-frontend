@@ -96,9 +96,6 @@ export default{
     vertical-align: middle;
     width:350px;
   }
-  .login-box {
-    padding: 50px;
-  }
   .login-btn {
     font-size: 1.5rem;
     font-weight: bold;

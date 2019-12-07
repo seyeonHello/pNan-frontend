@@ -96,11 +96,6 @@ export default {
     }
   }, 
   methods: {
-    deleteYear (date) {
-      date = String(date);
-      var dateArray = date.split('-');
-      return dateArray[1] + '-' + dateArray[2];   
-    },
     renderRegistration () {
       this.chartOptions.xaxis.categories = this.weekendDate;
       this.series[0].data = this.weekendRegistration;

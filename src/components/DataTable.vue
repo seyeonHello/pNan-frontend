@@ -17,9 +17,11 @@
       id="data-table"
       height="'100%'"
       :headers="tableHeaders"
-      :items="tableData"
       :search="search"
-      :items-per-page="10"
+      :options="pagination"
+      :items="tableData"
+      :server-items-length=count
+      footer-props.items-per-page-text=""
       :href="link">
       <template v-slot:item.action="{ item }">
         <v-btn text icon color="gray" v-on:click="detailRefugee(item)">
@@ -49,6 +51,9 @@
         <slot name="refugeeMemo"></slot>
       </Overlay>
     </v-overlay>
+    <div class="text-xs-center pt-2">
+      <v-pagination v-model="pagination.page" :length="pages"></v-pagination>
+    </div>
   </div>
 </template>
 
@@ -60,7 +65,8 @@ export default {
   props: {
     title: String,
     tableData: Array,
-    tableHeaders: Array
+    tableHeaders: Array,
+    count: Number
   },
   data () {
     return {
@@ -72,10 +78,25 @@ export default {
       link: '<button>링크</button>',
       search: '',
       headers: [
-      ]
+      ],
+      offset: '',
+      pagination: { page: 1 },
+      length: ''
     };
   },
+  watch: {
+    pagination: {
+      handler () {
+        this.list();
+      },
+      deep: true
+    }
+  },
   methods: {
+    list () {
+      this.offset = this.setOffset;
+      this.$emit('list', this.offset);
+    },
     close () {
       this.overlayMemo = false;
     },
@@ -105,6 +126,16 @@ export default {
       { text: 'Actions', align: 'left', value: 'action', sortable: false }
     ];
     this.headers = table;
+  },
+  computed: {
+    setOffset () {
+      if (this.pagination.page <= 0) return 0;
+      return (this.pagination.page - 1) * 10;
+    },
+    pages () {
+      if (this.count == null) { return 0; }
+      return Math.ceil(this.count / 10);
+    }
   }
 };
 </script>
@@ -127,12 +158,10 @@ export default {
   #btn-new {
     margin-right: 1%;
   }
-
   #main-data-table {
     overflow: scroll;
     max-height: 347px;
   }
-
   ::-webkit-scrollbar {
     display:none;
   }

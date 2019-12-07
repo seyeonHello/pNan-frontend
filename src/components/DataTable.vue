@@ -21,7 +21,7 @@
       :options="pagination"
       :items="tableData"
       :server-items-length=count
-      footer-props.items-per-page-text=""
+      hide-default-footer
       :href="link">
       <template v-slot:item.action="{ item }">
         <v-btn text icon color="gray" v-on:click="detailRefugee(item)">
@@ -51,7 +51,7 @@
         <slot name="refugeeMemo"></slot>
       </Overlay>
     </v-overlay>
-    <div class="text-xs-center pt-2">
+    <div id="pagination" class="text-xs-center pt-2">
       <v-pagination v-model="pagination.page" :length="pages"></v-pagination>
     </div>
   </div>
@@ -119,6 +119,14 @@ export default {
   computed: {
     isAdmin () {
       return this.$store.getters.getIsAdmin;
+    },
+    setOffset () {
+      if (this.pagination.page <= 0) return 0;
+      return (this.pagination.page - 1) * 10;
+    },
+    pages () {
+      if (this.count == null) { return 0; }
+      return Math.ceil(this.count / 10);
     }
   },
   mounted () {
@@ -131,24 +139,16 @@ export default {
       { text: 'Actions', align: 'left', value: 'action', sortable: false }
     ];
     this.headers = table;
-  },
-  computed: {
-    setOffset () {
-      if (this.pagination.page <= 0) return 0;
-      return (this.pagination.page - 1) * 10;
-    },
-    pages () {
-      if (this.count == null) { return 0; }
-      return Math.ceil(this.count / 10);
-    }
   }
 };
 </script>
 
 <style>
+  td {
+    max-width: 300px;
+  }
   #data-table-card {
     padding: 30px;
-    max-height: 900px;
     box-sizing: border-box;
   }
   #data-table-title {
@@ -158,7 +158,8 @@ export default {
   }
   #data-table {
     overflow: scroll;
-    max-height: 600px;
+    height: 550px;
+    max-height: 70%;
   }
   #btn-new {
     margin-right: 1%;
@@ -169,5 +170,8 @@ export default {
   }
   ::-webkit-scrollbar {
     display:none;
+  }
+  #pagination {
+    margin-top: 20px;
   }
 </style>

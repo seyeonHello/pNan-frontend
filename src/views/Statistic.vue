@@ -291,7 +291,6 @@ export default{
         }
         const url = this.makeUrl('api/v1/visitlog', params);
         const data = await this.getSelectedVisitlogData(url);
-        console.log(data);
         this.insertTableData(data);
         this.insertChartData(data);
       }

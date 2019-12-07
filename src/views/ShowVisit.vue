@@ -8,10 +8,12 @@
         :title="'방문 일지'"
         :tableData="tableData"
         :tableHeaders="tableHeaders"
+        :count="count"
         @detailRefugee="detailRefugee"
         @deleteItem="deleteItem"
         @updateItem="updateItem"
         @close="close"
+        @list="list"
       >
         <!-- DataTable Overlay Slot --->
         <template v-slot:show>
@@ -94,10 +96,15 @@ export default {
       refugeeDetail: '',
       refugeeID: '',
       visitLogID: '',
-      type: true
+      type: true,
+      count: 0,
+      offset: 0
     };
   },
   methods: {
+    list (offset) {
+      this.offset = offset;
+    },
     close () {
       this.newVisitLog = {
         refugee_id: null,
@@ -160,9 +167,10 @@ export default {
     getAllVisitLog () {
       const ctx = this;
       ctx.tableData = [];
-      axios.get('/api/v1/visitlog')
+      axios.get('/api/v1/visitlog?offset=' + this.offset)
         .then((res) => {
-          res.data.forEach(function (rr, idx) {
+          this.count = parseInt(res.data.count);
+          res.data.rows.forEach(function (rr, idx) {
             const data = {};
             data.name = rr.Refugee.name;
             data.birth = ctx.getDateFormat(new Date(rr.Refugee.birth));

@@ -6,11 +6,13 @@
         :title="'난민 리스트'"
         :tableData="refugeeList"
         :tableHeaders="tableHeaders"
+        :count="count"
         ref="dataTable"
         @detailRefugee="detailRefugee"
         @deleteItem="deleteItem"
         @updateItem="updateItem"
         @close="close"
+        @list="list"
       >
         <!-- DataTable Overlay Slot --->
         <template v-slot:show>
@@ -125,10 +127,15 @@ export default {
       refugeeDetail: '',
       refugeeID: '',
       type: true,
-      buffer: {}
+      offset: 0,
+      count: 0
     };
   },
   methods: {
+    list (offset) {
+      this.offset = offset;
+      this.getAllRefugee();
+    },
     close () {
       this.clearForm();
       this.type = true;
@@ -207,9 +214,10 @@ export default {
         });
     },
     getAllRefugee () {
-      axios.get('/api/v1/refugee')
+      axios.get('/api/v1/refugee?offset=' + this.offset)
         .then((res) => {
-          this.refugeeList = res.data;
+          this.count = parseInt(res.data.count);
+          this.refugeeList = res.data.rows;
           for (let i = 0; i < this.refugeeList.length; i++) {
             this.refugeeList[i].birth = this.getDateFormat(new Date(this.refugeeList[i].birth));
             this.refugeeList[i].createdAt = this.getDateFormat(new Date(this.refugeeList[i].createdAt));

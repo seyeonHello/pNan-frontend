@@ -298,7 +298,7 @@ export default{
     },
     async getSelectedVisitlogData (url) {
       const res = await axios.get(url);
-      return res.data;
+      return res.data.rows;
     }
   },
   async mounted () {

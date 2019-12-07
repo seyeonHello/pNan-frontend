@@ -104,6 +104,7 @@ export default {
   methods: {
     list (offset) {
       this.offset = offset;
+      this.getAllVisitLog();
     },
     close () {
       this.newVisitLog = {
@@ -189,13 +190,13 @@ export default {
     },
     async getRefugeeInfo (name) {
       const res = await axios.get('/api/v1/refugee?name=' + name);
-      this.newVisitLog.refugee_id = res.data[0].id;
+      this.newVisitLog.refugee_id = res.data.rows[0].id;
     },
     getRefugeeNameList () {
       const ctx = this;
       axios.get('/api/v1/refugee')
         .then((res) => {
-          res.data.forEach(function (rr, idx) {
+          res.data.rows.forEach(function (rr, idx) {
             ctx.refugeeList.push(rr.name);
           });
         }).catch(() => {

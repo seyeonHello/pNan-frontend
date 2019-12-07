@@ -8,6 +8,7 @@ import ShowRefugee from '@/views/ShowRefugee';
 import ShowVisit from '@/views/ShowVisit';
 import Statistic from '@/views/Statistic';
 import store from '../store/store';
+import Admin from '../views/Admin';
 
 Vue.use(Router);
 
@@ -16,6 +17,14 @@ const requireAuth = () => (from, to, next) => {
   if (isAuthenticated) return next();
   window.alert('먼저 로그인 해주세요.');
   next('/login');
+};
+
+const requireAdmin = () => (from, to, next) => {
+  const isAuthenticated = store.getters.getIsAuth;
+  const isAdmin = store.getters.getIsAdmin;
+  if (isAuthenticated && isAdmin) return next();
+  window.alert('관리자가 아닙니.');
+  next('/Home');
 };
 
 export default new Router({
@@ -54,6 +63,12 @@ export default new Router({
       name: 'Statistic',
       component: Statistic,
       beforeEnter: requireAuth()
+    },
+    {
+      path: '/admin',
+      name: 'Admin',
+      component: Admin,
+      beforeEnter: requireAdmin()
     },
     {
       path: '*',

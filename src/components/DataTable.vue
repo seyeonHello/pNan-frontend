@@ -28,7 +28,7 @@
         <v-btn text icon color="gray" v-on:click="editItem(item)">
           <v-icon small>mdi-pencil</v-icon>
         </v-btn>
-        <v-btn text icon color="gray" v-on:click="deleteItem(item)">
+        <v-btn v-if="isAdmin" text icon color="gray" v-on:click="deleteItem(item)">
           <v-icon small>mdi-delete</v-icon>
         </v-btn>
       </template>
@@ -93,6 +93,11 @@ export default {
     onClickNewButton () {
       this.overlay = !this.overlay;
       this.$emit('close');
+    }
+  },
+  computed: {
+    isAdmin () {
+      return this.$store.getters.getIsAdmin;
     }
   },
   mounted () {

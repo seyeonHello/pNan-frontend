@@ -12,6 +12,12 @@
           </v-list-item-content>
         </v-list-item>
         <v-divider  v-if="isLogin" class="nav-div"></v-divider>
+        <v-list-item v-if="isLogin && isAdmin" link>
+          <v-list-item-content class="menu-item" v-on:click="onClickLink(adminPage.link)">
+            <v-list-item-title>{{ adminPage.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-divider  v-if="isLogin && isAdmin" class="nav-div"></v-divider>
         <v-btn v-if="isLogin" outlined color="red" v-on:click="onClickLogout">
           Logout
         </v-btn>
@@ -30,7 +36,8 @@ export default {
         { title: '난민리스트', link: '/showRefugee' },
         { title: '방문일지 확인', link: '/showVisit' },
         { title: '통계', link: '/statistic' }
-      ]
+      ],
+      adminPage: { title: '직원 관리', link: '/admin' }
     };
   },
   methods: {
@@ -50,6 +57,9 @@ export default {
   computed: {
     isLogin () {
       return this.$store.getters.getIsAuth;
+    },
+    isAdmin () {
+      return this.$store.getters.getIsAdmin;
     }
   }
 };
@@ -71,6 +81,6 @@ export default {
     margin-left: 10px;
     margin-right: 10px;
     margin-bottom: 20px;
-    margin-top: 10px;
+    margin-top: 20px;
   }
 </style>

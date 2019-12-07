@@ -10,7 +10,8 @@ Vue.use(Vuex);
 const getdefaultState = () => {
   return {
     isAuth: false,
-    accessToken: ''
+    accessToken: '',
+    isAdmin: false
   };
 };
 

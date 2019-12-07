@@ -6,5 +6,8 @@ export default {
   },
   [types.ACCESSTOKEN] (state, accessToken) {
     state.accessToken = accessToken;
+  },
+  [types.IS_ADMIN] (state, isAdmin) {
+    state.isAdmin = isAdmin;
   }
 };

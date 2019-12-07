@@ -24,6 +24,8 @@ const processResponse = (store, loginResponse) => {
     setIsAuth(store, false);
     setAccessToken(store, '');
     setIsAdmin(store, false);
+    window.localStorage.removeItem('pnan');
+    window.localStorage.clear();
   }
 };
 
@@ -31,6 +33,9 @@ export default {
   async login (store, { uid, password }) {
     const loginResponse = await axios.post('/api/v1/auth/login', { id: uid, pw: password });
     processResponse(store, loginResponse);
+  },
+  refreshToken (store, { token }) {
+    setAccessToken(store, token);
   },
   logout (store) {
     setIsAuth(store, false);

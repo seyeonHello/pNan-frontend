@@ -23,8 +23,8 @@ const requireAdmin = () => (from, to, next) => {
   const isAuthenticated = store.getters.getIsAuth;
   const isAdmin = store.getters.getIsAdmin;
   if (isAuthenticated && isAdmin) return next();
-  window.alert('관리자가 아닙니.');
-  next('/Home');
+  window.alert('관리자가 아닙니다.');
+  next('/');
 };
 
 export default new Router({

@@ -65,12 +65,13 @@
         <!-- DataTable Overlay Slot Ends --->
         <!-- DataTable Overlay Slot --->
         <template v-slot:refugeeMemo>
-          <v-icon>mdi-account</v-icon>
+          <v-icon id="account">mdi-account</v-icon>
           <h4>"{{refugeeName}}"님의 정보</h4>
           <v-textarea
             background-color="grey lighten-3"
             color="black"
             v-model="refugeeDetail"
+            rows="10"
           ></v-textarea>
           <v-btn color="blue darken-1" text v-on:click="memoSave(refugeeDetail)">save</v-btn>
         </template>
@@ -340,5 +341,9 @@ export default {
 
   .top-padding {
     height: 3%;
+  }
+
+  #account{
+    color: dodgerblue;
   }
 </style>

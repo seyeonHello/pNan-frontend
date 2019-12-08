@@ -205,7 +205,7 @@ export default {
         });
     },
     onClickSubmitBtn () {
-      if (this.newVisitLog.refugee_id === null) {
+      if (this.input.name === null) {
         alert('이름을 입력하세요');
       } else if (this.newVisitLog.support === null) {
         alert('지원 종류를 입력하세요');
@@ -238,7 +238,7 @@ export default {
       }
     },
     onClickUpdateBtn () {
-      if (this.newVisitLog.refugee_id === null) {
+      if (this.input.name === null) {
         alert('이름을 입력하세요');
       } else if (this.newVisitLog.support === null) {
         alert('지원 종류를 입력하세요');

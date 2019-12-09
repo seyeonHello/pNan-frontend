@@ -7,7 +7,7 @@
       <v-btn color="primary" id="btn-new" v-on:click="onClickNewButton">New</v-btn>
       <v-autocomplete :items="refugeeNameList" label="이름 검색" v-model="search" class="text"></v-autocomplete>
       <v-btn text icon color="gray" v-on:click="clearSearch">
-        <v-icon>mdi-eraser</v-icon>
+        <v-icon>mdi-replay</v-icon>
       </v-btn>
     </v-card-title>
     <v-divider></v-divider>

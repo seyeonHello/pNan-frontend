@@ -63,7 +63,6 @@
         <button @click="filter(filterHeader.support_detail)">상세 지원 종류</button>
       </template>
     </v-data-table>
-
     <v-overlay
       :absolute="absolute"
       :value="overlay">
@@ -79,8 +78,20 @@
         <slot name="refugeeMemo"></slot>
       </Overlay>
     </v-overlay>
+    <div id="pageLength" class="text-xs-center pt-2">
+      <v-text-field
+        id="pageLengthtext"
+        v-model="length"
+        label="Pagination length"
+        :max="pages"
+        min="1"
+        step="1"
+        type="number"
+        @keydown="false"
+      ></v-text-field>
+    </div>
     <div id="pagination" class="text-xs-center pt-2">
-      <v-pagination v-model="pagination.page" :length="pages"></v-pagination>
+      <v-pagination v-model="pagination.page" :length="length"></v-pagination>
     </div>
   </div>
 </template>
@@ -110,7 +121,7 @@ export default {
       ],
       offset: '',
       pagination: { page: 1 },
-      length: '',
+      length: 5,
       filterHeader: {
         name: 'name',
         sex: 'sex',
@@ -217,6 +228,10 @@ export default {
     display:none;
   }
   #pagination {
-    margin-top: 20px;
+  }
+  #pageLength {
+    margin-top: 15px;
+    margin-left: 43%;
+    width: 115px;
   }
 </style>

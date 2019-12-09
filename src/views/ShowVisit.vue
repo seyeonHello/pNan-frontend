@@ -9,12 +9,14 @@
         :tableData="tableData"
         :tableHeaders="tableHeaders"
         :count="count"
+        :refugeeNameList="visitNameList"
         @detailRefugee="detailRefugee"
         @deleteItem="deleteItem"
         @updateItem="updateItem"
         @close="close"
         @list="list"
         @filter="filter"
+        @search="search"
       >
         <!-- DataTable Overlay Slot --->
         <template v-slot:show>
@@ -102,10 +104,16 @@ export default {
       count: 0,
       offset: 0,
       criteria: '',
-      sort: ''
+      sort: '',
+      searchName: '',
+      visitNameList: []
     };
   },
   methods: {
+    search (item) {
+      this.searchName = item;
+      this.getAllVisitLog();
+    },
     filter (filterKind) {
       this.criteria = filterKind.name;
       if (filterKind.sort === true) {
@@ -154,6 +162,7 @@ export default {
         })
         .finally(() => {
           this.getAllVisitLog();
+          this.getVisitNameList();
         });
     },
     updateItem (item) {
@@ -182,7 +191,7 @@ export default {
     getAllVisitLog () {
       const ctx = this;
       ctx.tableData = [];
-      axios.get(`/api/v1/visitlog?offset=${this.offset}&criteria=${this.criteria}&order=${this.sort}`)
+      axios.get(`/api/v1/visitlog?offset=${this.offset}&criteria=${this.criteria}&order=${this.sort}&name=${this.searchName}`)
         .then((res) => {
           this.count = parseInt(res.data.count);
           res.data.rows.forEach(function (rr, idx) {
@@ -205,6 +214,7 @@ export default {
     async getRefugeeInfo (name) {
       const res = await axios.get('/api/v1/refugee?name=' + name);
       this.newVisitLog.refugee_id = res.data.rows[0].id;
+      console.log(this.newVisitLog.refugee_id);
     },
     getRefugeeNameList () {
       const ctx = this;
@@ -212,6 +222,17 @@ export default {
         .then((res) => {
           res.data.rows.forEach(function (rr, idx) {
             ctx.refugeeList.push(rr.name);
+          });
+        }).catch(() => {
+          alert('데이터를 불러오지 못했습니다!');
+        });
+    },
+    getVisitNameList () {
+      const ctx = this;
+      axios.get('/api/v1/visitlog')
+        .then((res) => {
+          res.data.rows.forEach(function (rr, idx) {
+            ctx.visitNameList.push(rr.Refugee.name);
           });
         }).catch(() => {
           alert('데이터를 불러오지 못했습니다!');
@@ -247,6 +268,7 @@ export default {
               name: null
             };
             this.getAllVisitLog();
+            this.getVisitNameList();
           });
       }
     },
@@ -283,6 +305,7 @@ export default {
               name: null
             };
             this.getAllVisitLog();
+            this.getVisitNameList();
             this.type = true;
           });
       }
@@ -296,6 +319,7 @@ export default {
   mounted () {
     this.getAllVisitLog();
     this.getRefugeeNameList();
+    this.getVisitNameList();
   }
 };
 </script>

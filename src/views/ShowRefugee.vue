@@ -7,6 +7,7 @@
         :tableData="refugeeList"
         :tableHeaders="tableHeaders"
         :count="count"
+        :refugeeNameList="refugeeNameList"
         ref="dataTable"
         @detailRefugee="detailRefugee"
         @deleteItem="deleteItem"
@@ -14,6 +15,7 @@
         @close="close"
         @list="list"
         @filter="filter"
+        @search="search"
       >
         <!-- DataTable Overlay Slot --->
         <template v-slot:show>
@@ -132,10 +134,16 @@ export default {
       offset: 0,
       count: 0,
       criteria: 'updatedAt',
-      sort: 'DESC'
+      sort: 'DESC',
+      refugeeNameList: [],
+      searchName: ''
     };
   },
   methods: {
+    search (item) {
+      this.searchName = item;
+      this.getAllRefugee();
+    },
     list (offset) {
       this.offset = offset;
       this.getAllRefugee();
@@ -190,6 +198,7 @@ export default {
         })
         .finally(() => {
           this.getAllRefugee();
+          this.getRefugeeNameList();
         });
     },
     updateItem (item) {
@@ -228,7 +237,7 @@ export default {
         });
     },
     getAllRefugee () {
-      axios.get(`/api/v1/refugee?offset=${this.offset}&criteria=${this.criteria}&order=${this.sort}`)
+      axios.get(`/api/v1/refugee?offset=${this.offset}&criteria=${this.criteria}&order=${this.sort}&name=${this.searchName}`)
         .then((res) => {
           this.count = parseInt(res.data.count);
           this.refugeeList = res.data.rows;
@@ -244,6 +253,17 @@ export default {
         })
         .catch(() => {
           alert('난민 정보를 불러오는 데에 실패했습니다.');
+        });
+    },
+    getRefugeeNameList () {
+      const ctx = this;
+      axios.get('/api/v1/refugee')
+        .then((res) => {
+          res.data.rows.forEach(function (rr, idx) {
+            ctx.refugeeNameList.push(rr.name);
+          });
+        }).catch(() => {
+          alert('데이터를 불러오지 못했습니다!');
         });
     },
     onClickSubmitBtn () {
@@ -280,6 +300,7 @@ export default {
             this.$refs.dataTable.overlay = false;
             this.getAllRefugee();
             this.clearForm();
+            this.getRefugeeNameList();
           })
           .catch(() => {
             alert('업로드에 실패했습니다.');
@@ -324,6 +345,7 @@ export default {
             this.$refs.dataTable.overlay = false;
             this.getAllRefugee();
             this.clearForm();
+            this.getRefugeeNameList();
             this.type = true;
           });
       }
@@ -342,6 +364,7 @@ export default {
   mounted () {
     this.getAllRefugee();
     this.getCountryName();
+    this.getRefugeeNameList();
   }
 };
 </script>

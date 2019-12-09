@@ -5,12 +5,10 @@
       <v-spacer></v-spacer>
       <v-spacer></v-spacer>
       <v-btn color="primary" id="btn-new" v-on:click="onClickNewButton">New</v-btn>
-      <v-text-field
-        v-model="search"
-        label="Search"
-        outlined=""
-        hide-details
-      ></v-text-field>
+      <v-autocomplete :items="refugeeNameList" label="이름 검색" v-model="search" class="text"></v-autocomplete>
+      <v-btn text icon color="gray" v-on:click="clearSearch">
+        <v-icon>mdi-eraser</v-icon>
+      </v-btn>
     </v-card-title>
     <v-divider></v-divider>
     <v-data-table
@@ -18,7 +16,6 @@
       height="'100%'"
       :headers="tableHeaders"
       :items="tableData"
-      :search="search"
       :options="pagination"
       :server-items-length=count
       hide-default-footer
@@ -97,7 +94,8 @@ export default {
     title: String,
     tableData: Array,
     tableHeaders: Array,
-    count: Number
+    count: Number,
+    refugeeNameList: Array
   },
   data () {
     return {
@@ -137,9 +135,15 @@ export default {
         this.list();
       },
       deep: true
+    },
+    'search' (newVal) {
+      this.$emit('search', newVal);
     }
   },
   methods: {
+    clearSearch () {
+      this.search = '';
+    },
     filter (name) {
       this.filterKind.name = name;
       this.$emit('filter', this.filterKind);

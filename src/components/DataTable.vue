@@ -17,9 +17,9 @@
       id="data-table"
       height="'100%'"
       :headers="tableHeaders"
+      :items="tableData"
       :search="search"
       :options="pagination"
-      :items="tableData"
       :server-items-length=count
       hide-default-footer
       :href="link">
@@ -33,6 +33,37 @@
         <v-btn v-if="isAdmin" text icon color="gray" v-on:click="deleteItem(item)">
           <v-icon small>mdi-delete</v-icon>
         </v-btn>
+      </template>
+
+      <template v-slot:header.name >
+        <button @click="filter(filterHeader.name)">이름</button>
+      </template>
+      <template v-slot:header.sex >
+        <button @click="filter(filterHeader.sex)">성별</button>
+      </template>
+      <template v-slot:header.birth >
+        <button @click="filter(filterHeader.birth)">생년월일</button>
+      </template>
+      <template v-slot:header.nationality >
+        <button @click="filter(filterHeader.nation)">국적</button>
+      </template>
+      <template v-slot:header.createdAt >
+        <button @click="filter(filterHeader.createdAt)">등록 일자</button>
+      </template>
+      <template v-slot:header.reason >
+        <button @click="filter(filterHeader.reason)">난민 사유</button>
+      </template>
+      <template v-slot:header.torture >
+        <button @click="filter(filterHeader.torture)">고문 피해</button>
+      </template>
+      <template v-slot:header.status >
+        <button @click="filter(filterHeader.status)">상태</button>
+      </template>
+      <template v-slot:header.support >
+        <button @click="filter(filterHeader.support)">지원 종류</button>
+      </template>
+      <template v-slot:header.support_detail >
+        <button @click="filter(filterHeader.support_detail)">상세 지원 종류</button>
       </template>
     </v-data-table>
 
@@ -81,7 +112,23 @@ export default {
       ],
       offset: '',
       pagination: { page: 1 },
-      length: ''
+      length: '',
+      filterHeader: {
+        name: 'name',
+        sex: 'sex',
+        birth: 'birth',
+        nation: 'nationality',
+        createdAt: 'createdAt',
+        reason: 'reason',
+        torture: 'torture',
+        status: 'status',
+        support: 'support',
+        support_detail: 'support_detail'
+      },
+      filterKind: {
+        name: '',
+        sort: false
+      }
     };
   },
   watch: {
@@ -93,6 +140,11 @@ export default {
     }
   },
   methods: {
+    filter (name) {
+      this.filterKind.name = name;
+      this.$emit('filter', this.filterKind);
+      this.filterKind.sort = !this.filterKind.sort;
+    },
     list () {
       this.offset = this.setOffset;
       this.$emit('list', this.offset);

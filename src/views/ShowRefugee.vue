@@ -13,6 +13,7 @@
         @updateItem="updateItem"
         @close="close"
         @list="list"
+        @filter="filter"
       >
         <!-- DataTable Overlay Slot --->
         <template v-slot:show>
@@ -101,14 +102,14 @@ export default {
       nationality: [],
       sexList: ['남자', '여자'],
       tableHeaders: [
-        { text: '이름', align: 'left', value: 'name' },
-        { text: '성별', align: 'left', value: 'sex' },
-        { text: '생년월일', align: 'left', value: 'birth' },
-        { text: '국적', align: 'left', value: 'nationality' },
-        { text: '등록 일자', align: 'left', value: 'createdAt' },
-        { text: '난민 사유', align: 'left', value: 'reason' },
-        { text: '고문 피해', align: 'left', value: 'torture' },
-        { text: '상태', align: 'left', value: 'status' },
+        { text: '이름', align: 'left', value: 'name', sortable: false },
+        { text: '성별', align: 'left', value: 'sex', sortable: false },
+        { text: '생년월일', align: 'left', value: 'birth', sortable: false },
+        { text: '국적', align: 'left', value: 'nationality', sortable: false },
+        { text: '등록 일자', align: 'left', value: 'createdAt', sortable: false },
+        { text: '난민 사유', align: 'left', value: 'reason', sortable: false },
+        { text: '고문 피해', align: 'left', value: 'torture', sortable: false },
+        { text: '상태', align: 'left', value: 'status', sortable: false },
         { text: 'Actions', align: 'left', value: 'action', sortable: false }
       ],
       tableValues: [],
@@ -129,12 +130,24 @@ export default {
       refugeeID: '',
       type: true,
       offset: 0,
-      count: 0
+      count: 0,
+      criteria: 'updatedAt',
+      sort: 'DESC'
     };
   },
   methods: {
     list (offset) {
       this.offset = offset;
+      this.getAllRefugee();
+    },
+    filter (filterKind) {
+      this.criteria = filterKind.name;
+      if (filterKind.sort === true) {
+        this.sort = 'ASC';
+      }
+      if (filterKind.sort === false) {
+        this.sort = 'DESC';
+      }
       this.getAllRefugee();
     },
     close () {
@@ -215,7 +228,7 @@ export default {
         });
     },
     getAllRefugee () {
-      axios.get('/api/v1/refugee?offset=' + this.offset)
+      axios.get(`/api/v1/refugee?offset=${this.offset}&criteria=${this.criteria}&order=${this.sort}`)
         .then((res) => {
           this.count = parseInt(res.data.count);
           this.refugeeList = res.data.rows;

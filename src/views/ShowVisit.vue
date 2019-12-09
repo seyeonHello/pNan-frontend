@@ -14,6 +14,7 @@
         @updateItem="updateItem"
         @close="close"
         @list="list"
+        @filter="filter"
       >
         <!-- DataTable Overlay Slot --->
         <template v-slot:show>
@@ -69,12 +70,12 @@ export default {
     return {
       tableData: [],
       tableHeaders: [
-        { text: '이름', align: 'left', value: 'name' },
-        { text: '생년월일', align: 'left', value: 'birth' },
-        { text: '국적', align: 'left', value: 'nationality' },
-        { text: '지원 종류', align: 'left', value: 'support' },
-        { text: '상세 지원 종류', align: 'left', value: 'support_detail' },
-        { text: '방문일', align: 'left', value: 'createdAt' },
+        { text: '이름', align: 'left', value: 'name', sortable: false },
+        { text: '생년월일', align: 'left', value: 'birth', sortable: false },
+        { text: '국적', align: 'left', value: 'nationality', sortable: false },
+        { text: '지원 종류', align: 'left', value: 'support', sortable: false },
+        { text: '상세 지원 종류', align: 'left', value: 'support_detail', sortable: false },
+        { text: '방문일', align: 'left', value: 'createdAt', sortable: false },
         { text: 'Actions', align: 'left', value: 'action', sortable: false }
       ],
       supportOptions: ['의료', '법률', '심리', '사회'],
@@ -99,10 +100,22 @@ export default {
       visitLogID: '',
       type: true,
       count: 0,
-      offset: 0
+      offset: 0,
+      criteria: '',
+      sort: ''
     };
   },
   methods: {
+    filter (filterKind) {
+      this.criteria = filterKind.name;
+      if (filterKind.sort === true) {
+        this.sort = 'ASC';
+      }
+      if (filterKind.sort === false) {
+        this.sort = 'DESC';
+      }
+      this.getAllVisitLog();
+    },
     list (offset) {
       this.offset = offset;
       this.getAllVisitLog();
@@ -169,7 +182,7 @@ export default {
     getAllVisitLog () {
       const ctx = this;
       ctx.tableData = [];
-      axios.get('/api/v1/visitlog?offset=' + this.offset)
+      axios.get(`/api/v1/visitlog?offset=${this.offset}&criteria=${this.criteria}&order=${this.sort}`)
         .then((res) => {
           this.count = parseInt(res.data.count);
           res.data.rows.forEach(function (rr, idx) {

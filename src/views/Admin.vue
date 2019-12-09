@@ -9,6 +9,7 @@
             :tableData="tableData"
             :tableHeaders="tableHeaders"
             @close="close"
+            @deleteItem="onClickDeleteBtn"
           >
           <!-- DataTable Overlay Slot --->
           <template v-slot:show>
@@ -17,8 +18,9 @@
             <v-text-field label="아이디" outlined v-model="newUser.id"></v-text-field>
             <v-text-field :type="'password'" label="비밀번호" outlined v-model="newUser.pw"></v-text-field>
             <v-text-field :type="'password'" label="비밀번호 확인" outlined v-model="newUser.pwCheck"></v-text-field>
-            <v-btn dark color="primary" v-if="type" v-on:click="onClickSubmitBtn()">Create new User</v-btn>
+            <v-btn dark color="primary" v-on:click="onClickSubmitBtn()">Create new User</v-btn>
           </template>
+          
           <!-- DataTable Overlay Slot Ends --->
         </data-table>
       </CardView>
@@ -53,6 +55,7 @@ export default {
         name: '',
         email: ''
       },
+      selected_user_id: ''
     }
   },
   methods: { 
@@ -131,6 +134,22 @@ export default {
           });
       }
     },
+    onClickDeleteBtn (item) {
+      this.selected_user_id = item.user_id;
+      axios.delete(`/api/v1/user/${this.selected_user_id}`)
+        .then((res) => {
+          this.$router.push('/admin');
+          if (res.data.message) {
+            alert(res.data.message);  
+          }else {
+            alert('삭제하였습니다.');
+          }
+          this.getAllUser();
+        })
+        .catch(() => {
+          alert('삭제에 실패했습니다.');
+        });
+    }
   },
   mounted () {
     this.getAllUser();

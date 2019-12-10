@@ -1,8 +1,8 @@
 # pnan-frontend
 
-> A Vue.js project
+> 피난처 frontend 입니다.
 
-## Build Setup
+## 🔨 Build Setup
 
 ``` bash
 # install dependencies

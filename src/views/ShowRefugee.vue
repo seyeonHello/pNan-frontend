@@ -13,7 +13,7 @@
         @deleteItem="deleteItem"
         @updateItem="updateItem"
         @close="close"
-        @list="list"
+        @list="pageOffset"
         @filter="filter"
         @search="search"
       >
@@ -144,7 +144,7 @@ export default {
       this.searchName = item;
       this.getAllRefugee();
     },
-    list (offset) {
+    pageOffset (offset) {
       this.offset = offset;
       this.getAllRefugee();
     },

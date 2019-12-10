@@ -193,7 +193,6 @@ export default {
       ctx.tableData = [];
       axios.get(`/api/v1/visitlog?offset=${this.offset}&criteria=${this.criteria}&order=${this.sort}&name=${this.searchName}`)
         .then((res) => {
-          console.log(res);
           this.count = parseInt(res.data.count);
           res.data.rows.forEach(function (rr, idx) {
             const data = {};

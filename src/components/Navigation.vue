@@ -51,7 +51,7 @@ export default {
       }
     },
     onClickLink (link) {
-      this.$router.push({ path: link });
+      if (this.$route.path !== link) { this.$router.push({ path: link }); }
     }
   },
   computed: {

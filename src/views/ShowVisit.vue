@@ -14,7 +14,7 @@
         @deleteItem="deleteItem"
         @updateItem="updateItem"
         @close="close"
-        @list="list"
+        @list="pageOffset"
         @filter="filter"
         @search="search"
       >
@@ -124,7 +124,7 @@ export default {
       }
       this.getAllVisitLog();
     },
-    list (offset) {
+    pageOffset (offset) {
       this.offset = offset;
       this.getAllVisitLog();
     },
@@ -152,8 +152,7 @@ export default {
         });
     },
     deleteItem (item) {
-      this.visitLogID = item.visit_id;
-      axios.delete(`/api/v1/visitlog/${this.visitLogID}`)
+      axios.delete(`/api/v1/visitlog/${item.visit_id}`)
         .then(() => {
           alert('삭제가 완료 되었습니다.');
         })
@@ -174,7 +173,6 @@ export default {
       this.newVisitLog.supportDetail = item.support_detail;
     },
     detailRefugee (item) {
-      this.refugeeID = item.refugee_id;
       axios.get(`/api/v1/refugee/${item.refugee_id}`)
         .then((res) => {
           this.refugeeDetail = res.data.memo;
@@ -214,7 +212,6 @@ export default {
     async getRefugeeInfo (name) {
       const res = await axios.get('/api/v1/refugee?name=' + name);
       this.newVisitLog.refugee_id = res.data.rows[0].id;
-      console.log(this.newVisitLog.refugee_id);
     },
     getRefugeeNameList () {
       const ctx = this;

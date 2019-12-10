@@ -10,15 +10,23 @@
             :tableHeaders="tableHeaders"
             @close="close"
             @deleteItem="onClickDeleteBtn"
+            @updateItem="popUpdateModal"
           >
           <!-- DataTable Overlay Slot --->
           <template v-slot:show>
-            <v-text-field label="이름" outlined v-model="newUser.name"></v-text-field>
-            <v-text-field label="이메일" outlined v-model="newUser.email"></v-text-field>
-            <v-text-field label="아이디" outlined v-model="newUser.id"></v-text-field>
-            <v-text-field :type="'password'" label="비밀번호" outlined v-model="newUser.pw"></v-text-field>
-            <v-text-field :type="'password'" label="비밀번호 확인" outlined v-model="newUser.pwCheck"></v-text-field>
-            <v-btn dark color="primary" v-on:click="onClickSubmitBtn()">Create new User</v-btn>
+            <v-text-field v-if="!type" label="번호" outlined v-model="userForm.id" :disabled="true"></v-text-field>
+            <v-text-field label="이름" outlined v-model="userForm.name"></v-text-field>
+            <v-text-field label="이메일" outlined v-model="userForm.email"></v-text-field>
+            <v-text-field label="아이디" outlined v-model="userForm.user_id"></v-text-field>
+            <v-radio-group v-if="!type" label="유저 타입" v-model="userForm.admin">
+              <v-radio label="관리자" :value="1">관리자</v-radio>
+              <v-radio label="일반" :value="0">일반</v-radio>
+            </v-radio-group>
+            <v-text-field :type="'password'" v-if="!type" label="변경할 비밀번호" v-model="userForm.new_pw" outlined></v-text-field>
+            <v-text-field :type="'password'" v-if="type" label="비밀번호" outlined v-model="userForm.pw"></v-text-field>
+            <v-text-field :type="'password'" v-if="type" label="비밀번호 확인" outlined v-model="userForm.pwCheck"></v-text-field>
+            <v-btn dark color="indigo" v-if="!type" v-on:click="onClickUpdateBtn()">Update User Info</v-btn>
+            <v-btn dark color="primary" v-else v-on:click="onClickCreateBtn()">Create new User</v-btn>
           </template>
           
           <!-- DataTable Overlay Slot Ends --->
@@ -42,20 +50,25 @@ export default {
     return {
       tableData: [],
       tableHeaders: [
+        { text: '번호', align: 'left', value: 'id'},
         { text: '이름', align: 'left', value: 'name' },
         { text: '아이디', align: 'left', value: 'user_id' },
         { text: '이메일', align: 'left', value: 'email' },
         { text: '등록일', align: 'left', value: 'createdAt' },
+        { text: '유저타입', align: 'left', value: 'admin' },
         { text: 'Actions', align: 'left', value: 'action', sortable: false }
       ],
-      newUser: {
+      userForm: {
         id: '',
+        user_id: '',
         pw: '',
         pwCheck: '',
         name: '',
-        email: ''
+        email: '',
+        admin: ''
       },
-      selected_user_id: ''
+      type: true,
+      new_pw: ''
     }
   },
   methods: { 
@@ -67,8 +80,8 @@ export default {
       return date.getFullYear() + '-' + formating(date.getMonth() + 1) + '-' + formating(date.getDate());
     },
     clearForm () {
-      this.newUser = {
-        id: '',
+      this.userForm = {
+        user_id: '',
         name: '',
         pw: '',
         pwCheck: '',
@@ -76,13 +89,7 @@ export default {
       };
     },
     close () {
-      this.newVisitLog = {
-        refugee_id: null,
-        support: null
-      };
-      this.input = {
-        name: null
-      };
+      this.clearForm();
       this.type = true;
     },
     getAllUser () {
@@ -92,9 +99,15 @@ export default {
         .then((res) => {
           res.data.forEach(function (rr, idx) {
             const data = {};
+            data.id = rr.id;
             data.name = rr.name;
             data.user_id = rr.user_id;
             data.email = rr.email;
+            if(rr.admin) {
+              data.admin = '관리자'
+            } else {
+              data.admin = '일반'
+            }
             data.createdAt = ctx.getDateFormat(new Date(rr.createdAt));
             ctx.tableData.push(data);
           });
@@ -102,13 +115,13 @@ export default {
           alert('데이터를 불러오지 못했습니다!');
         });
     },
-    onClickSubmitBtn () {
-      const data = this.newUser;
+    onClickCreateBtn () {
+      const data = this.userForm;
       if (data.name === '') {
         alert('이름을 입력하세요');
       } else if (data.email === '') {
         alert('이메일을 입력하세요');
-      } else if (data.id === '') {
+      } else if (data.user_id === '') {
         alert('아이디를 입력하세요');
       } else if (data.pw === '') {
         alert('비밀번호를 입력하세요');
@@ -119,36 +132,77 @@ export default {
           {
             name: data.name,
             email: data.email,
-            id: data.id,
+            id: data.user_id,
             pw: data.pw
           })
           .then((res) => {
-            this.$router.push('/admin');
             alert('등록이 완료되었습니다.');
             this.$refs.dataTable.overlay = false;
             this.getAllUser();
-            this.clearForm();
+            this.close();
           })
           .catch(() => {
             alert('업로드에 실패했습니다.');
           });
       }
     },
+    popUpdateModal (item) {
+      this.type = false;
+      this.userForm.id = item.id;
+      this.userForm.name = item.name;
+      this.userForm.email = item.email;
+      this.userForm.user_id = item.user_id;
+      this.userForm.pw = item.pw;
+      if (item.admin == '관리자') {
+        this.userForm.admin = 1;
+      } else {
+        this.userForm.admin = 0;
+      }
+    },
     onClickDeleteBtn (item) {
-      this.selected_user_id = item.user_id;
-      axios.delete(`/api/v1/user/${this.selected_user_id}`)
+      axios.delete(`/api/v1/user/${item.id}`)
         .then((res) => {
           this.$router.push('/admin');
           if (res.data.message) {
             alert(res.data.message);  
           }else {
-            alert('삭제하였습니다.');
+            alert('삭제가 완료되었습니다.');
           }
           this.getAllUser();
         })
         .catch(() => {
           alert('삭제에 실패했습니다.');
         });
+    },
+    onClickUpdateBtn () {
+      const data = this.userForm
+      let params;
+      if (data.new_pw)  {
+        params = {
+          name: data.name,
+          user_id: data.user_id,
+          email: data.email,
+          admin: data.admin
+        }
+      } else {
+        params = {
+          name: data.name,
+          user_id: data.user_id,
+          email: data.email,
+          new_pw: data.new_pw,
+          admin: data.admin
+        }
+      }
+      axios.put(`api/v1/user/${data.id}`, params)
+      .then((res) => {
+          alert('변경이 완료되었습니다.');
+          this.$refs.dataTable.overlay = false;
+          this.close();
+          this.getAllUser();
+      })
+      .catch(() => {
+        alert('변경에 실패했습니다.');
+      });
     }
   },
   mounted () {

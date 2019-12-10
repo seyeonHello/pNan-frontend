@@ -21,7 +21,7 @@
       hide-default-footer
       :href="link">
       <template v-slot:item.action="{ item }">
-        <v-btn text icon color="gray" v-on:click="detailRefugee(item)">
+        <v-btn v-if="isRefugeeTable" text icon color="gray" v-on:click="detailRefugee(item)">
           <v-icon small>mdi-account-circle</v-icon>
         </v-btn>
         <v-btn text icon color="gray" v-on:click="editItem(item)">
@@ -183,6 +183,9 @@ export default {
     pages () {
       if (this.count == null) { return 0; }
       return Math.ceil(this.count / 10);
+    },
+    isRefugeeTable () {
+      return this.$route.path === '/showRefugee';
     }
   }
 };

@@ -152,6 +152,7 @@ export default {
         });
     },
     deleteItem (item) {
+      this.visitLogID = item.visit_id;
       axios.delete(`/api/v1/visitlog/${item.visit_id}`)
         .then(() => {
           alert('삭제가 완료 되었습니다.');
@@ -173,6 +174,7 @@ export default {
       this.newVisitLog.supportDetail = item.support_detail;
     },
     detailRefugee (item) {
+      this.refugeeID = item.refugee_id;
       axios.get(`/api/v1/refugee/${item.refugee_id}`)
         .then((res) => {
           this.refugeeDetail = res.data.memo;
@@ -191,7 +193,6 @@ export default {
       ctx.tableData = [];
       axios.get(`/api/v1/visitlog?offset=${this.offset}&criteria=${this.criteria}&order=${this.sort}&name=${this.searchName}`)
         .then((res) => {
-          console.log(res);
           this.count = parseInt(res.data.count);
           res.data.rows.forEach(function (rr, idx) {
             const data = {};

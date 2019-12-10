@@ -28,7 +28,6 @@
             <v-btn dark color="indigo" v-if="!type" v-on:click="onClickUpdateBtn()">Update User Info</v-btn>
             <v-btn dark color="primary" v-else v-on:click="onClickCreateBtn()">Create new User</v-btn>
           </template>
-          
           <!-- DataTable Overlay Slot Ends --->
         </data-table>
       </CardView>
@@ -50,7 +49,7 @@ export default {
     return {
       tableData: [],
       tableHeaders: [
-        { text: '번호', align: 'left', value: 'id'},
+        { text: '번호', align: 'left', value: 'id' },
         { text: '이름', align: 'left', value: 'name' },
         { text: '아이디', align: 'left', value: 'user_id' },
         { text: '이메일', align: 'left', value: 'email' },
@@ -69,9 +68,9 @@ export default {
       },
       type: true,
       new_pw: ''
-    }
+    };
   },
-  methods: { 
+  methods: {
     getDateFormat (date) {
       function formating (num) {
         num = num + '';
@@ -103,10 +102,10 @@ export default {
             data.name = rr.name;
             data.user_id = rr.user_id;
             data.email = rr.email;
-            if(rr.admin) {
-              data.admin = '관리자'
+            if (rr.admin) {
+              data.admin = '관리자';
             } else {
-              data.admin = '일반'
+              data.admin = '일반';
             }
             data.createdAt = ctx.getDateFormat(new Date(rr.createdAt));
             ctx.tableData.push(data);
@@ -125,7 +124,7 @@ export default {
         alert('아이디를 입력하세요');
       } else if (data.pw === '') {
         alert('비밀번호를 입력하세요');
-      } else if (data.pwCheck === '' || data.pw != data.pwCheck) {
+      } else if (data.pwCheck === '' || data.pw !== data.pwCheck) {
         alert('비밀번호를 확인하여 주세요');
       } else {
         axios.post('/api/v1/auth/signup',
@@ -153,7 +152,7 @@ export default {
       this.userForm.email = item.email;
       this.userForm.user_id = item.user_id;
       this.userForm.pw = item.pw;
-      if (item.admin == '관리자') {
+      if (item.admin === '관리자') {
         this.userForm.admin = 1;
       } else {
         this.userForm.admin = 0;
@@ -164,8 +163,8 @@ export default {
         .then((res) => {
           this.$router.push('/admin');
           if (res.data.message) {
-            alert(res.data.message);  
-          }else {
+            alert(res.data.message);
+          } else {
             alert('삭제가 완료되었습니다.');
           }
           this.getAllUser();
@@ -175,15 +174,15 @@ export default {
         });
     },
     onClickUpdateBtn () {
-      const data = this.userForm
+      const data = this.userForm;
       let params;
-      if (data.new_pw)  {
+      if (data.new_pw) {
         params = {
           name: data.name,
           user_id: data.user_id,
           email: data.email,
           admin: data.admin
-        }
+        };
       } else {
         params = {
           name: data.name,
@@ -191,18 +190,18 @@ export default {
           email: data.email,
           new_pw: data.new_pw,
           admin: data.admin
-        }
+        };
       }
       axios.put(`api/v1/user/${data.id}`, params)
-      .then((res) => {
+        .then((res) => {
           alert('변경이 완료되었습니다.');
           this.$refs.dataTable.overlay = false;
           this.close();
           this.getAllUser();
-      })
-      .catch(() => {
-        alert('변경에 실패했습니다.');
-      });
+        })
+        .catch(() => {
+          alert('변경에 실패했습니다.');
+        });
     }
   },
   mounted () {

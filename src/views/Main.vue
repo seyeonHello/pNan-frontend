@@ -48,6 +48,7 @@ export default {
       weekendDate: [], // Date list from 6 day's ago to Today
       weekendRegistration: [], // count of weekend registrated refugee
       weekendVisitation: [], // count of weekend visited refugee
+      maxCount: 0,
       series: [
         {
           name: 'Registration',
@@ -99,11 +100,6 @@ export default {
             show: true
           },
           categories: []
-          /*
-          title: {
-            text: 'Date'
-          }
-          */
         },
         yaxis: {
           title: {
@@ -173,6 +169,9 @@ export default {
       }
       this.weekendRegistration.push(countMap.one, countMap.two, countMap.three, countMap.four, countMap.five, countMap.six, countMap.seven);
       this.series[0].data = this.weekendRegistration;
+      if (this.maxCount < Math.max.apply(0, this.weekendRegistration)) {
+        this.maxCount = Math.max.apply(0, this.weekendRegistration);
+      }
     },
     async getTodayVisitor (weekendDate) {
       const res = await axios.get('api/v1/visitlog?st_date=' + weekendDate[0] + '&ed_date=' + weekendDate[6]);
@@ -199,6 +198,9 @@ export default {
       }
       this.weekendVisitation.push(countMap.one, countMap.two, countMap.three, countMap.four, countMap.five, countMap.six, countMap.seven);
       this.series[1].data = this.weekendVisitation;
+      if (this.maxCount < Math.max.apply(0, this.weekendVisitation)) {
+        this.maxCount = Math.max.apply(0, this.weekendVisitation);
+      }
     }
   },
   async mounted () {
@@ -206,6 +208,7 @@ export default {
     this.chartOptions.xaxis.categories = this.weekendDate;
     await this.getTodayRefugees(this.weekendDate);
     await this.getTodayVisitor(this.weekendDate);
+    this.chartOptions.yaxis.max = this.maxCount + 5;
     this.$refs.chart.refresh();
   }
 };

@@ -141,6 +141,7 @@ export default {
   },
   methods: {
     nameSearch (item) {
+      this.offset = 0;
       this.searchName = item;
       this.getAllRefugee();
     },
@@ -163,18 +164,22 @@ export default {
       this.type = true;
     },
     onClickMemoUpdateBtn () {
-      axios.put(`/api/v1/refugee/${this.refugeeID}`,
-        { memo: this.refugeeDetail })
-        .then(() => {
-          alert('수정이 완료 되었습니다.');
-        })
-        .catch(() => {
-          alert('수정이 실패 되었습니다.');
-        })
-        .finally(() => {
-          this.$refs.dataTable.overlayMemo = false;
-          this.getAllRefugee();
-        });
+      if (this.refugeeDetail === '') {
+        alert('메모가 빈 상태 입니다.');
+      } else {
+        axios.put(`/api/v1/refugee/${this.refugeeID}`,
+          { memo: this.refugeeDetail })
+          .then(() => {
+            alert('수정이 완료 되었습니다.');
+          })
+          .catch(() => {
+            alert('수정이 실패 되었습니다.');
+          })
+          .finally(() => {
+            this.$refs.dataTable.overlayMemo = false;
+            this.getAllRefugee();
+          });
+      }
     },
     getRefugeeMemo (item) {
       this.refugeeID = item.id;

@@ -94,6 +94,7 @@ export default {
   },
   methods: {
     nameSearch (item) {
+      this.offset = 0;
       this.searchName = item;
       this.getAllVisitLog();
     },

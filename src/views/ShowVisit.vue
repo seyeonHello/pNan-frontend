@@ -10,7 +10,6 @@
         :tableHeaders="tableHeaders"
         :count="count"
         :refugeeNameList="visitNameList"
-        @detailRefugee="getRefugeeMemo"
         @deleteItem="onClickDeleteBtn"
         @updateItem="popUpdateModal"
         @close="close"
@@ -37,20 +36,6 @@
           </div>
         </template>
         <!-- DataTable Overlay Slot Ends --->
-        <!-- DataTable Overlay Slot --->
-        <template v-slot:refugeeMemo>
-          <v-icon id="account">mdi-account</v-icon>
-          <h4>"{{refugeeName}}"님의 정보</h4>
-          <v-textarea
-            background-color="grey lighten-3"
-            color="black"
-            v-model="refugeeDetail"
-            rows="10"
-          ></v-textarea>
-          <v-btn color="blue darken-1" text v-on:click="onClickMemoUpdateBtn(refugeeDetail)">save</v-btn>
-        </template>
-        <!-- DataTable Overlay Slot Ends --->
-
       </data-table>
     </CardView>
   </v-app>
@@ -138,19 +123,6 @@ export default {
       };
       this.type = true;
     },
-    onClickMemoUpdateBtn () {
-      axios.put(`/api/v1/refugee/${this.refugeeID}`,
-        { memo: this.refugeeDetail })
-        .then(() => {
-          alert('수정이 완료 되었습니다.');
-        })
-        .catch(() => {
-          alert('수정이 실패 되었습니다.');
-        })
-        .finally(() => {
-          this.$refs.dataTable.overlayMemo = false;
-        });
-    },
     onClickDeleteBtn (item) {
       this.visitLogID = item.visit_id;
       axios.delete(`/api/v1/visitlog/${item.visit_id}`)
@@ -172,14 +144,6 @@ export default {
       this.input.name = item.name;
       this.newVisitLog.support = item.support;
       this.newVisitLog.supportDetail = item.support_detail;
-    },
-    getRefugeeMemo (item) {
-      this.refugeeID = item.refugee_id;
-      axios.get(`/api/v1/refugee/${item.refugee_id}`)
-        .then((res) => {
-          this.refugeeDetail = res.data.memo;
-          this.refugeeName = res.data.name;
-        });
     },
     getDateFormat (date) {
       function formating (num) {

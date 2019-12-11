@@ -295,8 +295,4 @@ export default {
   .top-padding {
     height: 3%;
   }
-
-  #account{
-    color: dodgerblue;
-  }
 </style>

@@ -140,8 +140,14 @@ export default {
             this.getAllUser();
             this.close();
           })
-          .catch(() => {
-            alert('업로드에 실패했습니다.');
+          .catch((err) => {
+            if (err.response.data.message === 'User already exist.') {
+              alert('이미 존재하는 아이디 입니다.');
+            } else if (err.response.data.message === 'E-mail duplicated.') {
+              alert('이메일 중복입니다.');
+            } else {
+              alert('등록에 실패하였습니다.');
+            }
           });
       }
     },

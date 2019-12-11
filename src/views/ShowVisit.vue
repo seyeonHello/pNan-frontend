@@ -81,8 +81,6 @@ export default {
         name: null
       },
       refugeeList: [],
-      refugeeName: '',
-      refugeeDetail: '',
       refugeeID: '',
       visitLogID: '',
       type: true,

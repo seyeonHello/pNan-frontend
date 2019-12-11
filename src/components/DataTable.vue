@@ -4,7 +4,7 @@
       {{title}}
       <v-spacer></v-spacer>
       <v-spacer></v-spacer>
-      <v-btn color="primary" id="btn-new" v-on:click="onClickNewButton">New</v-btn>
+      <v-btn color="primary" id="btn-new" v-on:click="onClickNewBtn">New</v-btn>
       <v-autocomplete :items="refugeeNameList" label="이름 검색" v-model="search" class="text"></v-autocomplete>
       <v-btn text icon color="gray" v-on:click="clearSearch">
         <v-icon>mdi-replay</v-icon>
@@ -21,13 +21,13 @@
       hide-default-footer
       :href="link">
       <template v-slot:item.action="{ item }">
-        <v-btn v-if="isRefugeeTable" text icon color="gray" v-on:click="detailRefugee(item)">
+        <v-btn v-if="isRefugeeTable" text icon color="gray" v-on:click="onClickMemoShowBtn(item)">
           <v-icon small>mdi-account-circle</v-icon>
         </v-btn>
-        <v-btn text icon color="gray" v-on:click="editItem(item)">
+        <v-btn text icon color="gray" v-on:click="onClickEditBtn(item)">
           <v-icon small>mdi-pencil</v-icon>
         </v-btn>
-        <v-btn v-if="isAdmin" text icon color="gray" v-on:click="deleteItem(item)">
+        <v-btn v-if="isAdmin" text icon color="gray" v-on:click="onClickDeleteBtn(item)">
           <v-icon small>mdi-delete</v-icon>
         </v-btn>
       </template>
@@ -67,7 +67,7 @@
     <v-overlay
       :absolute="absolute"
       :value="overlay">
-      <Overlay v-on:close="onClickNewButton">
+      <Overlay v-on:close="onClickNewBtn">
         <slot name="show"></slot>
       </Overlay>
     </v-overlay>
@@ -75,7 +75,7 @@
     <v-overlay
       :absolute="absolute"
       :value="overlayMemo">
-      <Overlay v-on:close="close">
+      <Overlay v-on:close="onClickMemoCloseBtn">
         <slot name="refugeeMemo"></slot>
       </Overlay>
     </v-overlay>
@@ -132,7 +132,7 @@ export default {
   watch: {
     pagination: {
       handler () {
-        this.list();
+        this.pageOffset();
       },
       deep: true
     },
@@ -149,25 +149,25 @@ export default {
       this.$emit('filter', this.filterKind);
       this.filterKind.sort = !this.filterKind.sort;
     },
-    list () {
+    pageOffset () {
       this.offset = this.setOffset;
       this.$emit('list', this.offset);
     },
-    close () {
+    onClickMemoCloseBtn () {
       this.overlayMemo = false;
     },
-    detailRefugee (item) {
+    onClickMemoShowBtn (item) {
       this.$emit('detailRefugee', item);
       this.overlayMemo = !this.overlayMemo;
     },
-    deleteItem (item) {
+    onClickDeleteBtn (item) {
       this.$emit('deleteItem', item);
     },
-    editItem (item) {
+    onClickEditBtn (item) {
       this.overlay = !this.overlay;
       this.$emit('updateItem', item);
     },
-    onClickNewButton () {
+    onClickNewBtn () {
       this.overlay = !this.overlay;
       this.$emit('close');
     }
@@ -211,10 +211,6 @@ export default {
   }
   #btn-new {
     margin-right: 1%;
-  }
-  #main-data-table {
-    overflow: scroll;
-    max-height: 347px;
   }
   ::-webkit-scrollbar {
     display:none;

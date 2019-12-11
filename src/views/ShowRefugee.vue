@@ -9,13 +9,13 @@
         :count="count"
         :refugeeNameList="refugeeNameList"
         ref="dataTable"
-        @detailRefugee="detailRefugee"
-        @deleteItem="deleteItem"
-        @updateItem="updateItem"
+        @detailRefugee="getRefugeeMemo"
+        @deleteItem="onClickDeleteBtn"
+        @updateItem="popUpdateModal"
         @close="close"
         @list="pageOffset"
         @filter="filter"
-        @search="search"
+        @search="nameSearch"
       >
         <!-- DataTable Overlay Slot --->
         <template v-slot:show>
@@ -76,7 +76,7 @@
             v-model="refugeeDetail"
             rows="10"
           ></v-textarea>
-          <v-btn color="blue darken-1" text v-on:click="memoSave(refugeeDetail)">save</v-btn>
+          <v-btn color="blue darken-1" text v-on:click="onClickMemoUpdateBtn(refugeeDetail)">save</v-btn>
         </template>
         <!-- DataTable Overlay Slot Ends --->
       </data-table>
@@ -140,7 +140,7 @@ export default {
     };
   },
   methods: {
-    search (item) {
+    nameSearch (item) {
       this.searchName = item;
       this.getAllRefugee();
     },
@@ -162,7 +162,7 @@ export default {
       this.clearForm();
       this.type = true;
     },
-    memoSave () {
+    onClickMemoUpdateBtn () {
       axios.put(`/api/v1/refugee/${this.refugeeID}`,
         { memo: this.refugeeDetail })
         .then(() => {
@@ -176,7 +176,7 @@ export default {
           this.getAllRefugee();
         });
     },
-    detailRefugee (item) {
+    getRefugeeMemo (item) {
       this.refugeeID = item.id;
       axios.get(`/api/v1/refugee/${item.id}`)
         .then((res) => {
@@ -187,7 +187,7 @@ export default {
           alert('데이터 불러오기 실패');
         });
     },
-    deleteItem (item) {
+    onClickDeleteBtn (item) {
       this.refugeeID = item.id;
       axios.delete(`/api/v1/refugee/${this.refugeeID}`)
         .then(() => {
@@ -201,7 +201,7 @@ export default {
           this.getRefugeeNameList();
         });
     },
-    updateItem (item) {
+    popUpdateModal (item) {
       this.type = false;
       this.refugeeID = item.id;
       this.newRefugee.name = item.name;

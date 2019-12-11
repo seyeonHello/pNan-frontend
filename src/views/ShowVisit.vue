@@ -10,13 +10,13 @@
         :tableHeaders="tableHeaders"
         :count="count"
         :refugeeNameList="visitNameList"
-        @detailRefugee="detailRefugee"
-        @deleteItem="deleteItem"
-        @updateItem="updateItem"
+        @detailRefugee="getRefugeeMemo"
+        @deleteItem="onClickDeleteBtn"
+        @updateItem="popUpdateModal"
         @close="close"
         @list="pageOffset"
         @filter="filter"
-        @search="search"
+        @search="nameSearch"
       >
         <!-- DataTable Overlay Slot --->
         <template v-slot:show>
@@ -47,7 +47,7 @@
             v-model="refugeeDetail"
             rows="10"
           ></v-textarea>
-          <v-btn color="blue darken-1" text v-on:click="memoSave(refugeeDetail)">save</v-btn>
+          <v-btn color="blue darken-1" text v-on:click="onClickMemoUpdateBtn(refugeeDetail)">save</v-btn>
         </template>
         <!-- DataTable Overlay Slot Ends --->
 
@@ -110,7 +110,7 @@ export default {
     };
   },
   methods: {
-    search (item) {
+    nameSearch (item) {
       this.searchName = item;
       this.getAllVisitLog();
     },
@@ -138,7 +138,7 @@ export default {
       };
       this.type = true;
     },
-    memoSave () {
+    onClickMemoUpdateBtn () {
       axios.put(`/api/v1/refugee/${this.refugeeID}`,
         { memo: this.refugeeDetail })
         .then(() => {
@@ -151,7 +151,7 @@ export default {
           this.$refs.dataTable.overlayMemo = false;
         });
     },
-    deleteItem (item) {
+    onClickDeleteBtn (item) {
       this.visitLogID = item.visit_id;
       axios.delete(`/api/v1/visitlog/${item.visit_id}`)
         .then(() => {
@@ -165,7 +165,7 @@ export default {
           this.getVisitNameList();
         });
     },
-    updateItem (item) {
+    popUpdateModal (item) {
       this.type = false;
       this.visitLogID = item.visit_id;
       this.refugeeID = item.refugee_id;
@@ -173,7 +173,7 @@ export default {
       this.newVisitLog.support = item.support;
       this.newVisitLog.supportDetail = item.support_detail;
     },
-    detailRefugee (item) {
+    getRefugeeMemo (item) {
       this.refugeeID = item.refugee_id;
       axios.get(`/api/v1/refugee/${item.refugee_id}`)
         .then((res) => {

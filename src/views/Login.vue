@@ -62,7 +62,13 @@ export default{
           }
         }
       } catch (err) {
-        alert('로그인에 실패하였습니다.');
+        if (err.response.data.message === 'ID do not match') {
+          alert('존재하지 않는 아이디입니다.');
+        } else if (err.response.data.message === 'Password do not match.') {
+          alert('비밀번호가 일치하지 않습니다.');
+        } else {
+          alert('로그인에 실패하였습니다.');
+        }
         return;
       }
       if (this.$store.getters.getIsAuth) {

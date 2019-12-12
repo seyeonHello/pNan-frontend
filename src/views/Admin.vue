@@ -187,14 +187,14 @@ export default {
           name: data.name,
           user_id: data.user_id,
           email: data.email,
-          admin: data.admin
+          admin: data.admin,
+          new_pw: data.new_pw
         };
       } else {
         params = {
           name: data.name,
           user_id: data.user_id,
           email: data.email,
-          new_pw: data.new_pw,
           admin: data.admin
         };
       }

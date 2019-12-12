@@ -122,7 +122,6 @@ export default {
     getWeekendDate () {
       var thisWeek = [];
       for (var i = 6; i >= 0; i--) {
-        // var resultDay = new Date(theYear, theMonth, theDate + (theDayOfWeek - i));
         var today = new Date();
         var resultDay = today.getTime() - (i * 24 * 60 * 60 * 1000);
         today.setTime(resultDay);
@@ -142,9 +141,13 @@ export default {
       }
       return date.getFullYear() + '-' + formating(date.getMonth() + 1) + '-' + formating(date.getDate());
     },
+    setMaxHeight (array) {
+      if (this.maxCount < Math.max.apply(0, array)) {
+        this.maxCount = Math.max.apply(0, array);
+      }
+    },
     async getTodayRefugees (weekendDate) {
       const res = await axios.get('api/v1/refugee?st_date=' + weekendDate[0] + '&ed_date=' + weekendDate[6]);
-
       const list = res.data.rows;
       const countMap = { one: 0, two: 0, three: 0, four: 0, five: 0, six: 0, seven: 0 };
       for (let i = 0; i < list.length; i++) {
@@ -169,9 +172,7 @@ export default {
       }
       this.weekendRegistration.push(countMap.one, countMap.two, countMap.three, countMap.four, countMap.five, countMap.six, countMap.seven);
       this.series[0].data = this.weekendRegistration;
-      if (this.maxCount < Math.max.apply(0, this.weekendRegistration)) {
-        this.maxCount = Math.max.apply(0, this.weekendRegistration);
-      }
+      this.setMaxHeight(this.weekendRegistration);
     },
     async getTodayVisitor (weekendDate) {
       const res = await axios.get('api/v1/visitlog?st_date=' + weekendDate[0] + '&ed_date=' + weekendDate[6]);
@@ -198,9 +199,7 @@ export default {
       }
       this.weekendVisitation.push(countMap.one, countMap.two, countMap.three, countMap.four, countMap.five, countMap.six, countMap.seven);
       this.series[1].data = this.weekendVisitation;
-      if (this.maxCount < Math.max.apply(0, this.weekendVisitation)) {
-        this.maxCount = Math.max.apply(0, this.weekendVisitation);
-      }
+      this.setMaxHeight(this.weekendVisitation);
     }
   },
   async mounted () {
